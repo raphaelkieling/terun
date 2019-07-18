@@ -1,0 +1,27 @@
+{
+  "name": "@terun/cli",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelkieling/terun",
+    "directory": "packages/@terun/cli"
+  },
+  "bin": {
+    "terun": "bin/index.js"
+  },
+  "scripts": {
+    "start": "ts-node src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ts-node": "^8.3.0",
+    "tsc": "^1.20150623.0",
+    "tslint": "^5.18.0"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": ">=8.9"
+  }
+}
+
