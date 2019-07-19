@@ -1,30 +1,33 @@
 {
-  "name": "@terun/cli",
+  "name": "@terun/core",
   "version": "1.0.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/raphaelkieling/terun",
-    "directory": "packages/@terun/cli"
-  },
-  "bin": {
-    "terun": "bin/index.js"
+    "directory": "packages/@terun/core"
   },
   "scripts": {
     "start": "ts-node src",
-    "build": "tsc"
+    "build": "tsc",
+    "test": "jest"
   },
   "license": "MIT",
   "devDependencies": {
-    "@terun/core": "1.0.0",
+    "@types/jest": "^24.0.15",
+    "jest": "^24.8.0",
     "lerna": "^3.16.0",
+    "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
     "tsc": "^1.20150623.0",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
+    "tslint": "^5.18.0"
   },
   "engines": {
     "node": ">=8.9"
+  },
+  "dependencies": {
+    "terun-mustache": "^3.0.3",
+    "typescript": "^3.5.3"
   }
 }
