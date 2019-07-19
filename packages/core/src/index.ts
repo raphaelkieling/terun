@@ -1,3 +1,3 @@
-export default ()=>{
-    console.log('Hello world core')
-}
+export default () => {
+  console.log("Hello world core");
+};
