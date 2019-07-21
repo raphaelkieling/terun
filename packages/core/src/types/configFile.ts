@@ -6,10 +6,10 @@ export default interface IConfigFile {
 export interface ICommand {
   name: string;
   args: string | string[];
-  carrys: ICarryFile;
+  transports: ITransportFile[];
 }
 
-export interface ICarryFile {
+export interface ITransportFile {
   from: string;
   to: string;
   args: string | string;
