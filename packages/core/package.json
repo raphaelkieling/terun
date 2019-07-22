@@ -1,6 +1,6 @@
 {
   "name": "@terun/core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
@@ -31,5 +31,8 @@
     "terun-mustache": "^3.0.3",
     "typescript": "^3.5.3"
   },
-  "gitHead": "f40fceb21d39da3fbf53df0ac57bec2a228cb68b"
+  "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
+  "publishConfig": {
+    "access": "public"
+  }
 }
