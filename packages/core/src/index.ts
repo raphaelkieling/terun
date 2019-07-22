@@ -1,3 +1,2 @@
-export default () => {
-  console.log("Hello world core");
-};
+import Generator from "./generator";
+export default Generator;

@@ -1,10 +1,10 @@
 import IConfigFile from "./types/configFile";
 import IOptions from "./types/options";
 
-class Creator {
+class Generator {
   constructor(configFile: IConfigFile, options: IOptions) {
-    console.log("Hello World");
+    console.log("hello world");
   }
 }
 
-export default Creator;
+export default Generator;

@@ -1,6 +1,6 @@
 export default interface IConfigFile {
   baseUrl: string;
-  commands: ICommand;
+  commands: ICommand[];
 }
 
 export interface ICommand {

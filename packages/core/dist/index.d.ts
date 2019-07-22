@@ -1,3 +1,3 @@
-declare const _default: () => void;
-export default _default;
+import Generator from "./generator";
+export default Generator;
 //# sourceMappingURL=index.d.ts.map
