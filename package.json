@@ -3,6 +3,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "build":"lerna run build"
+  },
   "repository": "https://github.com/raphaelkieling/terun",
   "author": "Raphael Kieling <raphael.kieling@egsys.com.br>",
   "license": "MIT",

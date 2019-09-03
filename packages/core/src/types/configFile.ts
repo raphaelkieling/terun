@@ -12,5 +12,5 @@ export interface ICommand {
 export interface ITransportFile {
   from: string;
   to: string;
-  args: string | string;
+  args: string;
 }

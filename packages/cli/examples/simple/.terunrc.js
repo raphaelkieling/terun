@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "example",
       args: ["test-arg"],
-      carrys: [
+      transports: [
         {
           from: "from.terun",
           to: "to.html"
