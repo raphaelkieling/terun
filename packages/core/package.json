@@ -20,16 +20,14 @@
     "lerna": "^3.16.0",
     "ts-jest": "^24.0.2",
     "ts-node": "^8.3.0",
-    "tsc": "^1.20150623.0",
     "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
+    "typescript": "^3.6.2"
   },
   "engines": {
     "node": ">=8.9"
   },
   "dependencies": {
-    "terun-mustache": "^3.0.3",
-    "typescript": "^3.5.3"
+    "terun-mustache": "^3.0.3"
   },
   "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
   "publishConfig": {

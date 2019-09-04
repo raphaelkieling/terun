@@ -1,14 +1,16 @@
-import Render from "../src/render";
+import { IRenderEngine } from "types/interfaces/IRenderEngine";
+import { MustacheEngine } from "types/render/MustacheEngine";
+import RenderEngineFactory from "types/render/RenderEngineFactory";
 
 describe("Render:", () => {
-  let render: Render;
+  let render: IRenderEngine;
 
   beforeAll(() => {
-    render = new Render();
+    render = RenderEngineFactory.createMustache();
   });
 
   it("should be a instance of Render", () => {
-    expect(render).toBeInstanceOf(Render);
+    expect(render).toBeInstanceOf(MustacheEngine);
   });
 
   it("should render 'Something'", () => {

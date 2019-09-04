@@ -1,4 +1,4 @@
-import path from "path";
+import * as path from "path";
 import IConfigFile from "./types/interfaces/IConfigFile";
 import IOptions from "./types/interfaces/IOptions";
 import { IRenderEngine } from "./types/interfaces/IRenderEngine";

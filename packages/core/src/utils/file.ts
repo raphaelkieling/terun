@@ -1,4 +1,4 @@
-import fs from "fs";
+import * as fs from "fs";
 
 export function getUtf8File(path: string): string {
   return fs.readFileSync(path, { encoding: "utf-8" });

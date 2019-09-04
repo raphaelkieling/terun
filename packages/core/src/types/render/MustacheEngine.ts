@@ -1,4 +1,4 @@
-const Mustache = require("terun-mustache");
+import Mustache from "terun-mustache";
 import { IRenderEngine } from "../interfaces/IRenderEngine";
 
 export class MustacheEngine implements IRenderEngine {
