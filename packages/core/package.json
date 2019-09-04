@@ -9,7 +9,7 @@
     "directory": "packages/@terun/core"
   },
   "scripts": {
-    "start": "ts-node src",
+    "start": "ts-node --project ./tsconfig.json src/index.ts",
     "build": "tsc",
     "test": "jest"
   },

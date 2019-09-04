@@ -1,6 +1,6 @@
 import { ICommand } from "./ICommand";
 
 export default interface IConfigFile {
-  baseUrl: string;
+  basePath: string;
   commands: ICommand[];
 }
