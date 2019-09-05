@@ -1,17 +1,16 @@
+import { ICommand } from "./interfaces/ICommand";
 import { ITemplateArgs } from "./interfaces/ITemplateArgs";
-import { ITransport } from "./interfaces/ITransport";
+import { Transport } from "./Transport";
 
-export class Transport implements ITransport {
+export class Command implements ICommand {
   public name?: string;
-  public from: string;
-  public to: string;
   public args: ITemplateArgs[];
+  public transports: Transport[];
 
-  constructor({ from, to, args, name }: ITransport) {
-    this.from = from;
-    this.to = to;
-    this.args = args || [];
+  constructor({ name, args, transports }: ICommand) {
     this.name = name;
+    this.args = args;
+    this.transports = transports.map((item) => new Transport(item));
   }
 
   public getSource(): object {

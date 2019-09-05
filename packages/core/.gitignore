@@ -90,3 +90,6 @@ jspm_packages/
 .dynamodb/
 
 # End of https://www.gitignore.io/api/node
+playground
+node_modules
+yarn-error.log
