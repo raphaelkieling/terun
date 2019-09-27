@@ -1,9 +1,9 @@
-import Core from "@terun/core";
-import yargs from "yargs";
-import rc from "rc";
+import Yargs from "yargs";
+import CommandManager from './CommandManager';
+import { MakeCommand } from "./domain/MakeCommand";
 
-const argv = yargs.argv;
+const argv = Yargs.argv;
 
-const conf = rc("terun", { basePath: "" });
-
-console.log(conf)
+const manager = new CommandManager()
+manager.addCommand(new MakeCommand());
+manager.execute(argv);
