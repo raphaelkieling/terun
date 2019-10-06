@@ -1,16 +1,16 @@
 import { Command } from "./Command";
-import Core from "@terun/core";
+import { Generator } from "@terun/core";
 
-export class MakeCommand extends Command{
-    constructor(){
+export class MakeCommand extends Command {
+    constructor() {
         super('make');
     }
 
-    configure(){
+    configure() {
         console.log('configurando')
     }
 
-    execute(){
+    execute() {
 
     }
 }

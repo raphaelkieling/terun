@@ -1,5 +1,5 @@
 import { Command } from "./domain/Command";
-import rc from "rc";
+import { ConfigReader } from "./ConfigReader";
 
 export default class CommandManager {
     private commands: Map<string, Command>;
@@ -14,7 +14,7 @@ export default class CommandManager {
 
     async execute(object: object) {
         const keys = Object.keys(object);
-        const conf = rc("terun", { base: 'oi' });
+        const conf = ConfigReader.find();
         console.log(conf)
 
         for (let key of keys) {

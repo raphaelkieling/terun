@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@types/rc": "^1.1.0",
+    "@types/yargs": "^13.0.3",
     "rc": "^1.2.8",
     "typescript": "^3.5.3",
     "yargs": "^13.3.0"
