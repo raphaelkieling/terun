@@ -35,7 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var ConfigReader_1 = require("./ConfigReader");
 var CommandManager = /** @class */ (function () {
     function CommandManager() {
         this.commands = new Map();
@@ -45,13 +44,11 @@ var CommandManager = /** @class */ (function () {
     };
     CommandManager.prototype.execute = function (object) {
         return __awaiter(this, void 0, void 0, function () {
-            var keys, conf, _i, keys_1, key, command;
+            var keys, _i, keys_1, key, command;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         keys = Object.keys(object);
-                        conf = ConfigReader_1.ConfigReader.find();
-                        console.log(conf);
                         _i = 0, keys_1 = keys;
                         _a.label = 1;
                     case 1:

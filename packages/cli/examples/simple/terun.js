@@ -1,7 +1,6 @@
 module.exports = {
-  commands: [
-    {
-      name: "example",
+  commands: {
+    example: {
       args: ["test-arg"],
       transports: [
         {
@@ -10,5 +9,5 @@ module.exports = {
         }
       ]
     }
-  ]
+  }
 };

@@ -1,8 +1,8 @@
-import Yargs from "yargs";
+import * as Yargs from "yargs";
 import CommandManager from './CommandManager';
 import { MakeCommand } from "./domain/MakeCommand";
 
-const argv = Yargs;
+const argv = Yargs.argv;
 
 const manager = new CommandManager()
 manager.addCommand(new MakeCommand());
