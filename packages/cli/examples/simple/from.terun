@@ -1,5 +1,4 @@
 <html>
-    <body>
-        {{test-arg}}
+        {{title}} - {{local-Title}}
     </body>
 </html>

@@ -35,45 +35,23 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var CommandManager = /** @class */ (function () {
-    function CommandManager() {
-        this.commands = new Map();
-    }
-    CommandManager.prototype.addCommand = function (command) {
-        this.commands.set(command.name, command);
-    };
-    CommandManager.prototype.execute = function (object) {
-        return __awaiter(this, void 0, void 0, function () {
-            var keys, _i, keys_1, key, command;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        keys = Object.keys(object);
-                        _i = 0, keys_1 = keys;
-                        _a.label = 1;
-                    case 1:
-                        if (!(_i < keys_1.length)) return [3 /*break*/, 5];
-                        key = keys_1[_i];
-                        if (!this.commands.has(key)) return [3 /*break*/, 4];
-                        command = this.commands.get(key);
-                        if (!command)
-                            return [2 /*return*/];
-                        return [4 /*yield*/, command.configure(object)];
-                    case 2:
-                        _a.sent();
-                        command.setArgs(object);
-                        return [4 /*yield*/, command.execute()];
-                    case 3:
-                        _a.sent();
-                        _a.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 1];
-                    case 5: return [2 /*return*/];
-                }
-            });
+var prompts = require("prompts");
+function canOverride() {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, prompts({
+                        type: "toggle",
+                        message: "File already exists, can override?",
+                        initial: false,
+                        name: "override"
+                    })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result["override"]];
+            }
         });
-    };
-    return CommandManager;
-}());
-exports.default = CommandManager;
+    });
+}
+exports.canOverride = canOverride;

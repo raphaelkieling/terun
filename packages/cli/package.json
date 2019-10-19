@@ -29,8 +29,10 @@
     "node": ">=8.9"
   },
   "dependencies": {
+    "@types/prompts": "^2.0.1",
     "@types/rc": "^1.1.0",
     "@types/yargs": "^13.0.3",
+    "prompts": "^2.2.1",
     "rc": "^1.2.8",
     "ts-node-dev": "^1.0.0-pre.43",
     "typescript": "^3.5.3",

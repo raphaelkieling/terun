@@ -4,3 +4,4 @@ export declare const log: {
 };
 export declare function warn(value: string): void;
 export declare function error(value: string): void;
+export declare function success(value: string): void;

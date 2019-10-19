@@ -1,10 +1,9 @@
 import { ICommand } from "./interfaces/ICommand";
-import { ITemplateArgs } from "./interfaces/ITemplateArgs";
 import { Transport } from "./Transport";
+import { IArgs } from "./interfaces/IArgs";
 export declare class Command implements ICommand {
     name?: string;
-    args: ITemplateArgs[];
+    args: IArgs[];
     transports: Transport[];
     constructor({ name, args, transports }: ICommand);
-    getSource(): object;
 }

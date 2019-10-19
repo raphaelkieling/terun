@@ -22,58 +22,22 @@ class Generator {
     this.options = ConfigMapper.fromConfigExternal(options);
   }
 
-  /**
-   *
-   * Init the transport with a command name, it's is a entry
-   * point to generator to create files.
-   *
-   * ```js
-   * commands:{
-   *    makeCrud: {
-   *      ...
-   *    }
-   * }
-   * ```
-   *
-   * Use commandName param with "makeCrud".
-   *
-   * @param commandName string with name key
-   */
-  public async initTransport(commandName: string) {
-    const command: Command | undefined = this.getCommand(commandName);
-
-    if (!command) {
-      throw new Error("Command not found");
-    }
-
-    await this.transportByCommand(command);
-  }
-
-  public async transportByCommand(command: Command) {
-    const transports: Transport[] = command.transports;
-
-    for (const transportInstance of transports) {
-      this.transport({
-        globalSource: command.getSource(),
-        transport: transportInstance,
-      });
-    }
-  }
-
   public getCommand(name: string): Command | undefined {
     return this.options.commands[name];
   }
 
-  public transport({
+  public resolvePaths({
     transport,
     globalSource,
+    transportSource
   }: {
     transport: Transport;
     globalSource: object;
-  }): void {
+    transportSource: object;
+  }): { from: string, to: string } {
     const { basePath } = this.options;
     const localSource: object = Object.assign(
-      transport.getSource(),
+      transportSource,
       globalSource,
     );
 
@@ -86,15 +50,35 @@ class Generator {
       this.render.render(transport.to, localSource),
     );
 
+    return {
+      from: pathFrom,
+      to: pathTo
+    }
+  }
+
+  public transport({
+    transport,
+    globalSource,
+    transportSource
+  }: {
+    transport: Transport;
+    globalSource: object;
+    transportSource: object;
+  }): void {
+    const localSource: object = Object.assign(
+      transportSource,
+      globalSource,
+    );
+    const resolvedPaths = this.resolvePaths({ transport, globalSource, transportSource });
     // Get file content
-    const fromContentFile: string = getUtf8File(pathFrom);
+    const fromContentFile: string = getUtf8File(resolvedPaths.from);
     // Render the content file with args
     const fromContentRendered: string = this.render.render(
       fromContentFile,
       localSource,
     );
 
-    writeUtf8File(pathTo, fromContentRendered);
+    writeUtf8File(resolvedPaths.to, fromContentRendered);
   }
 }
 

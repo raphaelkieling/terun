@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -35,45 +48,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var CommandManager = /** @class */ (function () {
-    function CommandManager() {
-        this.commands = new Map();
+var Command_1 = require("./Command");
+var ConfigReader_1 = require("../ConfigReader");
+var prompts_1 = require("../utils/prompts");
+var core_1 = require("@terun/core");
+var InitCommand = /** @class */ (function (_super) {
+    __extends(InitCommand, _super);
+    function InitCommand() {
+        return _super.call(this, 'init') || this;
     }
-    CommandManager.prototype.addCommand = function (command) {
-        this.commands.set(command.name, command);
+    InitCommand.prototype.configure = function () {
+        this.readParam('override');
     };
-    CommandManager.prototype.execute = function (object) {
+    InitCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var keys, _i, keys_1, key, command;
+            var override;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        keys = Object.keys(object);
-                        _i = 0, keys_1 = keys;
-                        _a.label = 1;
+                        if (!(ConfigReader_1.ConfigReader.exist() && this.params.get('override') !== true)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, prompts_1.canOverride()];
                     case 1:
-                        if (!(_i < keys_1.length)) return [3 /*break*/, 5];
-                        key = keys_1[_i];
-                        if (!this.commands.has(key)) return [3 /*break*/, 4];
-                        command = this.commands.get(key);
-                        if (!command)
+                        override = _a.sent();
+                        if (!override) {
+                            core_1.Utils.Log.warn("Operation canceled.");
                             return [2 /*return*/];
-                        return [4 /*yield*/, command.configure(object)];
+                        }
+                        ;
+                        _a.label = 2;
                     case 2:
-                        _a.sent();
-                        command.setArgs(object);
-                        return [4 /*yield*/, command.execute()];
-                    case 3:
-                        _a.sent();
-                        _a.label = 4;
-                    case 4:
-                        _i++;
-                        return [3 /*break*/, 1];
-                    case 5: return [2 /*return*/];
+                        ConfigReader_1.ConfigReader.create("\nmodule.exports = {\n    commands: {\n        example: {\n            args: [],\n            transports: []\n        }\n    }\n};\n        ");
+                        core_1.Utils.Log.success("Config created with success!");
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    return CommandManager;
-}());
-exports.default = CommandManager;
+    return InitCommand;
+}(Command_1.Command));
+exports.InitCommand = InitCommand;

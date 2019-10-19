@@ -10,29 +10,19 @@ declare class Generator {
     private options;
     private render;
     constructor(options: IConfigExternal);
-    /**
-     *
-     * Init the transport with a command name, it's is a entry
-     * point to generator to create files.
-     *
-     * ```js
-     * commands:{
-     *    makeCrud: {
-     *      ...
-     *    }
-     * }
-     * ```
-     *
-     * Use commandName param with "makeCrud".
-     *
-     * @param commandName string with name key
-     */
-    initTransport(commandName: string): Promise<void>;
-    transportByCommand(command: Command): Promise<void>;
     getCommand(name: string): Command | undefined;
-    transport({ transport, globalSource, }: {
+    resolvePaths({ transport, globalSource, transportSource }: {
         transport: Transport;
         globalSource: object;
+        transportSource: object;
+    }): {
+        from: string;
+        to: string;
+    };
+    transport({ transport, globalSource, transportSource }: {
+        transport: Transport;
+        globalSource: object;
+        transportSource: object;
     }): void;
 }
 export default Generator;

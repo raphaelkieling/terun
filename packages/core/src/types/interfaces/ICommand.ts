@@ -1,8 +1,8 @@
 import { ITransport } from "./ITransport";
-import { ITemplateArgs } from "./ITemplateArgs";
+import { IArgs } from "./IArgs";
 
 export interface ICommand {
   name?: string;
-  args: ITemplateArgs[];
+  args: IArgs[];
   transports: ITransport[];
 }

@@ -1,8 +1,6 @@
 import { Command } from "./Command";
-export declare class MakeCommand extends Command {
-    private config;
+export declare class InitCommand extends Command {
     constructor();
     configure(): void;
-    private getArgsWithPrompts;
     execute(): Promise<any>;
 }
