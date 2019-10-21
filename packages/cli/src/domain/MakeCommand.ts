@@ -36,8 +36,6 @@ export class MakeCommand extends Command {
         return params;
     }
 
-
-
     async execute(): Promise<any> {
         this.config = ConfigReader.find();
         if (!this.config) {
@@ -51,12 +49,16 @@ export class MakeCommand extends Command {
             const command = generator.getCommand(commandName);
 
             if (command) {
-                Utils.Log.log("[Global arguments]");
-                const globalSource = await this.getArgsWithPrompts(command.args);
+                let globalSource = {};
+                if (command.args) {
+                    Utils.Log.log("[Global arguments]");
+                    globalSource = await this.getArgsWithPrompts(command.args);
+                }
+
                 const transports: Transport[] = command.transports;
 
                 for (const transport of transports) {
-                    Utils.Log.log(`[process]: ${transport.name}`);
+                    Utils.Log.log(`[process]: ${transport.name || transport.from}`);
 
                     const transportSource = await this.getArgsWithPrompts(transport.args);
 

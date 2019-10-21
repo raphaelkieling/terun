@@ -2,6 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs';
 import { getCurrentFolderPath } from './utils';
 import { Utils } from '@terun/core';
+
 export class ConfigReader {
     static CONFIG_FILE_NAME = 'terun.js';
 

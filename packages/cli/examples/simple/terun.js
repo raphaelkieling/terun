@@ -1,10 +1,12 @@
-
 module.exports = {
     commands: {
         example: {
-            args: [],
-            transports: []
+            transports: [
+                {
+                    from: 'from.terun',
+                    to: 'to3.html'
+                }
+            ]
         }
     }
 };
-        

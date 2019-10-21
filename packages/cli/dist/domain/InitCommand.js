@@ -77,7 +77,7 @@ var InitCommand = /** @class */ (function (_super) {
                         ;
                         _a.label = 2;
                     case 2:
-                        ConfigReader_1.ConfigReader.create("\nmodule.exports = {\n    commands: {\n        example: {\n            args: [],\n            transports: []\n        }\n    }\n};\n        ");
+                        ConfigReader_1.ConfigReader.create("\nmodule.exports = {\n    commands: {\n        example: {\n            args: [],\n            transports: []\n        }\n    }\n};\n        ".trim());
                         core_1.Utils.Log.success("Config created with success!");
                         return [2 /*return*/];
                 }
