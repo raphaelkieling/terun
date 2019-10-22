@@ -54,6 +54,7 @@ var ConfigReader_1 = require("../ConfigReader");
 var prompts = require("prompts");
 var fs = require("fs");
 var prompts_1 = require("../utils/prompts");
+var ArgsMapper_1 = require("../dataMapper/ArgsMapper");
 var MakeCommand = /** @class */ (function (_super) {
     __extends(MakeCommand, _super);
     function MakeCommand() {
@@ -116,6 +117,7 @@ var MakeCommand = /** @class */ (function (_super) {
                         if (!command) return [3 /*break*/, 9];
                         globalSource = {};
                         if (!command.args) return [3 /*break*/, 3];
+                        command.args = ArgsMapper_1.default.fromList(command.args);
                         core_1.Utils.Log.log("[Global arguments]");
                         return [4 /*yield*/, this.getArgsWithPrompts(command.args)];
                     case 2:

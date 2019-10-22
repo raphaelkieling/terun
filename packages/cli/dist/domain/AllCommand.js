@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -35,39 +48,40 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var prompts = require("prompts");
+var Command_1 = require("./Command");
 var core_1 = require("@terun/core");
-/**
- * Exit application with CTRL+C for example
- */
-function exitWithMessage() {
-    core_1.Utils.Log.warn("Application has been exited");
-    process.exit(1);
-}
-exports.exitWithMessage = exitWithMessage;
-function onCancelPromps() {
-    exitWithMessage();
-}
-exports.onCancelPromps = onCancelPromps;
-exports.defaultConfig = {
-    onCancel: onCancelPromps
-};
-function canOverride() {
-    return __awaiter(this, void 0, void 0, function () {
-        var result;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prompts({
-                        type: "toggle",
-                        message: "File already exists, can override?",
-                        initial: false,
-                        name: "override"
-                    }, exports.defaultConfig)];
-                case 1:
-                    result = _a.sent();
-                    return [2 /*return*/, result["override"]];
-            }
+var ConfigReader_1 = require("../ConfigReader");
+var AllCommand = /** @class */ (function (_super) {
+    __extends(AllCommand, _super);
+    function AllCommand() {
+        var _this = _super.call(this, 'commands') || this;
+        _this.config = null;
+        return _this;
+    }
+    AllCommand.prototype.configure = function () { };
+    AllCommand.prototype.execute = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var commands, _i, commands_1, command;
+            return __generator(this, function (_a) {
+                this.config = ConfigReader_1.ConfigReader.find();
+                if (!this.config) {
+                    core_1.Utils.Log.error("Config file terun.js not found");
+                    return [2 /*return*/];
+                }
+                try {
+                    commands = Object.keys(this.config.commands);
+                    for (_i = 0, commands_1 = commands; _i < commands_1.length; _i++) {
+                        command = commands_1[_i];
+                        core_1.Utils.Log.success("- " + command);
+                    }
+                }
+                catch (e) {
+                    core_1.Utils.Log.error(e);
+                }
+                return [2 /*return*/];
+            });
         });
-    });
-}
-exports.canOverride = canOverride;
+    };
+    return AllCommand;
+}(Command_1.Command));
+exports.AllCommand = AllCommand;

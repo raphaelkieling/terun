@@ -7,6 +7,7 @@ import { Transport } from "@terun/core/dist/types/Transport";
 import { IArgs } from "@terun/core/dist/types/interfaces/IArgs";
 import * as fs from 'fs';
 import { canOverride } from '../utils/prompts';
+import ArgsMapper from "../dataMapper/ArgsMapper";
 
 export class MakeCommand extends Command {
     private config: IConfigExternal | null = null;
@@ -38,19 +39,23 @@ export class MakeCommand extends Command {
 
     async execute(): Promise<any> {
         this.config = ConfigReader.find();
+
         if (!this.config) {
             Utils.Log.error("Config file terun.js not found");
             return;
         }
 
         const commandName = this.params.get('make');
+
         try {
             const generator = new Generator(this.config);
             const command = generator.getCommand(commandName);
 
             if (command) {
                 let globalSource = {};
+                
                 if (command.args) {
+                    command.args = ArgsMapper.fromList(command.args);
                     Utils.Log.log("[Global arguments]");
                     globalSource = await this.getArgsWithPrompts(command.args);
                 }

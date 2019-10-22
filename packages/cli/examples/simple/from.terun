@@ -1,4 +1,4 @@
 <html>
-        {{title}} - {{local-Title}}
+        {{title}} - {{legal}}
     </body>
 </html>
