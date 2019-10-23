@@ -1,4 +1,6 @@
 <html>
-        {{title}} - {{legal}}
+        {{title | under}}
+        {{title | flower}}
+        {{title | llower}}
     </body>
 </html>

@@ -8,13 +8,7 @@ module.exports = {
                 new NotifyPlugin(),
                 new EntityPlugin()
             ],
-            args: [
-                "title",
-                {
-                    variable: "title2",
-                    label: "Title 2"
-                }
-            ],
+            args: ["title"],
             transports: [
                 {
                     from: 'from.terun',
