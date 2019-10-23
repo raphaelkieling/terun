@@ -9,8 +9,8 @@
     "directory": "packages/@terun/core"
   },
   "scripts": {
-    "start": "ts-node --project ./tsconfig.json src/index.ts",
     "build": "tsc",
+    "build:watch": "tsc --watch",
     "test": "jest"
   },
   "license": "MIT",

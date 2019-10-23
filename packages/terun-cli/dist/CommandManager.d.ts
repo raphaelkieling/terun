@@ -1,4 +1,4 @@
-import { Command } from "./domain/Command";
+import { Command } from './commands/Command';
 export default class CommandManager {
     private commands;
     constructor();

@@ -12,16 +12,13 @@
     "terun": "bin/index.js"
   },
   "scripts": {
-    "dev": "nodemon src/index.ts",
-    "dev:debug": "nodemon --config nodemon-debug.json",
+    "build:watch": "tsc --watch",
     "build": "tsc"
   },
   "license": "MIT",
   "devDependencies": {
     "@terun/core": "^1.0.2",
     "lerna": "^3.16.0",
-    "nodemon": "^1.19.3",
-    "ts-node": "^8.4.1",
     "tslint": "^5.18.0",
     "typescript": "^3.5.3"
   },
@@ -31,11 +28,9 @@
   "dependencies": {
     "@types/ascii-art": "^1.4.0",
     "@types/prompts": "^2.0.1",
-    "@types/rc": "^1.1.0",
     "@types/yargs": "^13.0.3",
     "ascii-art": "^1.5.1",
     "prompts": "^2.2.1",
-    "ts-node-dev": "^1.0.0-pre.43",
     "typescript": "^3.5.3",
     "yargs": "^13.3.0"
   },

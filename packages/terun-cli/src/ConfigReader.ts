@@ -11,6 +11,7 @@ export class ConfigReader {
             const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
             return require(configPath);
         } catch (err) {
+            console.log(err)
             return null;
         }
     }

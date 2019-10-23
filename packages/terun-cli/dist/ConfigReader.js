@@ -13,6 +13,7 @@ var ConfigReader = /** @class */ (function () {
             return require(configPath);
         }
         catch (err) {
+            console.log(err);
             return null;
         }
     };

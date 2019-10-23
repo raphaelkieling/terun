@@ -1,8 +1,8 @@
 import * as Yargs from "yargs";
 import CommandManager from './CommandManager';
-import { MakeCommand } from "./domain/MakeCommand";
-import { InitCommand } from "./domain/InitCommand";
-import { AllCommand } from "./domain/AllCommand";
+import { MakeCommand } from "./commands/MakeCommand";
+import { InitCommand } from "./commands/InitCommand";
+import { AllCommand } from "./commands/AllCommand";
 import { printLogo } from './utils/index';
 
 !async function () {

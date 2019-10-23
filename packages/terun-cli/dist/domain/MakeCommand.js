@@ -99,7 +99,7 @@ var MakeCommand = /** @class */ (function (_super) {
     };
     MakeCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var commandName, generator, command, globalSource, transports, _i, transports_1, transport, transportSource, resolvedPaths, override, e_1;
+            var commandName, generator, command, globalSource, transports, _i, transports_1, transport, transportSource, resolvedPaths, defaultIsOverride, fileExists, override, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -111,10 +111,10 @@ var MakeCommand = /** @class */ (function (_super) {
                         commandName = this.params.get('make');
                         _a.label = 1;
                     case 1:
-                        _a.trys.push([1, 10, , 11]);
+                        _a.trys.push([1, 12, , 13]);
                         generator = new core_1.Generator(this.config);
                         command = generator.getCommand(commandName);
-                        if (!command) return [3 /*break*/, 9];
+                        if (!command) return [3 /*break*/, 10];
                         globalSource = {};
                         if (!command.args) return [3 /*break*/, 3];
                         command.args = ArgsMapper_1.default.fromList(command.args);
@@ -136,7 +136,9 @@ var MakeCommand = /** @class */ (function (_super) {
                     case 5:
                         transportSource = _a.sent();
                         resolvedPaths = generator.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource });
-                        if (!(fs.existsSync(resolvedPaths.to) && this.params.get('override') !== true)) return [3 /*break*/, 7];
+                        defaultIsOverride = this.params.get('override') !== true;
+                        fileExists = fs.existsSync(resolvedPaths.to);
+                        if (!(fileExists && defaultIsOverride)) return [3 /*break*/, 7];
                         return [4 /*yield*/, prompts_1.canOverride()];
                     case 6:
                         override = _a.sent();
@@ -159,10 +161,14 @@ var MakeCommand = /** @class */ (function (_super) {
                         return [3 /*break*/, 4];
                     case 9: return [3 /*break*/, 11];
                     case 10:
+                        core_1.Utils.Log.error("Command [" + commandName + "] not found on config");
+                        _a.label = 11;
+                    case 11: return [3 /*break*/, 13];
+                    case 12:
                         e_1 = _a.sent();
                         core_1.Utils.Log.error(e_1);
-                        return [3 /*break*/, 11];
-                    case 11: return [2 /*return*/];
+                        return [3 /*break*/, 13];
+                    case 13: return [2 /*return*/];
                 }
             });
         });

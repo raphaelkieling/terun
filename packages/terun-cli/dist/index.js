@@ -37,9 +37,9 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var Yargs = require("yargs");
 var CommandManager_1 = require("./CommandManager");
-var MakeCommand_1 = require("./domain/MakeCommand");
-var InitCommand_1 = require("./domain/InitCommand");
-var AllCommand_1 = require("./domain/AllCommand");
+var MakeCommand_1 = require("./commands/MakeCommand");
+var InitCommand_1 = require("./commands/InitCommand");
+var AllCommand_1 = require("./commands/AllCommand");
 var index_1 = require("./utils/index");
 !function () {
     return __awaiter(this, void 0, void 0, function () {

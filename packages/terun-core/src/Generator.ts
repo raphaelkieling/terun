@@ -7,6 +7,7 @@ import { ConfigMapper } from "./types/mappers/ConfigMapper";
 import RenderFactory from "./types/render/RenderEngineFactory";
 import { Transport } from "./types/Transport";
 import { getUtf8File, writeUtf8File } from "./utils/file";
+import PluginManager from './types/PluginManager';
 
 /**
  * Get and render the content files in the
@@ -14,16 +15,19 @@ import { getUtf8File, writeUtf8File } from "./utils/file";
  * scope to transport file.
  */
 class Generator {
-  private options: Config;
-  private render: IRenderEngine;
+  public globalConfig: Config;
+  public render: IRenderEngine;
+  public pluginManager: PluginManager;
 
-  constructor(options: IConfigExternal) {
+  constructor(config: IConfigExternal) {
     this.render = RenderFactory.createMustache();
-    this.options = ConfigMapper.fromConfigExternal(options);
+    this.globalConfig = ConfigMapper.fromConfigExternal(config);
+    this.pluginManager = new PluginManager();
+    this.pluginManager.configure(this.globalConfig);
   }
 
   public getCommand(name: string): Command | undefined {
-    return this.options.commands[name];
+    return this.globalConfig.commands[name];
   }
 
   public resolvePaths({
@@ -35,7 +39,7 @@ class Generator {
     globalSource: object;
     transportSource: object;
   }): { from: string, to: string } {
-    const { basePath } = this.options;
+    const { basePath } = this.globalConfig;
     const localSource: object = Object.assign(
       transportSource,
       globalSource,
@@ -56,7 +60,7 @@ class Generator {
     }
   }
 
-  public transport({
+  public async transport({
     transport,
     globalSource,
     transportSource
@@ -64,19 +68,28 @@ class Generator {
     transport: Transport;
     globalSource: object;
     transportSource: object;
-  }): void {
+  }): Promise<void> {
+    await this.pluginManager.onInit();
+    await this.pluginManager.onTransport(transport);
+
     const localSource: object = Object.assign(
       transportSource,
       globalSource,
     );
+
+    const localSourcePlugin = await this.pluginManager.beforeRender(localSource);
+
     const resolvedPaths = this.resolvePaths({ transport, globalSource, transportSource });
     // Get file content
     const fromContentFile: string = getUtf8File(resolvedPaths.from);
-    // Render the content file with args
+    // Render the content file with args FROM PLUGIN
     const fromContentRendered: string = this.render.render(
       fromContentFile,
-      localSource,
+      localSourcePlugin,
     );
+
+    // TODO: Need done this
+    await this.pluginManager.done();
 
     writeUtf8File(resolvedPaths.to, fromContentRendered);
   }

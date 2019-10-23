@@ -1,7 +1,9 @@
 import { ITransport } from "./ITransport";
 import { IArgs } from "./IArgs";
+import IPlugin from './IPlugin';
 export interface ICommand {
     name?: string;
-    args: IArgs[];
+    plugins?: IPlugin[];
+    args?: IArgs[];
     transports: ITransport[];
 }

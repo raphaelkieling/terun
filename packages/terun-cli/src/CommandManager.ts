@@ -1,4 +1,5 @@
-import { Command } from "./domain/Command";
+import { Utils } from '@terun/core';
+import { Command } from './commands/Command';
 
 export default class CommandManager {
     private commands: Map<string, Command>;
