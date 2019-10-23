@@ -1,6 +1,6 @@
-import { IRenderEngine } from "types/interfaces/IRenderEngine";
-import { MustacheEngine } from "types/render/MustacheEngine";
-import RenderEngineFactory from "types/render/RenderEngineFactory";
+import { IRenderEngine } from "../src/types/interfaces/IRenderEngine";
+import { MustacheEngine } from "../src/types/render/MustacheEngine";
+import RenderEngineFactory from "../src/types/render/RenderEngineFactory";
 
 describe("Render:", () => {
   let render: IRenderEngine;

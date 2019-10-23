@@ -6,7 +6,7 @@ import * as prompts from "prompts";
 import { Transport } from "@terun/core/dist/types/Transport";
 import { IArgs } from "@terun/core/dist/types/interfaces/IArgs";
 import * as fs from 'fs';
-import { canOverride } from '../utils/prompts';
+import { canOverride, defaultConfig } from '../utils/prompts';
 import ArgsMapper from "../dataMapper/ArgsMapper";
 
 export class MakeCommand extends Command {
@@ -30,7 +30,7 @@ export class MakeCommand extends Command {
                 message: arg.label,
                 name: arg.variable,
                 initial: arg.default
-            });
+            }, defaultConfig);
 
             params[arg.variable] = result[arg.variable];
         }
@@ -53,7 +53,7 @@ export class MakeCommand extends Command {
 
             if (command) {
                 let globalSource = {};
-                
+
                 if (command.args) {
                     command.args = ArgsMapper.fromList(command.args);
                     Utils.Log.log("[Global arguments]");
@@ -65,6 +65,7 @@ export class MakeCommand extends Command {
                 for (const transport of transports) {
                     Utils.Log.log(`[process]: ${transport.name || transport.from}`);
 
+                    transport.args = ArgsMapper.fromList(transport.args);
                     const transportSource = await this.getArgsWithPrompts(transport.args);
 
                     const resolvedPaths = generator.resolvePaths({ transport, globalSource, transportSource });

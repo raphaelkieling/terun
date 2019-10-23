@@ -1,17 +1,20 @@
 module.exports = {
     commands: {
         example: {
+            plugins:[
+                new terun.EntityPlugin()
+            ],
             args: [
-                "title", 
+                "title",
                 {
-                    variable: "legal",
-                    label: "meu deus"
+                    variable: "title2",
+                    label: "Title 2"
                 }
             ],
             transports: [
                 {
                     from: 'from.terun',
-                    to: 'to3.html'
+                    to: 'to.html'
                 }
             ]
         }

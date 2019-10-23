@@ -84,7 +84,7 @@ var MakeCommand = /** @class */ (function (_super) {
                                 message: arg.label,
                                 name: arg.variable,
                                 initial: arg.default
-                            })];
+                            }, prompts_1.defaultConfig)];
                     case 2:
                         result = _a.sent();
                         params[arg.variable] = result[arg.variable];
@@ -131,6 +131,7 @@ var MakeCommand = /** @class */ (function (_super) {
                         if (!(_i < transports_1.length)) return [3 /*break*/, 9];
                         transport = transports_1[_i];
                         core_1.Utils.Log.log("[process]: " + (transport.name || transport.from));
+                        transport.args = ArgsMapper_1.default.fromList(transport.args);
                         return [4 /*yield*/, this.getArgsWithPrompts(transport.args)];
                     case 5:
                         transportSource = _a.sent();
