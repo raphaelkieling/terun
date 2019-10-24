@@ -4020,6 +4020,11 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+liquidjs@^9.1.1:
+  version "9.1.1"
+  resolved "https://registry.yarnpkg.com/liquidjs/-/liquidjs-9.1.1.tgz#804ce2349e8178f853e86a08156ec85d9147efa2"
+  integrity sha512-nazsu+iQy2DcLFEERVp/do3VTnjO3Z5onYinCs8OKrjb7Ifp3i4acEvuGcjAQlkLlKXEHHtu0WCQiCeWp8v37g==
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"

@@ -74,7 +74,7 @@ export class MakeCommand extends Command {
                     transport.args = ArgsMapper.fromList(transport.args);
                     const transportSource = await this.getArgsWithPrompts(transport.args);
 
-                    const resolvedPaths = generator.resolvePaths({ transport, globalSource, transportSource });
+                    const resolvedPaths = await generator.resolvePaths({ transport, globalSource, transportSource });
 
                     /**
                      * The file need exists and command override is different that true

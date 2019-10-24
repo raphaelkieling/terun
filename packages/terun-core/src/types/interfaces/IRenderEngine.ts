@@ -13,5 +13,5 @@ export interface IRenderEngine {
    * @param template String not compiled
    * @param args A object with the params to use inside compile
    */
-  render(template: string, args: object): string;
+  render(template: string, args: object): Promise<string>;
 }

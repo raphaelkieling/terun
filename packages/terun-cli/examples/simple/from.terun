@@ -1,6 +1,1 @@
-<html>
-        {{title | under}}
-        {{title | flower}}
-        {{title | llower}}
-    </body>
-</html>
+{{title | uppercase}}

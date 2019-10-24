@@ -36,20 +36,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var Mustache = require("terun-mustache");
 var Pipeline_1 = require("../Pipeline");
-var MustacheEngine = /** @class */ (function () {
-    function MustacheEngine() {
-        this.engine = Mustache;
+var liquidjs_1 = require("liquidjs");
+var LiquidEngine = /** @class */ (function () {
+    function LiquidEngine() {
+        this.engine = new liquidjs_1.Liquid();
     }
-    MustacheEngine.prototype.render = function (template, args) {
+    LiquidEngine.prototype.render = function (template, args) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                args = Object.assign(args, Pipeline_1.defaultPipelines);
-                return [2 /*return*/, this.engine.render(template, args)];
+                switch (_a.label) {
+                    case 0:
+                        args = Object.assign(args, Pipeline_1.defaultPipelines);
+                        return [4 /*yield*/, this.engine.parseAndRender(template, args)];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
             });
         });
     };
-    return MustacheEngine;
+    return LiquidEngine;
 }());
-exports.MustacheEngine = MustacheEngine;
+exports.LiquidEngine = LiquidEngine;

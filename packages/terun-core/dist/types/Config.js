@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var Config = /** @class */ (function () {
     function Config() {
+        this.engine = "mustache";
         this.basePath = ".";
         this.commands = {};
         this.tag = this.getDefaultTags();

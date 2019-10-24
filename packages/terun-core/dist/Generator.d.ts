@@ -19,10 +19,10 @@ declare class Generator {
         transport: Transport;
         globalSource: object;
         transportSource: object;
-    }): {
+    }): Promise<{
         from: string;
         to: string;
-    };
+    }>;
     transport({ transport, globalSource, transportSource }: {
         transport: Transport;
         globalSource: object;

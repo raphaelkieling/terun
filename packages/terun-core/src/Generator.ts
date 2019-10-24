@@ -20,8 +20,8 @@ class Generator {
   public pluginManager: PluginManager;
 
   constructor(config: IConfigExternal) {
-    this.render = RenderFactory.createMustache();
     this.globalConfig = ConfigMapper.fromConfigExternal(config);
+    this.render = RenderFactory.make(this.globalConfig.engine);
     this.pluginManager = new PluginManager();
     this.pluginManager.configure(this.globalConfig);
   }
@@ -30,7 +30,7 @@ class Generator {
     return this.globalConfig.commands[name];
   }
 
-  public resolvePaths({
+  public async resolvePaths({
     transport,
     globalSource,
     transportSource
@@ -38,7 +38,7 @@ class Generator {
     transport: Transport;
     globalSource: object;
     transportSource: object;
-  }): { from: string, to: string } {
+  }): Promise<{ from: string, to: string }> {
     const { basePath } = this.globalConfig;
     const localSource: object = Object.assign(
       transportSource,
@@ -47,11 +47,11 @@ class Generator {
 
     const pathFrom: string = path.join(
       basePath,
-      this.render.render(transport.from, localSource),
+      await this.render.render(transport.from, localSource),
     );
     const pathTo: string = path.join(
       basePath,
-      this.render.render(transport.to, localSource),
+      await this.render.render(transport.to, localSource),
     );
 
     return {
@@ -79,11 +79,11 @@ class Generator {
 
     const localSourcePlugin = await this.pluginManager.beforeRender(localSource);
 
-    const resolvedPaths = this.resolvePaths({ transport, globalSource, transportSource });
+    const resolvedPaths = await this.resolvePaths({ transport, globalSource, transportSource });
     // Get file content
     const fromContentFile: string = getUtf8File(resolvedPaths.from);
     // Render the content file with args FROM PLUGIN
-    const fromContentRendered: string = this.render.render(
+    const fromContentRendered: string = await this.render.render(
       fromContentFile,
       localSourcePlugin,
     );

@@ -9,6 +9,7 @@ var ConfigMapper = /** @class */ (function () {
         var config = new Config_1.Config();
         config.basePath = options.basePath || config.basePath;
         config.tag = options.tag || config.tag;
+        config.engine = options.engine || config.engine;
         for (var _i = 0, _a = Object.entries(options.commands); _i < _a.length; _i++) {
             var _b = _a[_i], key = _b[0], command = _b[1];
             config.commands[key] = new Command_1.Command(command);

@@ -5,7 +5,7 @@ import { defaultPipelines } from '../Pipeline';
 export class MustacheEngine implements IRenderEngine {
   public readonly engine: any = Mustache;
 
-  public render(template: string, args: object) {
+  public async render(template: string, args: object) {
     args = Object.assign(args, defaultPipelines);
     return this.engine.render(template, args);
   }

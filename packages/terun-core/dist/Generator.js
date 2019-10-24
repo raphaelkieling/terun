@@ -48,8 +48,8 @@ var PluginManager_1 = require("./types/PluginManager");
  */
 var Generator = /** @class */ (function () {
     function Generator(config) {
-        this.render = RenderEngineFactory_1.default.createMustache();
         this.globalConfig = ConfigMapper_1.ConfigMapper.fromConfigExternal(config);
+        this.render = RenderEngineFactory_1.default.make(this.globalConfig.engine);
         this.pluginManager = new PluginManager_1.default();
         this.pluginManager.configure(this.globalConfig);
     }
@@ -58,14 +58,30 @@ var Generator = /** @class */ (function () {
     };
     Generator.prototype.resolvePaths = function (_a) {
         var transport = _a.transport, globalSource = _a.globalSource, transportSource = _a.transportSource;
-        var basePath = this.globalConfig.basePath;
-        var localSource = Object.assign(transportSource, globalSource);
-        var pathFrom = path.join(basePath, this.render.render(transport.from, localSource));
-        var pathTo = path.join(basePath, this.render.render(transport.to, localSource));
-        return {
-            from: pathFrom,
-            to: pathTo
-        };
+        return __awaiter(this, void 0, void 0, function () {
+            var basePath, localSource, pathFrom, _b, _c, _d, pathTo, _e, _f, _g;
+            return __generator(this, function (_h) {
+                switch (_h.label) {
+                    case 0:
+                        basePath = this.globalConfig.basePath;
+                        localSource = Object.assign(transportSource, globalSource);
+                        _c = (_b = path).join;
+                        _d = [basePath];
+                        return [4 /*yield*/, this.render.render(transport.from, localSource)];
+                    case 1:
+                        pathFrom = _c.apply(_b, _d.concat([_h.sent()]));
+                        _f = (_e = path).join;
+                        _g = [basePath];
+                        return [4 /*yield*/, this.render.render(transport.to, localSource)];
+                    case 2:
+                        pathTo = _f.apply(_e, _g.concat([_h.sent()]));
+                        return [2 /*return*/, {
+                                from: pathFrom,
+                                to: pathTo
+                            }];
+                }
+            });
+        });
     };
     Generator.prototype.transport = function (_a) {
         var transport = _a.transport, globalSource = _a.globalSource, transportSource = _a.transportSource;
@@ -83,12 +99,16 @@ var Generator = /** @class */ (function () {
                         return [4 /*yield*/, this.pluginManager.beforeRender(localSource)];
                     case 3:
                         localSourcePlugin = _b.sent();
-                        resolvedPaths = this.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource });
+                        return [4 /*yield*/, this.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource })];
+                    case 4:
+                        resolvedPaths = _b.sent();
                         fromContentFile = file_1.getUtf8File(resolvedPaths.from);
-                        fromContentRendered = this.render.render(fromContentFile, localSourcePlugin);
+                        return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin)];
+                    case 5:
+                        fromContentRendered = _b.sent();
                         // TODO: Need done this
                         return [4 /*yield*/, this.pluginManager.done()];
-                    case 4:
+                    case 6:
                         // TODO: Need done this
                         _b.sent();
                         file_1.writeUtf8File(resolvedPaths.to, fromContentRendered);

@@ -1,8 +1,10 @@
 import { ICommand } from "./ICommand";
 
+export type EngineConfigOption = "mustache" | "liquid";
+
 export interface IConfig {
-  // this change the tag from mustache renderer. Default is ['{{','}}']
   tag: string[];
   basePath: string;
+  engine: EngineConfigOption;
   commands: { [key: string]: ICommand };
 }
