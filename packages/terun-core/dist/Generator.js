@@ -96,23 +96,32 @@ var Generator = /** @class */ (function () {
                     case 2:
                         _b.sent();
                         localSource = Object.assign(transportSource, globalSource);
-                        return [4 /*yield*/, this.pluginManager.beforeRender(localSource)];
+                        if (!(transport.validator !== null)) return [3 /*break*/, 5];
+                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 4];
+                        return [4 /*yield*/, transport.validator({ args: localSource })];
                     case 3:
+                        if (!(_b.sent()))
+                            return [2 /*return*/, false];
+                        return [3 /*break*/, 5];
+                    case 4:
+                        if (typeof transport.validator === "boolean") {
+                            if (!transport.validator)
+                                return [2 /*return*/, false];
+                        }
+                        _b.label = 5;
+                    case 5: return [4 /*yield*/, this.pluginManager.beforeRender(localSource)];
+                    case 6:
                         localSourcePlugin = _b.sent();
                         return [4 /*yield*/, this.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource })];
-                    case 4:
+                    case 7:
                         resolvedPaths = _b.sent();
                         fromContentFile = file_1.getUtf8File(resolvedPaths.from);
                         return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin)];
-                    case 5:
+                    case 8:
                         fromContentRendered = _b.sent();
-                        // TODO: Need done this
-                        return [4 /*yield*/, this.pluginManager.done()];
-                    case 6:
-                        // TODO: Need done this
-                        _b.sent();
                         file_1.writeUtf8File(resolvedPaths.to, fromContentRendered);
-                        return [2 /*return*/];
+                        return [4 /*yield*/, this.pluginManager.done()];
+                    case 9: return [2 /*return*/, _b.sent()];
                 }
             });
         });

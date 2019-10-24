@@ -27,6 +27,6 @@ declare class Generator {
         transport: Transport;
         globalSource: object;
         transportSource: object;
-    }): Promise<void>;
+    }): Promise<boolean>;
 }
 export default Generator;

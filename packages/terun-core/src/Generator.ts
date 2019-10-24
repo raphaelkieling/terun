@@ -68,7 +68,7 @@ class Generator {
     transport: Transport;
     globalSource: object;
     transportSource: object;
-  }): Promise<void> {
+  }): Promise<boolean> {
     await this.pluginManager.onInit();
     await this.pluginManager.onTransport(transport);
 
@@ -76,6 +76,14 @@ class Generator {
       transportSource,
       globalSource,
     );
+
+    if (transport.validator !== null) {
+      if (typeof transport.validator === "function") {
+        if (!await transport.validator({ args: localSource })) return false;
+      } else if (typeof transport.validator === "boolean") {
+        if (!transport.validator) return false
+      }
+    }
 
     const localSourcePlugin = await this.pluginManager.beforeRender(localSource);
 
@@ -88,10 +96,9 @@ class Generator {
       localSourcePlugin,
     );
 
-    // TODO: Need done this
-    await this.pluginManager.done();
-
     writeUtf8File(resolvedPaths.to, fromContentRendered);
+
+    return await this.pluginManager.done();
   }
 }
 

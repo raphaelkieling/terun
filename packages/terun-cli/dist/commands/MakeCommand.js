@@ -69,7 +69,7 @@ var MakeCommand = /** @class */ (function (_super) {
     };
     MakeCommand.prototype.getArgsWithPrompts = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, _i, args_1, arg, result;
+            var params, _i, args_1, arg, type, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -79,9 +79,11 @@ var MakeCommand = /** @class */ (function (_super) {
                     case 1:
                         if (!(_i < args_1.length)) return [3 /*break*/, 4];
                         arg = args_1[_i];
+                        type = arg.choices ? "select" : "text";
                         return [4 /*yield*/, prompts({
-                                type: "text",
+                                type: type,
                                 message: arg.label,
+                                choices: arg.choices ? arg.choices : [],
                                 name: arg.variable,
                                 initial: arg.default
                             }, prompts_1.defaultConfig)];
@@ -99,11 +101,11 @@ var MakeCommand = /** @class */ (function (_super) {
     };
     MakeCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var commandName, generator, command, globalSource, _i, _a, plugin, transports, _b, transports_1, transport, transportSource, resolvedPaths, defaultIsOverride, fileExists, override, e_1;
+            var commandName, generator, command, globalSource, _i, _a, plugin, transports, _b, transports_1, transport, transportSource, resolvedPaths, defaultIsOverride, fileExists, override, done, e_1;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        _c.trys.push([0, 12, , 13]);
+                        _c.trys.push([0, 13, , 14]);
                         this.config = ConfigReader_1.ConfigReader.find();
                         if (!this.config) {
                             core_1.Utils.Log.error("Config file terun.js not found");
@@ -112,7 +114,7 @@ var MakeCommand = /** @class */ (function (_super) {
                         commandName = this.params.get('make');
                         generator = new core_1.Generator(this.config);
                         command = generator.getCommand(commandName);
-                        if (!command) return [3 /*break*/, 10];
+                        if (!command) return [3 /*break*/, 11];
                         globalSource = {};
                         if (command.plugins) {
                             for (_i = 0, _a = command.plugins; _i < _a.length; _i++) {
@@ -132,7 +134,7 @@ var MakeCommand = /** @class */ (function (_super) {
                         _b = 0, transports_1 = transports;
                         _c.label = 3;
                     case 3:
-                        if (!(_b < transports_1.length)) return [3 /*break*/, 9];
+                        if (!(_b < transports_1.length)) return [3 /*break*/, 10];
                         transport = transports_1[_b];
                         core_1.Utils.Log.log("[process]: " + (transport.name || transport.from));
                         transport.args = ArgsMapper_1.default.fromList(transport.args);
@@ -154,27 +156,33 @@ var MakeCommand = /** @class */ (function (_super) {
                         }
                         ;
                         _c.label = 7;
-                    case 7:
-                        generator.transport({
+                    case 7: return [4 /*yield*/, generator.transport({
                             transportSource: transportSource,
                             globalSource: globalSource,
                             transport: transport,
-                        });
-                        core_1.Utils.Log.success("File transported with success!");
-                        _c.label = 8;
+                        })];
                     case 8:
+                        done = _c.sent();
+                        if (done) {
+                            core_1.Utils.Log.success("File transported with success!");
+                        }
+                        else {
+                            core_1.Utils.Log.warn("File not transported!");
+                        }
+                        _c.label = 9;
+                    case 9:
                         _b++;
                         return [3 /*break*/, 3];
-                    case 9: return [3 /*break*/, 11];
-                    case 10:
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
                         core_1.Utils.Log.error("Command [" + commandName + "] not found on config");
-                        _c.label = 11;
-                    case 11: return [3 /*break*/, 13];
-                    case 12:
+                        _c.label = 12;
+                    case 12: return [3 /*break*/, 14];
+                    case 13:
                         e_1 = _c.sent();
                         core_1.Utils.Log.error(e_1);
-                        return [3 /*break*/, 13];
-                    case 13: return [2 /*return*/];
+                        return [3 /*break*/, 14];
+                    case 14: return [2 /*return*/];
                 }
             });
         });

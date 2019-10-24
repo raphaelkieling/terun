@@ -25,9 +25,12 @@ export class MakeCommand extends Command {
     private async getArgsWithPrompts(args: IArgs[]): Promise<object> {
         const params: any = {};
         for (const arg of args) {
+            const type = arg.choices ? "select" : "text";
+
             const result = await prompts({
-                type: "text",
+                type,
                 message: arg.label,
+                choices: arg.choices ? arg.choices : [],
                 name: arg.variable,
                 initial: arg.default
             }, defaultConfig);
@@ -89,13 +92,17 @@ export class MakeCommand extends Command {
                         };
                     }
 
-                    generator.transport({
+                    const done = await generator.transport({
                         transportSource,
                         globalSource,
                         transport,
                     });
 
-                    Utils.Log.success("File transported with success!");
+                    if (done) {
+                        Utils.Log.success("File transported with success!");
+                    } else {
+                        Utils.Log.warn("File not transported!");
+                    }
                 }
             } else {
                 Utils.Log.error(`Command [${commandName}] not found on config`)
