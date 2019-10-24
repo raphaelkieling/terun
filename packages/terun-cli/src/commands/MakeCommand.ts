@@ -38,16 +38,16 @@ export class MakeCommand extends Command {
     }
 
     async execute(): Promise<any> {
-        this.config = ConfigReader.find();
-
-        if (!this.config) {
-            Utils.Log.error("Config file terun.js not found");
-            return;
-        }
-
-        const commandName = this.params.get('make');
-
         try {
+            this.config = ConfigReader.find();
+
+            if (!this.config) {
+                Utils.Log.error("Config file terun.js not found");
+                return;
+            }
+
+            const commandName = this.params.get('make');
+
             const generator = new Generator(this.config);
             const command = generator.getCommand(commandName);
 
@@ -87,7 +87,6 @@ export class MakeCommand extends Command {
                             Utils.Log.warn("Relax, file skyped");
                             return;
                         };
-
                     }
 
                     generator.transport({
@@ -96,7 +95,7 @@ export class MakeCommand extends Command {
                         transport,
                     });
 
-                    Utils.Log.success("File transported with success!")
+                    Utils.Log.success("File transported with success!");
                 }
             } else {
                 Utils.Log.error(`Command [${commandName}] not found on config`)

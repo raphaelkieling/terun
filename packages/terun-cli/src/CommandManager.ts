@@ -1,4 +1,3 @@
-import { Utils } from '@terun/core';
 import { Command } from './commands/Command';
 
 export default class CommandManager {

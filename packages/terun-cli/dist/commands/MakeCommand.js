@@ -103,18 +103,16 @@ var MakeCommand = /** @class */ (function (_super) {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        _c.trys.push([0, 11, , 12]);
                         this.config = ConfigReader_1.ConfigReader.find();
                         if (!this.config) {
                             core_1.Utils.Log.error("Config file terun.js not found");
                             return [2 /*return*/];
                         }
                         commandName = this.params.get('make');
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 12, , 13]);
                         generator = new core_1.Generator(this.config);
                         command = generator.getCommand(commandName);
-                        if (!command) return [3 /*break*/, 10];
+                        if (!command) return [3 /*break*/, 9];
                         globalSource = {};
                         if (command.plugins) {
                             for (_i = 0, _a = command.plugins; _i < _a.length; _i++) {
@@ -122,59 +120,59 @@ var MakeCommand = /** @class */ (function (_super) {
                                 generator.pluginManager.addPlugin(plugin);
                             }
                         }
-                        if (!command.args) return [3 /*break*/, 3];
+                        if (!command.args) return [3 /*break*/, 2];
                         command.args = ArgsMapper_1.default.fromList(command.args);
                         core_1.Utils.Log.log("[Global arguments]");
                         return [4 /*yield*/, this.getArgsWithPrompts(command.args)];
-                    case 2:
+                    case 1:
                         globalSource = _c.sent();
-                        _c.label = 3;
-                    case 3:
+                        _c.label = 2;
+                    case 2:
                         transports = command.transports;
                         _b = 0, transports_1 = transports;
-                        _c.label = 4;
-                    case 4:
-                        if (!(_b < transports_1.length)) return [3 /*break*/, 9];
+                        _c.label = 3;
+                    case 3:
+                        if (!(_b < transports_1.length)) return [3 /*break*/, 8];
                         transport = transports_1[_b];
                         core_1.Utils.Log.log("[process]: " + (transport.name || transport.from));
                         transport.args = ArgsMapper_1.default.fromList(transport.args);
                         return [4 /*yield*/, this.getArgsWithPrompts(transport.args)];
-                    case 5:
+                    case 4:
                         transportSource = _c.sent();
                         resolvedPaths = generator.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource });
                         defaultIsOverride = this.params.get('override') !== true;
                         fileExists = fs.existsSync(resolvedPaths.to);
-                        if (!(fileExists && defaultIsOverride)) return [3 /*break*/, 7];
+                        if (!(fileExists && defaultIsOverride)) return [3 /*break*/, 6];
                         return [4 /*yield*/, prompts_1.canOverride()];
-                    case 6:
+                    case 5:
                         override = _c.sent();
                         if (!override) {
                             core_1.Utils.Log.warn("Relax, file skyped");
                             return [2 /*return*/];
                         }
                         ;
-                        _c.label = 7;
-                    case 7:
+                        _c.label = 6;
+                    case 6:
                         generator.transport({
                             transportSource: transportSource,
                             globalSource: globalSource,
                             transport: transport,
                         });
                         core_1.Utils.Log.success("File transported with success!");
-                        _c.label = 8;
-                    case 8:
+                        _c.label = 7;
+                    case 7:
                         _b++;
-                        return [3 /*break*/, 4];
-                    case 9: return [3 /*break*/, 11];
-                    case 10:
+                        return [3 /*break*/, 3];
+                    case 8: return [3 /*break*/, 10];
+                    case 9:
                         core_1.Utils.Log.error("Command [" + commandName + "] not found on config");
-                        _c.label = 11;
-                    case 11: return [3 /*break*/, 13];
-                    case 12:
+                        _c.label = 10;
+                    case 10: return [3 /*break*/, 12];
+                    case 11:
                         e_1 = _c.sent();
                         core_1.Utils.Log.error(e_1);
-                        return [3 /*break*/, 13];
-                    case 13: return [2 /*return*/];
+                        return [3 /*break*/, 12];
+                    case 12: return [2 /*return*/];
                 }
             });
         });
