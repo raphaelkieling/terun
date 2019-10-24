@@ -1,11 +1,11 @@
 import { IPlugin } from '@terun/core/dist/types/interfaces';
 import { RenderData, ConfigureParams } from '@terun/core/dist/types/interfaces/IPlugin';
 import { OnTransportParams, BeforeRenderParams } from '@terun/core/src/types/interfaces/IPlugin';
-export declare type NotifyPluginParams = {
+declare type NotifyPluginParams = {
     title?: string;
     message?: string;
 };
-export default class NotifyPlugin implements IPlugin {
+declare class NotifyPlugin implements IPlugin {
     name: string;
     options: NotifyPluginParams;
     constructor(params?: NotifyPluginParams);
@@ -15,3 +15,4 @@ export default class NotifyPlugin implements IPlugin {
     beforeRender({ localArgs }: BeforeRenderParams): Promise<RenderData>;
     done(): Promise<boolean>;
 }
+export = NotifyPlugin;

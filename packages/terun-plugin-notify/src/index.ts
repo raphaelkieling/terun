@@ -3,12 +3,12 @@ import { RenderData, ConfigureParams } from '@terun/core/dist/types/interfaces/I
 import { OnTransportParams, BeforeRenderParams } from '@terun/core/src/types/interfaces/IPlugin';
 import { notify } from 'node-notifier';
 
-export type NotifyPluginParams = {
+type NotifyPluginParams = {
     title?: string;
     message?: string;
 }
 
-export default class NotifyPlugin implements IPlugin {
+class NotifyPlugin implements IPlugin {
     name: string = 'Notify';
     options: NotifyPluginParams;
 
@@ -37,3 +37,5 @@ export default class NotifyPlugin implements IPlugin {
         return true;
     }
 }
+
+export = NotifyPlugin;

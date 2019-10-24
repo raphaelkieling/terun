@@ -34,7 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
 var node_notifier_1 = require("node-notifier");
 var NotifyPlugin = /** @class */ (function () {
     function NotifyPlugin(params) {
@@ -86,4 +85,4 @@ var NotifyPlugin = /** @class */ (function () {
     };
     return NotifyPlugin;
 }());
-exports.default = NotifyPlugin;
+module.exports = NotifyPlugin;

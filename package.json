@@ -4,7 +4,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build":"lerna run build"
+    "build":"lerna run build",
+    "build:doc":"cd packages/terun-doc && yarn docs:build"
   },
   "repository": "https://github.com/raphaelkieling/terun",
   "author": "Raphael Kieling <raphael.kieling@egsys.com.br>",

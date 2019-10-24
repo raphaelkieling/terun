@@ -1,5 +1,5 @@
-const EntityPlugin = require('../../../terun-plugin-entity/dist/index').default;
-const NotifyPlugin = require('../../../terun-plugin-notify/dist/index').default;
+const EntityPlugin = require('../../../terun-plugin-entity/dist/index');
+const NotifyPlugin = require('../../../terun-plugin-notify/dist/index');
 
 module.exports = {
     engine: "liquid",

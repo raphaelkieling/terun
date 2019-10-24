@@ -1,31 +1,29 @@
 {
-  "name": "@terun/plugin-entity",
+  "name": "@terun/doc",
   "version": "1.0.2",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/raphaelkieling/terun",
-    "directory": "packages/@terun/cli"
+    "directory": "packages/terun-doc"
   },
   "scripts": {
-    "build:watch": "tsc --watch",
-    "build": "tsc"
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "license": "MIT",
-  "devDependencies": {
-    "lerna": "^3.16.0",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
-  },
   "engines": {
     "node": ">=8.9"
-  },
-  "dependencies": {
-    "@terun/core": "^1.0.2"
   },
   "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "vuepress": "^1.2.0"
+  },
+  "dependencies": {
+    "fs-extra": "^8.1.0"
   }
 }
