@@ -54,6 +54,7 @@ var PluginManager = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                         plugin = _a[_i];
+                        if (!plugin.configure) return [3 /*break*/, 3];
                         return [4 /*yield*/, plugin.configure({ config: config })];
                     case 2:
                         _b.sent();
@@ -77,6 +78,7 @@ var PluginManager = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                         plugin = _a[_i];
+                        if (!plugin.onInit) return [3 /*break*/, 3];
                         return [4 /*yield*/, plugin.onInit()];
                     case 2:
                         _b.sent();
@@ -100,6 +102,7 @@ var PluginManager = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                         plugin = _a[_i];
+                        if (!plugin.onTransport) return [3 /*break*/, 3];
                         return [4 /*yield*/, plugin.onTransport({ transport: transport })];
                     case 2:
                         _b.sent();
@@ -124,6 +127,7 @@ var PluginManager = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                         plugin = _a[_i];
+                        if (!plugin.beforeRender) return [3 /*break*/, 3];
                         _c = (_b = Object).assign;
                         _d = [renderData];
                         return [4 /*yield*/, plugin.beforeRender({ localArgs: localArgs })];
@@ -150,6 +154,7 @@ var PluginManager = /** @class */ (function () {
                     case 1:
                         if (!(_i < _a.length)) return [3 /*break*/, 4];
                         plugin = _a[_i];
+                        if (!plugin.done) return [3 /*break*/, 3];
                         return [4 /*yield*/, plugin.done()];
                     case 2:
                         done = _b.sent();

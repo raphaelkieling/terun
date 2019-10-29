@@ -23,7 +23,6 @@ class Generator {
     this.globalConfig = ConfigMapper.fromConfigExternal(config);
     this.render = RenderFactory.make(this.globalConfig.engine);
     this.pluginManager = new PluginManager();
-    this.pluginManager.configure(this.globalConfig);
   }
 
   public getCommand(name: string): Command | undefined {
@@ -69,6 +68,7 @@ class Generator {
     globalSource: object;
     transportSource: object;
   }): Promise<boolean> {
+    await this.pluginManager.configure(this.globalConfig);
     await this.pluginManager.onInit();
     await this.pluginManager.onTransport(transport);
 

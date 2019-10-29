@@ -22,6 +22,7 @@
     "node": ">=8.9"
   },
   "dependencies": {
+    "@terun/cli": "^1.1.0",
     "@terun/core": "^1.1.0"
   },
   "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",

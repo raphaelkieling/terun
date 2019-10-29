@@ -19,12 +19,6 @@ class NotifyPlugin implements IPlugin {
         }, params);
     }
 
-    async configure(params: ConfigureParams): Promise<void> {
-    }
-    async onInit(): Promise<void> {
-    }
-    async onTransport(params: OnTransportParams): Promise<void> {
-    }
     async beforeRender({ localArgs }: BeforeRenderParams): Promise<RenderData> {
         return localArgs;
     }

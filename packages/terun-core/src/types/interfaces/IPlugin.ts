@@ -9,9 +9,9 @@ export type BeforeRenderParams = { localArgs: RenderData };
 export default interface IPlugin {
     name: string;
 
-    configure(params: ConfigureParams): void;
-    onInit(): Promise<void>;
-    onTransport(params: OnTransportParams): Promise<void>;
-    beforeRender(params: BeforeRenderParams): Promise<RenderData>;
-    done(): Promise<boolean>;
+    configure?(params: ConfigureParams): void;
+    onInit?(): Promise<void>;
+    onTransport?(params: OnTransportParams): Promise<void>;
+    beforeRender?(params: BeforeRenderParams): Promise<RenderData>;
+    done?(): Promise<boolean>;
 }

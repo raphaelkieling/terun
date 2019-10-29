@@ -14,18 +14,19 @@ module.exports = {
     engine: "liquid",
     commands: {
         example: {
-            plugins: [],
-            transports: [
-                {
-                    validator: ({ args }) => args.needSave,
-                    from: 'from.terun',
-                    to: 'to.html',
-                    args: [
-                        needSaveArg,
-                        "fileName"
-                    ],
-                }
-            ]
+            plugins: [
+                new EntityPlugin(),
+                new NotifyPlugin()
+            ],
+            transports: [{
+                validator: ({ args }) => args.needSave,
+                from: 'from.terun',
+                to: 'to.html',
+                args: [
+                    needSaveArg,
+                    "fileName"
+                ],
+            }]
         }
     }
 };

@@ -51,7 +51,6 @@ var Generator = /** @class */ (function () {
         this.globalConfig = ConfigMapper_1.ConfigMapper.fromConfigExternal(config);
         this.render = RenderEngineFactory_1.default.make(this.globalConfig.engine);
         this.pluginManager = new PluginManager_1.default();
-        this.pluginManager.configure(this.globalConfig);
     }
     Generator.prototype.getCommand = function (name) {
         return this.globalConfig.commands[name];
@@ -89,39 +88,42 @@ var Generator = /** @class */ (function () {
             var localSource, localSourcePlugin, resolvedPaths, fromContentFile, fromContentRendered;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.pluginManager.onInit()];
+                    case 0: return [4 /*yield*/, this.pluginManager.configure(this.globalConfig)];
                     case 1:
                         _b.sent();
-                        return [4 /*yield*/, this.pluginManager.onTransport(transport)];
+                        return [4 /*yield*/, this.pluginManager.onInit()];
                     case 2:
                         _b.sent();
-                        localSource = Object.assign(transportSource, globalSource);
-                        if (!(transport.validator !== null)) return [3 /*break*/, 5];
-                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 4];
-                        return [4 /*yield*/, transport.validator({ args: localSource })];
+                        return [4 /*yield*/, this.pluginManager.onTransport(transport)];
                     case 3:
+                        _b.sent();
+                        localSource = Object.assign(transportSource, globalSource);
+                        if (!(transport.validator !== null)) return [3 /*break*/, 6];
+                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 5];
+                        return [4 /*yield*/, transport.validator({ args: localSource })];
+                    case 4:
                         if (!(_b.sent()))
                             return [2 /*return*/, false];
-                        return [3 /*break*/, 5];
-                    case 4:
+                        return [3 /*break*/, 6];
+                    case 5:
                         if (typeof transport.validator === "boolean") {
                             if (!transport.validator)
                                 return [2 /*return*/, false];
                         }
-                        _b.label = 5;
-                    case 5: return [4 /*yield*/, this.pluginManager.beforeRender(localSource)];
-                    case 6:
+                        _b.label = 6;
+                    case 6: return [4 /*yield*/, this.pluginManager.beforeRender(localSource)];
+                    case 7:
                         localSourcePlugin = _b.sent();
                         return [4 /*yield*/, this.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource })];
-                    case 7:
+                    case 8:
                         resolvedPaths = _b.sent();
                         fromContentFile = file_1.getUtf8File(resolvedPaths.from);
                         return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin)];
-                    case 8:
+                    case 9:
                         fromContentRendered = _b.sent();
                         file_1.writeUtf8File(resolvedPaths.to, fromContentRendered);
                         return [4 /*yield*/, this.pluginManager.done()];
-                    case 9: return [2 /*return*/, _b.sent()];
+                    case 10: return [2 /*return*/, _b.sent()];
                 }
             });
         });

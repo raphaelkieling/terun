@@ -12,19 +12,22 @@ export default class PluginManager {
 
     async configure(config: IConfig): Promise<void> {
         for (const plugin of this.plugins) {
-            await plugin.configure({ config });
+            if (plugin.configure)
+                await plugin.configure({ config });
         }
     }
 
     async onInit(): Promise<void> {
         for (const plugin of this.plugins) {
-            await plugin.onInit();
+            if (plugin.onInit)
+                await plugin.onInit();
         }
     }
 
     async onTransport(transport: ITransport): Promise<void> {
         for (const plugin of this.plugins) {
-            await plugin.onTransport({ transport });
+            if (plugin.onTransport)
+                await plugin.onTransport({ transport });
         }
     }
 
@@ -32,7 +35,8 @@ export default class PluginManager {
         const renderData: RenderData = localArgs;
 
         for (const plugin of this.plugins) {
-            Object.assign(renderData, await plugin.beforeRender({ localArgs }));
+            if (plugin.beforeRender)
+                Object.assign(renderData, await plugin.beforeRender({ localArgs }));
         }
 
         return renderData;
@@ -42,7 +46,8 @@ export default class PluginManager {
         let done = true;
 
         for (const plugin of this.plugins) {
-            done = await plugin.done();
+            if (plugin.done)
+                done = await plugin.done();
         }
 
         return done;

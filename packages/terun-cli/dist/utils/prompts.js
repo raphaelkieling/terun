@@ -71,3 +71,7 @@ function canOverride() {
     });
 }
 exports.canOverride = canOverride;
+function createPromp(args) {
+    return prompts(args, exports.defaultConfig);
+}
+exports.createPromp = createPromp;

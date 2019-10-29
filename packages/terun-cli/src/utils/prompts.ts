@@ -28,3 +28,7 @@ export async function canOverride(): Promise<boolean> {
 
     return result["override"];
 }
+
+export function createPromp(args: prompts.PromptObject): Promise<prompts.Answers<any>> {
+    return prompts(args, defaultConfig);
+}
