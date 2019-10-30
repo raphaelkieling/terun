@@ -8,6 +8,7 @@ import RenderFactory from "./types/render/RenderEngineFactory";
 import { Transport } from "./types/Transport";
 import { getUtf8File, writeUtf8File } from "./utils/file";
 import PluginManager from './types/PluginManager';
+import { SyncHook, Hook } from "tapable";
 
 /**
  * Get and render the content files in the
@@ -18,15 +19,26 @@ class Generator {
   public globalConfig: Config;
   public render: IRenderEngine;
   public pluginManager: PluginManager;
+  public hooks: { [key: string]: SyncHook };
 
   constructor(config: IConfigExternal) {
     this.globalConfig = ConfigMapper.fromConfigExternal(config);
     this.render = RenderFactory.make(this.globalConfig.engine);
+    this.hooks = {
+      configure: new SyncHook(["globalConfig"]),
+      onTransport: new SyncHook(["transport", "globalSource", "transportSource"]),
+      beforeRender: new SyncHook(["transport", "localSource"]),
+      done: new SyncHook()
+    };
     this.pluginManager = new PluginManager();
   }
 
   public getCommand(name: string): Command | undefined {
     return this.globalConfig.commands[name];
+  }
+
+  public installPlugins() {
+    this.pluginManager.install(this.hooks);
   }
 
   public async resolvePaths({
@@ -67,10 +79,9 @@ class Generator {
     transport: Transport;
     globalSource: object;
     transportSource: object;
-  }): Promise<boolean> {
-    await this.pluginManager.configure(this.globalConfig);
-    await this.pluginManager.onInit();
-    await this.pluginManager.onTransport(transport);
+  }): Promise<void> {
+    await this.hooks.configure.promise(this.globalConfig)
+    await this.hooks.onTransport.promise(transport, globalSource, transportSource);
 
     const localSource: object = Object.assign(
       transportSource,
@@ -79,13 +90,13 @@ class Generator {
 
     if (transport.validator !== null) {
       if (typeof transport.validator === "function") {
-        if (!await transport.validator({ args: localSource })) return false;
+        if (!await transport.validator({ args: localSource })) return;
       } else if (typeof transport.validator === "boolean") {
-        if (!transport.validator) return false
+        if (!transport.validator) return;
       }
     }
 
-    const localSourcePlugin = await this.pluginManager.beforeRender(localSource);
+    const localSourcePlugin: any = await this.hooks.beforeRender.promise(localSource) || localSource;
 
     const resolvedPaths = await this.resolvePaths({ transport, globalSource, transportSource });
     // Get file content
@@ -98,7 +109,7 @@ class Generator {
 
     writeUtf8File(resolvedPaths.to, fromContentRendered);
 
-    return await this.pluginManager.done();
+    this.hooks.done.call(transport, globalSource, transportSource);
   }
 }
 

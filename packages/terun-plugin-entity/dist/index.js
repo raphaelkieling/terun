@@ -35,6 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var prompts_1 = require("@terun/cli/dist/utils/prompts");
+var core_1 = require("@terun/core");
 var EntityPlugin = /** @class */ (function () {
     function EntityPlugin(params) {
         this.name = 'Entity Resolver';
@@ -50,6 +51,7 @@ var EntityPlugin = /** @class */ (function () {
                         data = {};
                         lastFieldName = null;
                         fields = [];
+                        core_1.Utils.Log.log("------------------------");
                         return [4 /*yield*/, prompts_1.createPromp({
                                 type: "text",
                                 message: "The entity shortcut name",
@@ -87,25 +89,18 @@ var EntityPlugin = /** @class */ (function () {
             });
         });
     };
-    EntityPlugin.prototype.configure = function (params) {
-        return __awaiter(this, void 0, void 0, function () {
+    EntityPlugin.prototype.install = function (hooks) {
+        var _this = this;
+        hooks.beforeRender.tap("EntityPlugin", function () { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                return [2 /*return*/];
-            });
-        });
-    };
-    EntityPlugin.prototype.beforeRender = function (_a) {
-        var localArgs = _a.localArgs;
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+                switch (_a.label) {
                     case 0: return [4 /*yield*/, this.makeQuestions()];
                     case 1:
-                        _b.sent();
-                        return [2 /*return*/, localArgs];
+                        _a.sent();
+                        return [2 /*return*/, { hello: 'world' }];
                 }
             });
-        });
+        }); });
     };
     return EntityPlugin;
 }());

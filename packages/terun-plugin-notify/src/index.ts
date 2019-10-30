@@ -1,7 +1,5 @@
-import { IPlugin } from '@terun/core/dist/types/interfaces';
-import { RenderData, ConfigureParams } from '@terun/core/dist/types/interfaces/IPlugin';
-import { OnTransportParams, BeforeRenderParams } from '@terun/core/src/types/interfaces/IPlugin';
 import { notify } from 'node-notifier';
+import IPlugin, { Hooks } from '@terun/core/dist/types/interfaces/IPlugin';
 
 type NotifyPluginParams = {
     title?: string;
@@ -19,16 +17,13 @@ class NotifyPlugin implements IPlugin {
         }, params);
     }
 
-    async beforeRender({ localArgs }: BeforeRenderParams): Promise<RenderData> {
-        return localArgs;
-    }
-
-    async done(): Promise<boolean> {
-        notify({
-            title: this.options.title,
-            message: this.options.message
+    install(hooks: Hooks) {
+        hooks.done.tap("NotifyPlugin", () => {
+            notify({
+                title: this.options.title,
+                message: this.options.message
+            });
         });
-        return true;
     }
 }
 

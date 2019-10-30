@@ -1,7 +1,6 @@
 import { createPromp } from '@terun/cli/dist/utils/prompts';
-import { IPlugin } from '@terun/core/dist/types/interfaces';
-import { RenderData, ConfigureParams } from '@terun/core/dist/types/interfaces/IPlugin';
-import { OnTransportParams, BeforeRenderParams } from '@terun/core/src/types/interfaces/IPlugin';
+import IPlugin, { Hooks } from '@terun/core/dist/types/interfaces/IPlugin';
+import { Utils } from '@terun/core';
 
 type EntityPluginOptions = {
     basePath: string;
@@ -21,6 +20,8 @@ class EntityPlugin implements IPlugin {
         let data = {};
         let lastFieldName = null;
         const fields = [];
+
+        Utils.Log.log("------------------------")
 
         const { entity_name } = await createPromp({
             type: "text",
@@ -50,20 +51,18 @@ class EntityPlugin implements IPlugin {
             });
 
             fields.push({
-                
+
             })
         } while (lastFieldName != null || lastFieldName == '');
 
         return data;
     }
 
-    async configure(params: ConfigureParams): Promise<void> {
-
-    }
-
-    async beforeRender({ localArgs }: BeforeRenderParams): Promise<RenderData> {
-        await this.makeQuestions();
-        return localArgs;
+    install(hooks: Hooks) {
+        hooks.beforeRender.tap("EntityPlugin", async () => {
+            await this.makeQuestions();
+            return { hello: 'world' };
+        })
     }
 }
 

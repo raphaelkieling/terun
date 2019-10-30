@@ -41,8 +41,10 @@ export class MakeCommand extends Command {
     }
 
     async execute(): Promise<any> {
+        console.log('porra')
         try {
             this.config = ConfigReader.find();
+            console.log(this.config)
 
             if (!this.config) {
                 Utils.Log.error("Config file terun.js not found");
@@ -61,6 +63,7 @@ export class MakeCommand extends Command {
                     for (const plugin of command.plugins) {
                         generator.pluginManager.addPlugin(plugin);
                     }
+                    generator.installPlugins();
                 }
 
                 if (command.args) {
@@ -92,23 +95,19 @@ export class MakeCommand extends Command {
                         };
                     }
 
-                    const done = await generator.transport({
+                    await generator.transport({
                         transportSource,
                         globalSource,
                         transport,
                     });
 
-                    if (done) {
-                        Utils.Log.success("File transported with success!");
-                    } else {
-                        Utils.Log.warn("File not transported!");
-                    }
+                    Utils.Log.success("File transported with success!");
                 }
             } else {
                 Utils.Log.error(`Command [${commandName}] not found on config`)
             }
         } catch (e) {
-            Utils.Log.error(e);
+            console.log(e)
         }
     }
 }

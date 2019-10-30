@@ -41,6 +41,7 @@ var ConfigMapper_1 = require("./types/mappers/ConfigMapper");
 var RenderEngineFactory_1 = require("./types/render/RenderEngineFactory");
 var file_1 = require("./utils/file");
 var PluginManager_1 = require("./types/PluginManager");
+var tapable_1 = require("tapable");
 /**
  * Get and render the content files in the
  * destiny file. Use commands in options to create
@@ -50,10 +51,19 @@ var Generator = /** @class */ (function () {
     function Generator(config) {
         this.globalConfig = ConfigMapper_1.ConfigMapper.fromConfigExternal(config);
         this.render = RenderEngineFactory_1.default.make(this.globalConfig.engine);
+        this.hooks = {
+            configure: new tapable_1.SyncHook(["globalConfig"]),
+            onTransport: new tapable_1.SyncHook(["transport", "globalSource", "transportSource"]),
+            beforeRender: new tapable_1.SyncHook(["transport", "localSource"]),
+            done: new tapable_1.SyncHook()
+        };
         this.pluginManager = new PluginManager_1.default();
     }
     Generator.prototype.getCommand = function (name) {
         return this.globalConfig.commands[name];
+    };
+    Generator.prototype.installPlugins = function () {
+        this.pluginManager.install(this.hooks);
     };
     Generator.prototype.resolvePaths = function (_a) {
         var transport = _a.transport, globalSource = _a.globalSource, transportSource = _a.transportSource;
@@ -88,42 +98,39 @@ var Generator = /** @class */ (function () {
             var localSource, localSourcePlugin, resolvedPaths, fromContentFile, fromContentRendered;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.pluginManager.configure(this.globalConfig)];
+                    case 0: return [4 /*yield*/, this.hooks.configure.promise(this.globalConfig)];
                     case 1:
                         _b.sent();
-                        return [4 /*yield*/, this.pluginManager.onInit()];
+                        return [4 /*yield*/, this.hooks.onTransport.promise(transport, globalSource, transportSource)];
                     case 2:
                         _b.sent();
-                        return [4 /*yield*/, this.pluginManager.onTransport(transport)];
-                    case 3:
-                        _b.sent();
                         localSource = Object.assign(transportSource, globalSource);
-                        if (!(transport.validator !== null)) return [3 /*break*/, 6];
-                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 5];
+                        if (!(transport.validator !== null)) return [3 /*break*/, 5];
+                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 4];
                         return [4 /*yield*/, transport.validator({ args: localSource })];
-                    case 4:
+                    case 3:
                         if (!(_b.sent()))
-                            return [2 /*return*/, false];
-                        return [3 /*break*/, 6];
-                    case 5:
+                            return [2 /*return*/];
+                        return [3 /*break*/, 5];
+                    case 4:
                         if (typeof transport.validator === "boolean") {
                             if (!transport.validator)
-                                return [2 /*return*/, false];
+                                return [2 /*return*/];
                         }
-                        _b.label = 6;
-                    case 6: return [4 /*yield*/, this.pluginManager.beforeRender(localSource)];
-                    case 7:
-                        localSourcePlugin = _b.sent();
+                        _b.label = 5;
+                    case 5: return [4 /*yield*/, this.hooks.beforeRender.promise(localSource)];
+                    case 6:
+                        localSourcePlugin = (_b.sent()) || localSource;
                         return [4 /*yield*/, this.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource })];
-                    case 8:
+                    case 7:
                         resolvedPaths = _b.sent();
                         fromContentFile = file_1.getUtf8File(resolvedPaths.from);
                         return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin)];
-                    case 9:
+                    case 8:
                         fromContentRendered = _b.sent();
                         file_1.writeUtf8File(resolvedPaths.to, fromContentRendered);
-                        return [4 /*yield*/, this.pluginManager.done()];
-                    case 10: return [2 /*return*/, _b.sent()];
+                        this.hooks.done.call(transport, globalSource, transportSource);
+                        return [2 /*return*/];
                 }
             });
         });

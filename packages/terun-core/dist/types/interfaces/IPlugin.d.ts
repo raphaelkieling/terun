@@ -1,5 +1,6 @@
 import { ITransport } from "./ITransport";
 import { IConfig } from "./IConfig";
+import { Hook } from "tapable";
 export declare type RenderData = {
     [key: string]: any;
 };
@@ -12,11 +13,10 @@ export declare type OnTransportParams = {
 export declare type BeforeRenderParams = {
     localArgs: RenderData;
 };
+export declare type Hooks = {
+    [key: string]: Hook;
+};
 export default interface IPlugin {
     name: string;
-    configure?(params: ConfigureParams): void;
-    onInit?(): Promise<void>;
-    onTransport?(params: OnTransportParams): Promise<void>;
-    beforeRender?(params: BeforeRenderParams): Promise<RenderData>;
-    done?(): Promise<boolean>;
+    install(hooks: Hooks): Promise<any> | void;
 }
