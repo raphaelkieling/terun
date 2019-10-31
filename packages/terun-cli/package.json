@@ -1,6 +1,6 @@
 {
   "name": "@terun/cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "repository": {
@@ -17,7 +17,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@terun/core": "^1.1.0",
+    "@terun/core": "^1.1.1",
     "lerna": "^3.16.0",
     "tslint": "^5.18.0",
     "typescript": "^3.5.3"
