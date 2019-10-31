@@ -5,9 +5,10 @@ var ArgsMapper = /** @class */ (function () {
     }
     ArgsMapper.fromString = function (value) {
         return {
-            default: '',
-            label: value,
-            variable: value
+            type: "text",
+            initial: '',
+            message: value,
+            name: value,
         };
     };
     ArgsMapper.fromList = function (values) {

@@ -12,6 +12,17 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -69,7 +80,7 @@ var MakeCommand = /** @class */ (function (_super) {
     };
     MakeCommand.prototype.getArgsWithPrompts = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, _i, args_1, arg, type, result;
+            var params, _i, args_1, arg, result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -79,17 +90,10 @@ var MakeCommand = /** @class */ (function (_super) {
                     case 1:
                         if (!(_i < args_1.length)) return [3 /*break*/, 4];
                         arg = args_1[_i];
-                        type = arg.choices ? "select" : "text";
-                        return [4 /*yield*/, prompts({
-                                type: type,
-                                message: arg.label,
-                                choices: arg.choices ? arg.choices : [],
-                                name: arg.variable,
-                                initial: arg.default
-                            }, prompts_1.defaultConfig)];
+                        return [4 /*yield*/, prompts(arg, prompts_1.defaultConfig)];
                     case 2:
                         result = _a.sent();
-                        params[arg.variable] = result[arg.variable];
+                        params = __assign({}, params, result);
                         _a.label = 3;
                     case 3:
                         _i++;
@@ -139,9 +143,6 @@ var MakeCommand = /** @class */ (function (_super) {
                                 switch (_a.label) {
                                     case 0:
                                         core_1.Utils.Log.log("[Global arguments]");
-                                        if (command_1.args) {
-                                            command_1.args = ArgsMapper_1.default.fromList(command_1.args);
-                                        }
                                         return [4 /*yield*/, this.getArgsWithPrompts(command_1.args)];
                                     case 1: return [2 /*return*/, _a.sent()];
                                 }

@@ -13,6 +13,7 @@ var ConfigReader = /** @class */ (function () {
             return require(configPath);
         }
         catch (err) {
+            core_1.Utils.Log.log(err);
             return null;
         }
     };

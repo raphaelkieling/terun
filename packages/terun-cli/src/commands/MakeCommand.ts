@@ -24,19 +24,15 @@ export class MakeCommand extends Command {
     }
 
     private async getArgsWithPrompts(args: IArgs[]): Promise<object> {
-        const params: any = {};
+        let params: any = {};
         for (const arg of args) {
-            const type = arg.choices ? "select" : "text";
 
-            const result = await prompts({
-                type,
-                message: arg.label,
-                choices: arg.choices ? arg.choices : [],
-                name: arg.variable,
-                initial: arg.default
-            }, defaultConfig);
+            const result = await prompts(arg, defaultConfig);
 
-            params[arg.variable] = result[arg.variable];
+            params = {
+                ...params,
+                ...result
+            }
         }
         return params;
     }
@@ -80,12 +76,12 @@ export class MakeCommand extends Command {
 
             generator.hooks.global.tapPromise("CLI", async () => {
                 Utils.Log.log("[Global arguments]");
-
-                if (command.args) {
-                    command.args = ArgsMapper.fromList(command.args);
-                }
-
                 return await this.getArgsWithPrompts(command.args);
+
+                // if (command.args) {
+                //     command.args = ArgsMapper.fromList(command.args);
+                // }
+
             });
 
             await generator.init();

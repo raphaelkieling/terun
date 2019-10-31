@@ -3,9 +3,10 @@ import { IArgs } from "@terun/core/dist/types/interfaces/IArgs";
 export default class ArgsMapper {
     static fromString(value: string): IArgs {
         return {
-            default: '',
-            label: value,
-            variable: value
+            type: "text",
+            initial: '',
+            message: value,
+            name: value,
         }
     }
 
