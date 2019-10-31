@@ -1,9 +1,9 @@
 import { createPromp } from '@terun/cli/dist/utils/prompts';
 import IPlugin, { Hooks } from '@terun/core/dist/types/interfaces/IPlugin';
-import { Utils } from '@terun/core';
+import { log } from '@terun/core/dist/utils/log';
 
 type EntityPluginOptions = {
-    basePath: string;
+    dictionary?: { [key: string]: string };
 }
 
 class EntityPlugin implements IPlugin {
@@ -13,15 +13,16 @@ class EntityPlugin implements IPlugin {
 
 
     constructor(params: EntityPluginOptions) {
-        this.options = params;
+        this.options = Object.assign({}, params, {
+            dictionary: {}
+        });
     }
 
     async makeQuestions() {
-        let data = {};
         let lastFieldName = null;
         const fields = [];
 
-        Utils.Log.log("------------------------")
+        log("------------------------")
 
         const { entity_name } = await createPromp({
             type: "text",
@@ -30,6 +31,8 @@ class EntityPlugin implements IPlugin {
         });
 
         do {
+            log('\n');
+
             const { field_name } = await createPromp({
                 type: "text",
                 message: "New field name (blank to stop)",
@@ -46,22 +49,26 @@ class EntityPlugin implements IPlugin {
                 name: "field_type",
                 initial: "string",
                 choices: [
-                    ...this.fieldTypes.map((el, index) => ({ title: el, value: el }))
+                    ...this.fieldTypes.map(el => ({ title: el, value: el }))
                 ]
             });
 
             fields.push({
-
-            })
+                name: field_name,
+                type: field_type,
+                resolvedType: this.options.dictionary ? this.options.dictionary[field_type] : null
+            });
         } while (lastFieldName != null || lastFieldName == '');
 
-        return data;
+        return {
+            fields,
+            entity: entity_name
+        };
     }
 
     install(hooks: Hooks) {
-        hooks.beforeRender.tap("EntityPlugin", async () => {
-            await this.makeQuestions();
-            return { hello: 'world' };
+        hooks.global.tapPromise("EntityPlugin", async (source) => {
+            return { ...await this.makeQuestions(), ...source };
         })
     }
 }

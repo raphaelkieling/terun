@@ -5,6 +5,7 @@ export declare type ITransportValidationParams = {
 };
 export interface ITransport {
     name?: string;
+    debug?: boolean;
     from: string;
     to: string;
     args?: IArgs[];

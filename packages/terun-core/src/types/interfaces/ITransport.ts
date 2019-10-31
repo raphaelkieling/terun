@@ -5,6 +5,7 @@ export type ITransportValidationParams = { args: RenderData };
 
 export interface ITransport {
   name?: string;
+  debug?: boolean;
   from: string;
   to: string;
   args?: IArgs[];

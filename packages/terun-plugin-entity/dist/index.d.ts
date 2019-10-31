@@ -1,13 +1,22 @@
 import IPlugin, { Hooks } from '@terun/core/dist/types/interfaces/IPlugin';
 declare type EntityPluginOptions = {
-    basePath: string;
+    dictionary?: {
+        [key: string]: string;
+    };
 };
 declare class EntityPlugin implements IPlugin {
     name: string;
     options: EntityPluginOptions;
     fieldTypes: string[];
     constructor(params: EntityPluginOptions);
-    makeQuestions(): Promise<{}>;
+    makeQuestions(): Promise<{
+        fields: {
+            name: any;
+            type: any;
+            resolvedType: string | null;
+        }[];
+        entity: any;
+    }>;
     install(hooks: Hooks): void;
 }
 export = EntityPlugin;

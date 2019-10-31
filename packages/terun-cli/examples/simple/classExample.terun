@@ -1,0 +1,7 @@
+class {{entity | capitalize}} extends Something{
+    {{#fields}}
+    {{type | capitalize}} {{name}};
+    {{/fields}}
+
+    {{entity}}() {}
+}

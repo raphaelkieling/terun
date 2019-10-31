@@ -52,7 +52,6 @@ var Command_1 = require("./Command");
 var core_1 = require("@terun/core");
 var ConfigReader_1 = require("../ConfigReader");
 var prompts = require("prompts");
-var fs = require("fs");
 var prompts_1 = require("../utils/prompts");
 var ArgsMapper_1 = require("../dataMapper/ArgsMapper");
 var MakeCommand = /** @class */ (function (_super) {
@@ -65,7 +64,8 @@ var MakeCommand = /** @class */ (function (_super) {
     MakeCommand.prototype.configure = function () {
         this
             .readParam('make')
-            .readParam('override');
+            .readParam('override')
+            .readParam('debug');
     };
     MakeCommand.prototype.getArgsWithPrompts = function (args) {
         return __awaiter(this, void 0, void 0, function () {
@@ -101,88 +101,86 @@ var MakeCommand = /** @class */ (function (_super) {
     };
     MakeCommand.prototype.execute = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var commandName, generator, command, globalSource, _i, _a, plugin, transports, _b, transports_1, transport, transportSource, resolvedPaths, defaultIsOverride, fileExists, override, e_1;
+            var commandName, generator, command_1, _i, _a, plugin, transports, _b, transports_1, transport, transportSource, defaultIsOverride, defaultDebug, e_1;
+            var _this = this;
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
-                        console.log('porra');
-                        _c.label = 1;
-                    case 1:
-                        _c.trys.push([1, 14, , 15]);
+                        _c.trys.push([0, 7, , 8]);
                         this.config = ConfigReader_1.ConfigReader.find();
-                        console.log(this.config);
                         if (!this.config) {
                             core_1.Utils.Log.error("Config file terun.js not found");
                             return [2 /*return*/];
                         }
                         commandName = this.params.get('make');
                         generator = new core_1.Generator(this.config);
-                        command = generator.getCommand(commandName);
-                        if (!command) return [3 /*break*/, 12];
-                        globalSource = {};
-                        if (command.plugins) {
-                            for (_i = 0, _a = command.plugins; _i < _a.length; _i++) {
+                        command_1 = generator.getCommand(commandName);
+                        if (!command_1) {
+                            core_1.Utils.Log.error("Command [" + commandName + "] not found on config");
+                            return [2 /*return*/];
+                        }
+                        generator.hooks.fileExists.tapPromise("CLI", function () {
+                            return prompts_1.canOverride();
+                        });
+                        generator.hooks.fileSkipped.tap("CLI", function () {
+                            core_1.Utils.Log.warn("Relax, file skyped");
+                        });
+                        generator.hooks.done.tap("CLI", function () {
+                            core_1.Utils.Log.success("File transported with success!");
+                        });
+                        if (command_1.plugins) {
+                            for (_i = 0, _a = command_1.plugins; _i < _a.length; _i++) {
                                 plugin = _a[_i];
                                 generator.pluginManager.addPlugin(plugin);
                             }
-                            generator.installPlugins();
                         }
-                        if (!command.args) return [3 /*break*/, 3];
-                        command.args = ArgsMapper_1.default.fromList(command.args);
-                        core_1.Utils.Log.log("[Global arguments]");
-                        return [4 /*yield*/, this.getArgsWithPrompts(command.args)];
-                    case 2:
-                        globalSource = _c.sent();
-                        _c.label = 3;
-                    case 3:
-                        transports = command.transports;
+                        generator.hooks.global.tapPromise("CLI", function () { return __awaiter(_this, void 0, void 0, function () {
+                            return __generator(this, function (_a) {
+                                switch (_a.label) {
+                                    case 0:
+                                        core_1.Utils.Log.log("[Global arguments]");
+                                        if (command_1.args) {
+                                            command_1.args = ArgsMapper_1.default.fromList(command_1.args);
+                                        }
+                                        return [4 /*yield*/, this.getArgsWithPrompts(command_1.args)];
+                                    case 1: return [2 /*return*/, _a.sent()];
+                                }
+                            });
+                        }); });
+                        return [4 /*yield*/, generator.init()];
+                    case 1:
+                        _c.sent();
+                        transports = command_1.transports;
                         _b = 0, transports_1 = transports;
-                        _c.label = 4;
-                    case 4:
-                        if (!(_b < transports_1.length)) return [3 /*break*/, 11];
+                        _c.label = 2;
+                    case 2:
+                        if (!(_b < transports_1.length)) return [3 /*break*/, 6];
                         transport = transports_1[_b];
                         core_1.Utils.Log.log("[process]: " + (transport.name || transport.from));
                         transport.args = ArgsMapper_1.default.fromList(transport.args);
                         return [4 /*yield*/, this.getArgsWithPrompts(transport.args)];
-                    case 5:
+                    case 3:
                         transportSource = _c.sent();
-                        return [4 /*yield*/, generator.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource })];
-                    case 6:
-                        resolvedPaths = _c.sent();
                         defaultIsOverride = this.params.get('override') !== true;
-                        fileExists = fs.existsSync(resolvedPaths.to);
-                        if (!(fileExists && defaultIsOverride)) return [3 /*break*/, 8];
-                        return [4 /*yield*/, prompts_1.canOverride()];
-                    case 7:
-                        override = _c.sent();
-                        if (!override) {
-                            core_1.Utils.Log.warn("Relax, file skyped");
-                            return [2 /*return*/];
-                        }
-                        ;
-                        _c.label = 8;
-                    case 8: return [4 /*yield*/, generator.transport({
-                            transportSource: transportSource,
-                            globalSource: globalSource,
-                            transport: transport,
-                        })];
-                    case 9:
+                        defaultDebug = this.params.get('debug') === true;
+                        return [4 /*yield*/, generator.transport({
+                                source: transportSource,
+                                transport: transport,
+                                override: defaultIsOverride,
+                                debug: defaultDebug
+                            })];
+                    case 4:
                         _c.sent();
-                        core_1.Utils.Log.success("File transported with success!");
-                        _c.label = 10;
-                    case 10:
+                        _c.label = 5;
+                    case 5:
                         _b++;
-                        return [3 /*break*/, 4];
-                    case 11: return [3 /*break*/, 13];
-                    case 12:
-                        core_1.Utils.Log.error("Command [" + commandName + "] not found on config");
-                        _c.label = 13;
-                    case 13: return [3 /*break*/, 15];
-                    case 14:
+                        return [3 /*break*/, 2];
+                    case 6: return [3 /*break*/, 8];
+                    case 7:
                         e_1 = _c.sent();
                         console.log(e_1);
-                        return [3 /*break*/, 15];
-                    case 15: return [2 /*return*/];
+                        return [3 /*break*/, 8];
+                    case 8: return [2 /*return*/];
                 }
             });
         });

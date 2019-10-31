@@ -39,9 +39,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var ConfigMapper_1 = require("./types/mappers/ConfigMapper");
 var RenderEngineFactory_1 = require("./types/render/RenderEngineFactory");
-var file_1 = require("./utils/file");
+var utils_1 = require("./utils");
 var PluginManager_1 = require("./types/PluginManager");
 var tapable_1 = require("tapable");
+var fs = require("fs");
 /**
  * Get and render the content files in the
  * destiny file. Use commands in options to create
@@ -52,13 +53,32 @@ var Generator = /** @class */ (function () {
         this.globalConfig = ConfigMapper_1.ConfigMapper.fromConfigExternal(config);
         this.render = RenderEngineFactory_1.default.make(this.globalConfig.engine);
         this.hooks = {
+            global: new tapable_1.AsyncSeriesWaterfallHook(["transport", "source"]),
+            fileExists: new tapable_1.AsyncSeriesBailHook(),
+            fileSkipped: new tapable_1.SyncHook(),
             configure: new tapable_1.SyncHook(["globalConfig"]),
-            onTransport: new tapable_1.SyncHook(["transport", "globalSource", "transportSource"]),
-            beforeRender: new tapable_1.SyncHook(["transport", "localSource"]),
+            onTransport: new tapable_1.SyncHook(["transport", "source"]),
+            beforeRender: new tapable_1.AsyncSeriesWaterfallHook(["transport", "source"]),
             done: new tapable_1.SyncHook()
         };
         this.pluginManager = new PluginManager_1.default();
     }
+    Generator.prototype.init = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        this.installPlugins();
+                        _a = this;
+                        return [4 /*yield*/, this.hooks.global.promise()];
+                    case 1:
+                        _a.globalArg = (_b.sent()) || {};
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     Generator.prototype.getCommand = function (name) {
         return this.globalConfig.commands[name];
     };
@@ -66,22 +86,22 @@ var Generator = /** @class */ (function () {
         this.pluginManager.install(this.hooks);
     };
     Generator.prototype.resolvePaths = function (_a) {
-        var transport = _a.transport, globalSource = _a.globalSource, transportSource = _a.transportSource;
+        var transport = _a.transport, source = _a.source;
         return __awaiter(this, void 0, void 0, function () {
             var basePath, localSource, pathFrom, _b, _c, _d, pathTo, _e, _f, _g;
             return __generator(this, function (_h) {
                 switch (_h.label) {
                     case 0:
                         basePath = this.globalConfig.basePath;
-                        localSource = Object.assign(transportSource, globalSource);
+                        localSource = Object.assign(source);
                         _c = (_b = path).join;
                         _d = [basePath];
-                        return [4 /*yield*/, this.render.render(transport.from, localSource)];
+                        return [4 /*yield*/, this.render.render(transport.from, localSource, this.globalConfig.tag)];
                     case 1:
                         pathFrom = _c.apply(_b, _d.concat([_h.sent()]));
                         _f = (_e = path).join;
                         _g = [basePath];
-                        return [4 /*yield*/, this.render.render(transport.to, localSource)];
+                        return [4 /*yield*/, this.render.render(transport.to, localSource, this.globalConfig.tag)];
                     case 2:
                         pathTo = _f.apply(_e, _g.concat([_h.sent()]));
                         return [2 /*return*/, {
@@ -93,43 +113,55 @@ var Generator = /** @class */ (function () {
         });
     };
     Generator.prototype.transport = function (_a) {
-        var transport = _a.transport, globalSource = _a.globalSource, transportSource = _a.transportSource;
+        var transport = _a.transport, source = _a.source, _b = _a.override, override = _b === void 0 ? false : _b, _c = _a.debug, debug = _c === void 0 ? false : _c;
         return __awaiter(this, void 0, void 0, function () {
-            var localSource, localSourcePlugin, resolvedPaths, fromContentFile, fromContentRendered;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
-                    case 0: return [4 /*yield*/, this.hooks.configure.promise(this.globalConfig)];
-                    case 1:
-                        _b.sent();
-                        return [4 /*yield*/, this.hooks.onTransport.promise(transport, globalSource, transportSource)];
-                    case 2:
-                        _b.sent();
-                        localSource = Object.assign(transportSource, globalSource);
-                        if (!(transport.validator !== null)) return [3 /*break*/, 5];
-                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 4];
+            var localSource, localSourcePlugin, resolvedPaths, fileExists, overrideChoice, fromContentFile, fromContentRendered;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        this.hooks.configure.call(this.globalConfig);
+                        this.hooks.onTransport.call(transport, source);
+                        localSource = Object.assign(source, this.globalArg);
+                        if (debug) {
+                            utils_1.default.Log.log(JSON.stringify(localSource, null, 2));
+                        }
+                        if (!(transport.validator !== null)) return [3 /*break*/, 3];
+                        if (!(typeof transport.validator === "function")) return [3 /*break*/, 2];
                         return [4 /*yield*/, transport.validator({ args: localSource })];
-                    case 3:
-                        if (!(_b.sent()))
+                    case 1:
+                        if (!(_d.sent()))
                             return [2 /*return*/];
-                        return [3 /*break*/, 5];
-                    case 4:
+                        return [3 /*break*/, 3];
+                    case 2:
                         if (typeof transport.validator === "boolean") {
                             if (!transport.validator)
                                 return [2 /*return*/];
                         }
-                        _b.label = 5;
-                    case 5: return [4 /*yield*/, this.hooks.beforeRender.promise(localSource)];
+                        _d.label = 3;
+                    case 3: return [4 /*yield*/, this.hooks.beforeRender.promise(localSource)];
+                    case 4:
+                        localSourcePlugin = (_d.sent()) || localSource;
+                        return [4 /*yield*/, this.resolvePaths({ transport: transport, source: source })];
+                    case 5:
+                        resolvedPaths = _d.sent();
+                        fileExists = fs.existsSync(resolvedPaths.to);
+                        if (!(fileExists && override)) return [3 /*break*/, 7];
+                        return [4 /*yield*/, this.hooks.fileExists.promise()];
                     case 6:
-                        localSourcePlugin = (_b.sent()) || localSource;
-                        return [4 /*yield*/, this.resolvePaths({ transport: transport, globalSource: globalSource, transportSource: transportSource })];
+                        overrideChoice = _d.sent();
+                        if (!overrideChoice) {
+                            this.hooks.fileSkipped.call();
+                            return [2 /*return*/];
+                        }
+                        ;
+                        _d.label = 7;
                     case 7:
-                        resolvedPaths = _b.sent();
-                        fromContentFile = file_1.getUtf8File(resolvedPaths.from);
-                        return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin)];
+                        fromContentFile = utils_1.default.File.getUtf8File(resolvedPaths.from);
+                        return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin, this.globalConfig.tag)];
                     case 8:
-                        fromContentRendered = _b.sent();
-                        file_1.writeUtf8File(resolvedPaths.to, fromContentRendered);
-                        this.hooks.done.call(transport, globalSource, transportSource);
+                        fromContentRendered = _d.sent();
+                        utils_1.default.File.writeUtf8File(resolvedPaths.to, fromContentRendered);
+                        this.hooks.done.call(transport, source);
                         return [2 /*return*/];
                 }
             });

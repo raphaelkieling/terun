@@ -12,26 +12,28 @@ import { SyncHook } from "tapable";
  */
 declare class Generator {
     globalConfig: Config;
+    globalArg: any;
     render: IRenderEngine;
     pluginManager: PluginManager;
     hooks: {
         [key: string]: SyncHook;
     };
     constructor(config: IConfigExternal);
+    init(): Promise<void>;
     getCommand(name: string): Command | undefined;
     installPlugins(): void;
-    resolvePaths({ transport, globalSource, transportSource }: {
+    resolvePaths({ transport, source }: {
         transport: Transport;
-        globalSource: object;
-        transportSource: object;
+        source: object;
     }): Promise<{
         from: string;
         to: string;
     }>;
-    transport({ transport, globalSource, transportSource }: {
+    transport({ transport, source, override, debug }: {
         transport: Transport;
-        globalSource: object;
-        transportSource: object;
+        source: object;
+        override?: boolean;
+        debug?: boolean;
     }): Promise<void>;
 }
 export default Generator;

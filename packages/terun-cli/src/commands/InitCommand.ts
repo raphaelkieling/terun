@@ -2,7 +2,6 @@ import { Command } from "./Command";
 import { ConfigReader } from "../ConfigReader";
 import { canOverride } from "../utils/prompts";
 import { Utils } from "@terun/core";
-import * as path from "path";
 
 export class InitCommand extends Command {
     constructor() {

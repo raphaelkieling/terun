@@ -1,4 +1,15 @@
 "use strict";
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -35,23 +46,24 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 var prompts_1 = require("@terun/cli/dist/utils/prompts");
-var core_1 = require("@terun/core");
+var log_1 = require("@terun/core/dist/utils/log");
 var EntityPlugin = /** @class */ (function () {
     function EntityPlugin(params) {
         this.name = 'Entity Resolver';
         this.fieldTypes = ['array', 'simple_array', 'json_array', 'object', 'boolean', 'integer', 'smallint', 'bigint', 'string', 'text', 'datetime', 'datetimetz', 'date', 'time', 'decimal', 'float', 'blob', 'guid'];
-        this.options = params;
+        this.options = Object.assign({}, params, {
+            dictionary: {}
+        });
     }
     EntityPlugin.prototype.makeQuestions = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var data, lastFieldName, fields, entity_name, field_name, field_type;
+            var lastFieldName, fields, entity_name, field_name, field_type;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        data = {};
                         lastFieldName = null;
                         fields = [];
-                        core_1.Utils.Log.log("------------------------");
+                        log_1.log("------------------------");
                         return [4 /*yield*/, prompts_1.createPromp({
                                 type: "text",
                                 message: "The entity shortcut name",
@@ -60,11 +72,13 @@ var EntityPlugin = /** @class */ (function () {
                     case 1:
                         entity_name = (_a.sent()).entity_name;
                         _a.label = 2;
-                    case 2: return [4 /*yield*/, prompts_1.createPromp({
-                            type: "text",
-                            message: "New field name (blank to stop)",
-                            name: "field_name"
-                        })];
+                    case 2:
+                        log_1.log('\n');
+                        return [4 /*yield*/, prompts_1.createPromp({
+                                type: "text",
+                                message: "New field name (blank to stop)",
+                                name: "field_name"
+                            })];
                     case 3:
                         field_name = (_a.sent()).field_name;
                         lastFieldName = field_name;
@@ -75,29 +89,37 @@ var EntityPlugin = /** @class */ (function () {
                                 message: "Field type [default string]",
                                 name: "field_type",
                                 initial: "string",
-                                choices: this.fieldTypes.map(function (el, index) { return ({ title: el, value: el }); }).slice()
+                                choices: this.fieldTypes.map(function (el) { return ({ title: el, value: el }); }).slice()
                             })];
                     case 4:
                         field_type = (_a.sent()).field_type;
-                        fields.push({});
+                        fields.push({
+                            name: field_name,
+                            type: field_type,
+                            resolvedType: this.options.dictionary ? this.options.dictionary[field_type] : null
+                        });
                         _a.label = 5;
                     case 5:
                         if (lastFieldName != null || lastFieldName == '') return [3 /*break*/, 2];
                         _a.label = 6;
-                    case 6: return [2 /*return*/, data];
+                    case 6: return [2 /*return*/, {
+                            fields: fields,
+                            entity: entity_name
+                        }];
                 }
             });
         });
     };
     EntityPlugin.prototype.install = function (hooks) {
         var _this = this;
-        hooks.beforeRender.tap("EntityPlugin", function () { return __awaiter(_this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.makeQuestions()];
-                    case 1:
-                        _a.sent();
-                        return [2 /*return*/, { hello: 'world' }];
+        hooks.global.tapPromise("EntityPlugin", function (source) { return __awaiter(_this, void 0, void 0, function () {
+            var _a;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        _a = [{}];
+                        return [4 /*yield*/, this.makeQuestions()];
+                    case 1: return [2 /*return*/, __assign.apply(void 0, _a.concat([_b.sent(), source]))];
                 }
             });
         }); });

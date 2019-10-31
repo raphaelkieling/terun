@@ -42,7 +42,7 @@ var LiquidEngine = /** @class */ (function () {
     function LiquidEngine() {
         this.engine = new liquidjs_1.Liquid();
     }
-    LiquidEngine.prototype.render = function (template, args) {
+    LiquidEngine.prototype.render = function (template, args, tags) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {

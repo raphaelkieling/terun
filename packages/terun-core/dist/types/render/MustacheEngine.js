@@ -42,11 +42,11 @@ var MustacheEngine = /** @class */ (function () {
     function MustacheEngine() {
         this.engine = Mustache;
     }
-    MustacheEngine.prototype.render = function (template, args) {
+    MustacheEngine.prototype.render = function (template, args, tags) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 args = Object.assign(args, Pipeline_1.defaultPipelines);
-                return [2 /*return*/, this.engine.render(template, args)];
+                return [2 /*return*/, this.engine.render(template, args, {}, tags)];
             });
         });
     };
