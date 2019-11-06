@@ -26,7 +26,6 @@
     },
     "dependencies": {
         "@terun/core": "^1.1.2",
-        "@types/ascii-art": "^1.4.0",
         "@types/prompts": "^2.0.1",
         "@types/yargs": "^13.0.3",
         "prompts": "^2.2.1",
