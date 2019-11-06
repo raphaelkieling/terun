@@ -6,9 +6,8 @@ export function getCurrentFolderPath() {
 
 export function printLogo(): Promise<void> {
     return new Promise((resolve) => {
-        logo.font("terun", "Doom", (rendered: string) => {
-            console.log(rendered);
-            resolve();
-        });
+        console.log("-> Terun");
+
+        resolve();
     })
 }

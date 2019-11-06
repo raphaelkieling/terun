@@ -1,26 +1,10 @@
-const EntityPlugin = require('../../../terun-plugin-entity/dist/index');
-const NotifyPlugin = require('../../../terun-plugin-notify/dist/index');
-
 module.exports = {
     commands: {
         example: {
-            plugins: [
-                new EntityPlugin(),
-                // new NotifyPlugin()
-            ],
-            args: [{
-                label: "Need save action?",
-                variable: "needSave",
-                choices: [
-                    { title: 'Yes!', value: true },
-                    { title: 'No!', value: null }
-                ]
-            }],
             transports: [{
-                validator: ({ args }) => args.needSave,
-                from: 'classExample.terun',
-                to: '{{entity}}.dart',
-                args: [],
+                from: 'simple.terun',
+                to: 'simple_to.txt',
+                args: ["arg1"],
             }]
         }
     }
