@@ -56,6 +56,9 @@ export class MakeCommand extends Command {
                 return;
             }
 
+            if (command.hook && typeof command.hook === 'function')
+                command.hook(generator.hooks);
+
             generator.hooks.fileExists.tapPromise("CLI", () => {
                 return canOverride();
             });
@@ -77,11 +80,6 @@ export class MakeCommand extends Command {
             generator.hooks.global.tapPromise("CLI", async () => {
                 Utils.Log.log("[Global arguments]");
                 return await this.getArgsWithPrompts(command.args);
-
-                // if (command.args) {
-                //     command.args = ArgsMapper.fromList(command.args);
-                // }
-
             });
 
             await generator.init();

@@ -26,12 +26,12 @@ class Generator {
     this.globalConfig = ConfigMapper.fromConfigExternal(config);
     this.render = RenderFactory.make(this.globalConfig.engine);
     this.hooks = {
-      global: new AsyncSeriesWaterfallHook(["transport", "source"]),
+      global: new AsyncSeriesWaterfallHook(["source"]),
       fileExists: new AsyncSeriesBailHook(),
       fileSkipped: new SyncHook(),
       configure: new SyncHook(["globalConfig"]),
       onTransport: new SyncHook(["transport", "source"]),
-      beforeRender: new AsyncSeriesWaterfallHook(["transport", "source"]),
+      beforeRender: new AsyncSeriesWaterfallHook(["source", "transport", "compiler"]),
       done: new SyncHook()
     };
     this.pluginManager = new PluginManager();
@@ -39,8 +39,9 @@ class Generator {
 
   async init(): Promise<void> {
     this.installPlugins();
-    this.globalArg = await this.hooks.global.promise() || {};
+    this.globalArg = await this.hooks.global.promise({}) || {};
   }
+
 
   public getCommand(name: string): Command | undefined {
     return this.globalConfig.commands[name];
@@ -102,7 +103,8 @@ class Generator {
       }
     }
 
-    const localSourcePlugin: any = await this.hooks.beforeRender.promise(localSource) || localSource;
+
+    const localSourcePlugin: any = await this.hooks.beforeRender.promise(localSource, transport, this.render) || localSource;
 
     const resolvedPaths = await this.resolvePaths({ transport, source });
 
@@ -120,6 +122,8 @@ class Generator {
 
     // Get file content
     const fromContentFile: string = Utils.File.getUtf8File(resolvedPaths.from);
+
+
     // Render the content file with args FROM PLUGIN
     const fromContentRendered: string = await this.render.render(
       fromContentFile,

@@ -8,10 +8,12 @@ export class Command implements ICommand {
   public plugins?: IPlugin[];
   public args: IArgs[];
   public transports: Transport[];
+  public hook: any;
 
-  constructor({ name, args, transports, plugins }: ICommand) {
+  constructor({ name, args, transports, plugins, hook }: ICommand) {
     this.name = name;
     this.args = args || [];
+    this.hook = hook;
     this.plugins = plugins || [];
     this.transports = transports.map((item) => new Transport(item));
   }

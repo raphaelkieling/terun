@@ -53,12 +53,12 @@ var Generator = /** @class */ (function () {
         this.globalConfig = ConfigMapper_1.ConfigMapper.fromConfigExternal(config);
         this.render = RenderEngineFactory_1.default.make(this.globalConfig.engine);
         this.hooks = {
-            global: new tapable_1.AsyncSeriesWaterfallHook(["transport", "source"]),
+            global: new tapable_1.AsyncSeriesWaterfallHook(["source"]),
             fileExists: new tapable_1.AsyncSeriesBailHook(),
             fileSkipped: new tapable_1.SyncHook(),
             configure: new tapable_1.SyncHook(["globalConfig"]),
             onTransport: new tapable_1.SyncHook(["transport", "source"]),
-            beforeRender: new tapable_1.AsyncSeriesWaterfallHook(["transport", "source"]),
+            beforeRender: new tapable_1.AsyncSeriesWaterfallHook(["source", "transport", "compiler"]),
             done: new tapable_1.SyncHook()
         };
         this.pluginManager = new PluginManager_1.default();
@@ -71,7 +71,7 @@ var Generator = /** @class */ (function () {
                     case 0:
                         this.installPlugins();
                         _a = this;
-                        return [4 /*yield*/, this.hooks.global.promise()];
+                        return [4 /*yield*/, this.hooks.global.promise({})];
                     case 1:
                         _a.globalArg = (_b.sent()) || {};
                         return [2 /*return*/];
@@ -138,7 +138,7 @@ var Generator = /** @class */ (function () {
                                 return [2 /*return*/];
                         }
                         _d.label = 3;
-                    case 3: return [4 /*yield*/, this.hooks.beforeRender.promise(localSource)];
+                    case 3: return [4 /*yield*/, this.hooks.beforeRender.promise(localSource, transport, this.render)];
                     case 4:
                         localSourcePlugin = (_d.sent()) || localSource;
                         return [4 /*yield*/, this.resolvePaths({ transport: transport, source: source })];

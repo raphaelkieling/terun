@@ -7,5 +7,6 @@ export declare class Command implements ICommand {
     plugins?: IPlugin[];
     args: IArgs[];
     transports: Transport[];
-    constructor({ name, args, transports, plugins }: ICommand);
+    hook: any;
+    constructor({ name, args, transports, plugins, hook }: ICommand);
 }

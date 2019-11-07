@@ -123,6 +123,8 @@ var MakeCommand = /** @class */ (function (_super) {
                             core_1.Utils.Log.error("Command [" + commandName + "] not found on config");
                             return [2 /*return*/];
                         }
+                        if (command_1.hook && typeof command_1.hook === 'function')
+                            command_1.hook(generator.hooks);
                         generator.hooks.fileExists.tapPromise("CLI", function () {
                             return prompts_1.canOverride();
                         });
