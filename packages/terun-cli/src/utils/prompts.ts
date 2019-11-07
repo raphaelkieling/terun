@@ -1,7 +1,6 @@
 import * as prompts from "prompts";
 import { Utils } from "@terun/core";
 
-
 /**
  * Exit application with CTRL+C for example
  */

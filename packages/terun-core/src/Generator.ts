@@ -127,8 +127,6 @@ class Generator {
       this.globalConfig.tag
     );
 
-    
-    console.log(resolvedPaths.to)
     await Utils.File.createDir(resolvedPaths.to);
 
     Utils.File.writeUtf8File(resolvedPaths.to, fromContentRendered);

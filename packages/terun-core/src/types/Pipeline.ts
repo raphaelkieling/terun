@@ -3,9 +3,9 @@ import { lowerCase, upperCase, underscore, capitalize, clearWhitespace, firstLow
 export const defaultPipelines = {
     uppercase: upperCase,
     lowercase: lowerCase,
-    undersoce: underscore,
+    underscore: underscore,
     capitalize,
-    clear_space: clearWhitespace,
-    first_lower: firstLower,
-    first_upper: firstUpper
+    clearspace: clearWhitespace,
+    firstlower: firstLower,
+    firstupper: firstUpper
 };

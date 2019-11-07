@@ -51,9 +51,9 @@ var EntityPlugin = /** @class */ (function () {
     function EntityPlugin(params) {
         this.name = 'Entity Resolver';
         this.fieldTypes = ['array', 'simple_array', 'json_array', 'object', 'boolean', 'integer', 'smallint', 'bigint', 'string', 'text', 'datetime', 'datetimetz', 'date', 'time', 'decimal', 'float', 'blob', 'guid'];
-        this.options = Object.assign({}, params, {
+        this.options = Object.assign({}, {
             dictionary: {}
-        });
+        }, params);
     }
     EntityPlugin.prototype.makeQuestions = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -89,21 +89,20 @@ var EntityPlugin = /** @class */ (function () {
                                 message: "Field type [default string]",
                                 name: "field_type",
                                 initial: "string",
-                                choices: this.fieldTypes.map(function (el) { return ({ title: el, value: el }); }).slice()
+                                choices: this.fieldTypes.map(function (el) { return ({ title: el, value: el }); })
                             })];
                     case 4:
                         field_type = (_a.sent()).field_type;
                         fields.push({
                             name: field_name,
-                            type: field_type,
-                            resolvedType: this.options.dictionary ? this.options.dictionary[field_type] : null
+                            type: this.options.dictionary && this.options.dictionary[field_type] || field_type
                         });
                         _a.label = 5;
                     case 5:
                         if (lastFieldName != null || lastFieldName == '') return [3 /*break*/, 2];
                         _a.label = 6;
                     case 6: return [2 /*return*/, {
-                            fields: fields,
+                            fields: fields.map(function (field, i) { return (__assign({}, field, { last: fields.length - 1 === i })); }),
                             entity: entity_name
                         }];
                 }

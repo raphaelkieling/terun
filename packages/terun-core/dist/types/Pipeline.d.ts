@@ -2,9 +2,9 @@ import { lowerCase, upperCase, underscore, capitalize, clearWhitespace, firstLow
 export declare const defaultPipelines: {
     uppercase: typeof upperCase;
     lowercase: typeof lowerCase;
-    undersoce: typeof underscore;
+    underscore: typeof underscore;
     capitalize: typeof capitalize;
-    clear_space: typeof clearWhitespace;
-    first_lower: typeof firstLower;
-    first_upper: typeof firstUpper;
+    clearspace: typeof clearWhitespace;
+    firstlower: typeof firstLower;
+    firstupper: typeof firstUpper;
 };

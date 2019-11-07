@@ -11,11 +11,10 @@ class EntityPlugin implements IPlugin {
     options: EntityPluginOptions;
     fieldTypes: string[] = ['array', 'simple_array', 'json_array', 'object', 'boolean', 'integer', 'smallint', 'bigint', 'string', 'text', 'datetime', 'datetimetz', 'date', 'time', 'decimal', 'float', 'blob', 'guid'];
 
-
     constructor(params: EntityPluginOptions) {
-        this.options = Object.assign({}, params, {
+        this.options = Object.assign({}, {
             dictionary: {}
-        });
+        }, params);
     }
 
     async makeQuestions() {
@@ -48,20 +47,20 @@ class EntityPlugin implements IPlugin {
                 message: "Field type [default string]",
                 name: "field_type",
                 initial: "string",
-                choices: [
-                    ...this.fieldTypes.map(el => ({ title: el, value: el }))
-                ]
+                choices: this.fieldTypes.map(el => ({ title: el, value: el }))
             });
 
             fields.push({
                 name: field_name,
-                type: field_type,
-                resolvedType: this.options.dictionary ? this.options.dictionary[field_type] : null
+                type: this.options.dictionary && this.options.dictionary[field_type] || field_type
             });
         } while (lastFieldName != null || lastFieldName == '');
 
         return {
-            fields,
+            fields: fields.map((field, i) => ({
+                ...field,
+                last: fields.length-1 === i
+            })),
             entity: entity_name
         };
     }

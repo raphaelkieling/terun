@@ -160,7 +160,6 @@ var Generator = /** @class */ (function () {
                         return [4 /*yield*/, this.render.render(fromContentFile, localSourcePlugin, this.globalConfig.tag)];
                     case 8:
                         fromContentRendered = _d.sent();
-                        console.log(resolvedPaths.to);
                         return [4 /*yield*/, utils_1.default.File.createDir(resolvedPaths.to)];
                     case 9:
                         _d.sent();

@@ -4,11 +4,13 @@ module.exports = {
     commands: {
         example: {
             plugins: [
-                new EntityPlugin(),
+                new EntityPlugin({
+                    hook: 'beforeRender'
+                }),
             ],
             args: [{
-                label: "Need save action?",
-                variable: "needSave",
+                message: "Need save action?",
+                name: "needSave",
                 choices: [
                     { title: 'Yes!', value: true },
                     { title: 'No!', value: null }

@@ -1,4 +1,4 @@
-import * as logo from 'ascii-art';
+import chalk from 'chalk';
 
 export function getCurrentFolderPath() {
     return process.cwd();
@@ -6,8 +6,7 @@ export function getCurrentFolderPath() {
 
 export function printLogo(): Promise<void> {
     return new Promise((resolve) => {
-        console.log("-> Terun");
-
+        console.log(chalk.green('-> Terun\n'))
         resolve();
     })
 }

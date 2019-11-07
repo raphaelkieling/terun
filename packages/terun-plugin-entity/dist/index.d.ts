@@ -11,9 +11,9 @@ declare class EntityPlugin implements IPlugin {
     constructor(params: EntityPluginOptions);
     makeQuestions(): Promise<{
         fields: {
+            last: boolean;
             name: any;
             type: any;
-            resolvedType: string | null;
         }[];
         entity: any;
     }>;
