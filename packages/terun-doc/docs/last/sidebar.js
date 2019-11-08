@@ -10,7 +10,11 @@ module.exports = [
     {
         title: 'Reference',
         children: [
-            '/last/reference/config'
+            '/last/reference/config',
+            '/last/reference/commands',
+            '/last/reference/engine',
+            '/last/reference/plugins',
+            '/last/reference/hooks'
         ]
     }
 ]
