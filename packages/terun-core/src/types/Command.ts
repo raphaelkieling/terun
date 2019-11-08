@@ -4,14 +4,12 @@ import { IArgs } from "./interfaces/IArgs";
 import IPlugin from './interfaces/IPlugin';
 
 export class Command implements ICommand {
-  public name?: string;
   public plugins?: IPlugin[];
   public args: IArgs[];
   public transports: Transport[];
   public hook: any;
 
-  constructor({ name, args, transports, plugins, hook }: ICommand) {
-    this.name = name;
+  constructor({ args, transports, plugins, hook }: ICommand) {
     this.args = args || [];
     this.hook = hook;
     this.plugins = plugins || [];
