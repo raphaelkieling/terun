@@ -2,7 +2,7 @@ import { IRenderEngine } from "../src/types/interfaces/IRenderEngine";
 import { MustacheEngine } from "../src/types/render/MustacheEngine";
 import RenderEngineFactory from "../src/types/render/RenderEngineFactory";
 
-describe("Render:", () => {
+describe("Render Mustache:", () => {
   let render: IRenderEngine;
   let tags: string[];
 
@@ -15,25 +15,33 @@ describe("Render:", () => {
     expect(render).toBeInstanceOf(MustacheEngine);
   });
 
-  it("should render 'Something'", () => {
-    const rendered = render.render(`Something`, {}, tags);
+  it("should be a Promise instance when i gonna render", () => {
+    expect(render.render('', {}, tags)).toBeInstanceOf(Promise)
+  })
+
+  it("should render 'Something'", async (done) => {
+    const rendered = await render.render(`Something`, {}, tags)
     expect(rendered).toBe("Something");
+    done();
   });
 
-  it("should render 'Something Else' when pass {{name}} with object", () => {
-    const rendered = render.render(`{{name}}`, { name: "Something Else" }, tags);
+  it("should render 'Something Else' when receive {{name}} with object", async (done) => {
+    const rendered = await render.render(`{{name}}`, { name: "Something Else" }, tags);
     expect(rendered).toBe("Something Else");
+    done()
   });
 
-  it("should render 'Something Else' when pass {{object.name}} with object", () => {
-    const rendered = render.render(`{{object.name}}`, {
+  it("should render 'Something Else' when receive {{object.name}} with object", async (done) => {
+    const rendered = await render.render(`{{object.name}}`, {
       object: { name: "Something Else" },
     }, tags);
     expect(rendered).toBe("Something Else");
+    done();
   });
 
-  it("should be empty when has only a mustache without args", () => {
-    const rendered = render.render("{{empty}}", { empty: 'oi' }, tags);
+  it("should be empty when has only a mustache without args", async (done) => {
+    const rendered = await render.render("{{empty}}", {}, tags);
     expect(rendered).toBe("");
+    done();
   });
 });
