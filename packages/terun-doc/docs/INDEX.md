@@ -19,23 +19,19 @@ footer: Made with ❤ by people
 Create your config file:
 
 ```javascript
-const NotifyPlugin = require("@terun/plugin-notify");
+const exampleCommand = {
+    transports: [
+        {
+            from: 'from.terun',
+            to: 'to.html',
+            args: ["EntityName"],
+        }
+    ]
+};
 
 module.exports = {
-    engine: "mustache",
     commands: {
-        example: {
-            plugins: [
-                new NotifyPlugin()
-            ],
-            transports: [
-                {
-                    from: 'from.terun',
-                    to: 'to.html',
-                    args: ["EntityName"],
-                }
-            ]
-        }
+        example: exampleCommand
     }
 };
 ```

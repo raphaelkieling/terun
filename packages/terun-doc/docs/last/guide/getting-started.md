@@ -5,6 +5,9 @@ sidebar: true
 
 ## Installation
 
+* Install nodejs
+* Install npm
+
 Install with npm or yarn
 
 ```bash
