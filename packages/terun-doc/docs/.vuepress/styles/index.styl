@@ -30,7 +30,6 @@ pre,
 pre[class*="language-"],
 pre code[class*="language-"]
   color: #EFEFEF
-  background-color: $backgroundColor !important
   border-radius: 0 !important
 
 pre[class*="language-"] .token.attr-name,
@@ -82,8 +81,6 @@ pre code[class*="language-"] .token.comment
 
 #app .sidebar
   width  17rem !important
-  border-right none !important
-  background-color $backgroundColor !important
 
  .sidebar-group:not(.collapsable) .sidebar-heading,
   .sidebar-heading
@@ -91,34 +88,16 @@ pre code[class*="language-"] .token.comment
     letter-spacing 0.13rem !important
     font-size 12px !important
     font-weight 800 !important
-    color #C1CDDB !important
-
-  a.sidebar-link
-    color #fff !important
-    border-left 0.125rem solid transparent !important
 
   a.sidebar-link:hover
-    color #fff !important
     opacity 0.5 !important
-    border-left-color rgba(255, 255, 255, 0.7) !important
 
   a.sidebar-link:active
-    color #fff !important
     opacity 0.7 !important
-    border-left-color $accentColor !important
-
-  a.sidebar-link.active
-    color #fff !important
-    border-left-color $accentColor !important
 
   @media (max-width 959px)
     .sidebar .nav-links
       border-bottom 2px solid rgba(255, 255, 255, 0.1)
-
-  @media (max-width 719px)
-    .nav-links a.nav-link, .nav-links a.repo-link, .nav-links .dropdown-title
-      color #fff
-
 /******************************
   USERS
 *******************************/
