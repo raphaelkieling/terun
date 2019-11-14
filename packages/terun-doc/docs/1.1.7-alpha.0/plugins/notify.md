@@ -2,6 +2,12 @@
 
 Used to notify when Terun done your work.
 
+## Install
+
+```sh
+npm install -D @terun/plugin-notify
+```
+
 ```js
 // terun.js
 const Notify = require("@terun/plugin-notify")

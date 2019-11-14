@@ -13,6 +13,46 @@ Terun is a template generator to any purpose. Create code from template files an
 yarn global @terun/cli
 ```
 
+# Getting start
+
+
+### Template definition
+
+
+Create your config file:
+
+```javascript
+module.exports = {
+    commands: {
+        example: {
+            args:["EntityName"],
+            transports: [
+                {
+                    from: 'from.terun',
+                    to: 'to.html'
+                }
+            ]
+        }
+    }
+};
+```
+
+Define your template independente of language:
+
+```javascript
+class {{EntityName | capitalize}}Entity{
+    constructor(){}
+}
+```
+
+Run on terminal `terun --make example`:
+
+```javascript
+class PersonEntity{
+    constructor(){}
+}
+```
+
 # Documentation
 
 Here: https://terun.netlify.com/

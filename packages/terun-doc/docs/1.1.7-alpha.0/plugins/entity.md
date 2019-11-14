@@ -2,6 +2,12 @@
 
 Entity Plugin is used to create files based in a definition that you do.
 
+## Install
+
+```sh
+npm install -D @terun/plugin-entity
+```
+
 ## Config
 
 Params:
