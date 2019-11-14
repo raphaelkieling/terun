@@ -15,10 +15,6 @@ yarn global @terun/cli
 
 # Getting start
 
-
-### Template definition
-
-
 Create your config file:
 
 ```javascript
