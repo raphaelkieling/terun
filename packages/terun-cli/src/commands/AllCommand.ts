@@ -2,6 +2,7 @@ import { Command } from "./Command";
 import { IConfigExternal } from "@terun/core/lib/types/interfaces/IConfigExternal";
 import { Utils } from "@terun/core";
 import { ConfigReader } from "../ConfigReader";
+import chalk from "chalk";
 
 export class AllCommand extends Command {
   private config: IConfigExternal | null = null;
@@ -23,8 +24,9 @@ export class AllCommand extends Command {
     try {
       const commands: string[] = Object.keys(this.config.commands);
       for (const command of commands) {
-        Utils.Log.success(`- ${command}`);
+        console.log(chalk.green(`- ${command}`));
       }
+      console.log("\n");
     } catch (e) {
       Utils.Log.error(e);
     }
