@@ -7,9 +7,13 @@ import { ConfigMapper } from "./types/mappers/ConfigMapper";
 import RenderFactory from "./types/render/RenderEngineFactory";
 import { Transport } from "./types/Transport";
 import Utils from "./utils";
-import PluginManager from './types/PluginManager';
-import { SyncHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook, AsyncSeriesHook } from "tapable";
-import * as fs from 'fs';
+import PluginManager from "./types/PluginManager";
+import {
+  SyncHook,
+  AsyncSeriesBailHook,
+  AsyncSeriesWaterfallHook
+} from "tapable";
+import * as fs from "fs";
 /**
  * Get and render the content files in the
  * destiny file. Use commands in options to create
@@ -31,7 +35,11 @@ class Generator {
       fileSkipped: new SyncHook(),
       configure: new SyncHook(["globalConfig"]),
       onTransport: new SyncHook(["transport", "source"]),
-      beforeRender: new AsyncSeriesWaterfallHook(["source", "transport", "compiler"]),
+      beforeRender: new AsyncSeriesWaterfallHook([
+        "source",
+        "transport",
+        "compiler"
+      ]),
       done: new SyncHook()
     };
     this.pluginManager = new PluginManager();
@@ -39,9 +47,8 @@ class Generator {
 
   async init(): Promise<void> {
     this.installPlugins();
-    this.globalArg = await this.hooks.global.promise({}) || {};
+    this.globalArg = (await this.hooks.global.promise({})) || {};
   }
-
 
   public getCommand(name: string): Command | undefined {
     return this.globalConfig.commands[name];
@@ -57,22 +64,26 @@ class Generator {
   }: {
     transport: Transport;
     source: object;
-  }): Promise<{ from: string, to: string }> {
+  }): Promise<{ from: string; to: string }> {
     const { basePath } = this.globalConfig;
     const localSource: object = Object.assign(source);
     const pathFrom: string = path.join(
       basePath,
-      await this.render.render(transport.from, localSource, this.globalConfig.tag),
+      await this.render.render(
+        transport.from,
+        localSource,
+        this.globalConfig.tag
+      )
     );
     const pathTo: string = path.join(
       basePath,
-      await this.render.render(transport.to, localSource, this.globalConfig.tag),
+      await this.render.render(transport.to, localSource, this.globalConfig.tag)
     );
 
     return {
       from: pathFrom,
       to: pathTo
-    }
+    };
   }
 
   public async transport({
@@ -86,7 +97,7 @@ class Generator {
     override?: boolean;
     debug?: boolean;
   }): Promise<void> {
-    this.hooks.configure.call(this.globalConfig)
+    this.hooks.configure.call(this.globalConfig);
     this.hooks.onTransport.call(transport, source);
 
     const localSource: object = Object.assign(source, this.globalArg);
@@ -97,14 +108,18 @@ class Generator {
 
     if (transport.validator !== null) {
       if (typeof transport.validator === "function") {
-        if (!await transport.validator({ args: localSource })) return;
+        if (!(await transport.validator({ args: localSource }))) return;
       } else if (typeof transport.validator === "boolean") {
         if (!transport.validator) return;
       }
     }
 
-
-    const localSourcePlugin: any = await this.hooks.beforeRender.promise(localSource, transport, this.render) || localSource;
+    const localSourcePlugin: any =
+      (await this.hooks.beforeRender.promise(
+        localSource,
+        transport,
+        this.render
+      )) || localSource;
 
     const resolvedPaths = await this.resolvePaths({ transport, source });
 
@@ -117,12 +132,11 @@ class Generator {
       if (!overrideChoice) {
         this.hooks.fileSkipped.call();
         return;
-      };
+      }
     }
 
     // Get file content
     const fromContentFile: string = Utils.File.getUtf8File(resolvedPaths.from);
-
 
     // Render the content file with args FROM PLUGIN
     const fromContentRendered: string = await this.render.render(
@@ -131,7 +145,7 @@ class Generator {
       this.globalConfig.tag
     );
 
-    await Utils.File.createDir(resolvedPaths.to);
+    Utils.File.createDir(resolvedPaths.to);
 
     Utils.File.writeUtf8File(resolvedPaths.to, fromContentRendered);
 

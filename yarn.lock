@@ -1842,6 +1842,18 @@
   resolved "https://registry.yarnpkg.com/@types/tapable/-/tapable-1.0.4.tgz#b4ffc7dc97b498c969b360a41eee247f82616370"
   integrity sha512-78AdXtlhpCHT0K3EytMpn4JNxaf5tbqbLcbIRoQIHzpTIyjpxLQKRoxU55ujBXAtg3Nl2h/XWvfDa9dsMOd0pQ==
 
+"@types/underscore.string@^0.0.38":
+  version "0.0.38"
+  resolved "https://registry.yarnpkg.com/@types/underscore.string/-/underscore.string-0.0.38.tgz#4081755f005f5691fb7fbd4eff3aabe6066a6c63"
+  integrity sha512-QPMttDInBYkulH/3nON0KnYpEd/RlyE5kUrhuts5d76B/stpjXpDticq+iTluoAsVnVXuGECFhPtuX+aDJdx+A==
+  dependencies:
+    "@types/underscore" "*"
+
+"@types/underscore@*":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@types/underscore/-/underscore-1.9.4.tgz#22d1a3e6b494608e430221ec085fa0b7ccee7f33"
+  integrity sha512-CjHWEMECc2/UxOZh0kpiz3lEyX2Px3rQS9HzD20lxMvx571ivOBQKeLnqEjxUY0BMgp6WJWo/pQLRBwMW5v4WQ==
+
 "@types/yargs-parser@*":
   version "13.1.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-13.1.0.tgz#c563aa192f39350a1d18da36c5a8da382bbd8228"
@@ -9784,6 +9796,11 @@ split@^1.0.0:
   dependencies:
     through "2"
 
+sprintf-js@^1.0.3:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.2.tgz#da1765262bf8c0f571749f2ad6c26300207ae673"
+  integrity sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==
+
 sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.0.3.tgz#04e6926f662895354f3dd015203633b857297e2c"
@@ -10489,6 +10506,14 @@ umask@^1.1.0:
   resolved "https://registry.yarnpkg.com/umask/-/umask-1.1.0.tgz#f29cebf01df517912bb58ff9c4e50fde8e33320d"
   integrity sha1-8pzr8B31F5ErtY/5xOUP3o4zMg0=
 
+underscore.string@^3.3.5:
+  version "3.3.5"
+  resolved "https://registry.yarnpkg.com/underscore.string/-/underscore.string-3.3.5.tgz#fc2ad255b8bd309e239cbc5816fd23a9b7ea4023"
+  integrity sha512-g+dpmgn+XBneLmXXo+sGlW5xQEt4ErkS3mgeN2GFbremYeMBSJKr9Wf2KJplQVaiPY/f7FN6atosWYNm9ovrYg==
+  dependencies:
+    sprintf-js "^1.0.3"
+    util-deprecate "^1.0.2"
+
 unicode-canonical-property-names-ecmascript@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/unicode-canonical-property-names-ecmascript/-/unicode-canonical-property-names-ecmascript-1.0.4.tgz#2619800c4c825800efdd8343af7dd9933cbe2818"
@@ -10633,7 +10658,7 @@ use@^3.1.0:
   resolved "https://registry.yarnpkg.com/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
 
-util-deprecate@^1.0.1, util-deprecate@~1.0.1:
+util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
