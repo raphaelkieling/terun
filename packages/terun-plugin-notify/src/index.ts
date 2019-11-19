@@ -1,30 +1,33 @@
-import { notify } from 'node-notifier';
-import IPlugin, { Hooks } from '@terun/core/dist/types/interfaces/IPlugin';
+import { notify } from "node-notifier";
+import IPlugin, { Hooks } from "@terun/core/lib/types/interfaces/IPlugin";
 
 type NotifyPluginParams = {
-    title?: string;
-    message?: string;
-}
+  title?: string;
+  message?: string;
+};
 
 class NotifyPlugin implements IPlugin {
-    name: string = 'Notify';
-    options: NotifyPluginParams;
+  name: string = "Notify";
+  options: NotifyPluginParams;
 
-    constructor(params?: NotifyPluginParams) {
-        this.options = Object.assign({
-            title: 'Terun done',
-            message: 'It\'s done with success'
-        }, params);
-    }
+  constructor(params?: NotifyPluginParams) {
+    this.options = Object.assign(
+      {
+        title: "Terun done",
+        message: "It's done with success"
+      },
+      params
+    );
+  }
 
-    install(hooks: Hooks) {
-        hooks.done.tap("NotifyPlugin", () => {
-            notify({
-                title: this.options.title,
-                message: this.options.message
-            });
-        });
-    }
+  install(hooks: Hooks) {
+    hooks.done.tap("NotifyPlugin", () => {
+      notify({
+        title: this.options.title,
+        message: this.options.message
+      });
+    });
+  }
 }
 
 export = NotifyPlugin;

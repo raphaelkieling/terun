@@ -1,22 +1,22 @@
-import { IArgs } from "@terun/core/dist/types/interfaces/IArgs";
+import { IArgs } from "@terun/core/lib/types/interfaces/IArgs";
 
 export default class ArgsMapper {
-    static fromString(value: string): IArgs {
-        return {
-            type: "text",
-            initial: '',
-            message: value,
-            name: value,
-        }
-    }
+  static fromString(value: string): IArgs {
+    return {
+      type: "text",
+      initial: "",
+      message: value,
+      name: value
+    };
+  }
 
-    static fromList(values: (IArgs | string)[]): IArgs[] {
-        return values.map(val => {
-            if (typeof val === 'string') {
-                return ArgsMapper.fromString(val);
-            } else {
-                return val;
-            }
-        })
-    }
+  static fromList(values: (IArgs | string)[]): IArgs[] {
+    return values.map(val => {
+      if (typeof val === "string") {
+        return ArgsMapper.fromString(val);
+      } else {
+        return val;
+      }
+    });
+  }
 }

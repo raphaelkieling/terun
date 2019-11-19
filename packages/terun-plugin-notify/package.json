@@ -1,36 +1,36 @@
 {
-  "name": "@terun/plugin-notify",
-  "version": "1.1.7-alpha.0",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/raphaelkieling/terun",
-    "directory": "packages/@terun/cli"
-  },
-  "bin": {
-    "terun": "bin/index.js"
-  },
-  "scripts": {
-    "build:watch": "tsc --watch",
-    "build": "tsc"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "lerna": "^3.16.0",
-    "tslint": "^5.18.0",
-    "typescript": "^3.5.3"
-  },
-  "engines": {
-    "node": ">=8.9"
-  },
-  "dependencies": {
-    "@terun/core": "^1.1.7-alpha.0",
-    "@types/node-notifier": "^5.4.0",
-    "node-notifier": "^6.0.0"
-  },
-  "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
-  "publishConfig": {
-    "access": "public"
-  }
+    "name": "@terun/plugin-notify",
+    "version": "1.1.7-alpha.0",
+    "main": "lib/index.js",
+    "typings": "lib/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/raphaelkieling/terun",
+        "directory": "packages/@terun/cli"
+    },
+    "bin": {
+        "terun": "bin/index.js"
+    },
+    "scripts": {
+        "build:watch": "tsc --watch",
+        "build": "tsc"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "lerna": "^3.16.0",
+        "tslint": "^5.18.0",
+        "typescript": "^3.5.3"
+    },
+    "engines": {
+        "node": ">=8.9"
+    },
+    "dependencies": {
+        "@terun/core": "^1.1.7-alpha.0",
+        "@types/node-notifier": "^5.4.0",
+        "node-notifier": "^6.0.0"
+    },
+    "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
+    "publishConfig": {
+        "access": "public"
+    }
 }

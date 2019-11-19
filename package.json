@@ -5,7 +5,8 @@
     ],
     "scripts": {
         "build": "lerna run build",
-        "build:doc": "lerna run docs:build"
+        "build:doc": "lerna run docs:build",
+        "test": "lerna run test"
     },
     "repository": "https://github.com/raphaelkieling/terun",
     "author": "Raphael Kieling <raphael.kieling@egsys.com.br>",

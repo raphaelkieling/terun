@@ -1,4 +1,4 @@
-const EntityPlugin = require('../../../terun-plugin-entity/dist/index');
+const EntityPlugin = require('../../../terun-plugin-entity/lib/index');
 
 module.exports = {
     commands: {

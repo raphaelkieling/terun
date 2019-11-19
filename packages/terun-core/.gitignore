@@ -93,3 +93,4 @@ jspm_packages/
 playground
 node_modules
 yarn-error.log
+lib
