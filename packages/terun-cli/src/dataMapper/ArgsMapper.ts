@@ -10,13 +10,14 @@ export default class ArgsMapper {
     };
   }
 
-  static fromList(values: (IArgs | string)[]): IArgs[] {
-    return values.map(val => {
-      if (typeof val === "string") {
-        return ArgsMapper.fromString(val);
-      } else {
-        return val;
-      }
-    });
-  }
+    // TODO: colocar type text como default
+    static fromList(values: (IArgs | string)[]): IArgs[] {
+        return values.map(val => {
+            if (typeof val === 'string') {
+                return ArgsMapper.fromString(val);
+            } else {
+                return val;
+            }
+        })
+    }
 }
