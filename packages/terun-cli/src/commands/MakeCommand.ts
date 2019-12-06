@@ -24,6 +24,7 @@ export class MakeCommand extends Command {
 
   private async getArgsWithPrompts(args: IArgs[]): Promise<object> {
     let params: any = {};
+    console.log(args)
     for (const arg of args) {
       const result = await prompts(arg, defaultConfig);
 
@@ -77,6 +78,7 @@ export class MakeCommand extends Command {
 
       generator.hooks.global.tapPromise("CLI", async () => {
         Utils.Log.log("[Global arguments]");
+        command.args = ArgsMapper.fromList(command.args);
         return await this.getArgsWithPrompts(command.args);
       });
 
