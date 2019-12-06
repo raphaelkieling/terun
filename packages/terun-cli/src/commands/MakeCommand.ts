@@ -24,7 +24,6 @@ export class MakeCommand extends Command {
 
   private async getArgsWithPrompts(args: IArgs[]): Promise<object> {
     let params: any = {};
-    console.log(args)
     for (const arg of args) {
       const result = await prompts(arg, defaultConfig);
 
