@@ -14,6 +14,7 @@ import {
   AsyncSeriesWaterfallHook
 } from "tapable";
 import * as fs from "fs";
+
 /**
  * Get and render the content files in the
  * destiny file. Use commands in options to create
