@@ -3,10 +3,10 @@
     "compilerOptions": {
         "baseUrl": ".",
         "paths": {
-            "@terun/core/*":["./packages/terun-core/src"],
-            "@terun/cli/*":["./packages/terun-cli/src"],
-            "@terun/plugin-entity":["./packages/terun-plugin-entity/src"],
-            "@terun/plugin-notity":["./packages/terun-plugin-notify/src"],
+            "@terun/core/*":["./packages/terun-core/lib/*"],
+            "@terun/cli/*":["./packages/terun-cli/lib/*"],
+            "@terun/plugin-entity":["./packages/terun-plugin-entity/lib/*"],
+            "@terun/plugin-notity":["./packages/terun-plugin-notify/lib/*"],
         }
     }
 }

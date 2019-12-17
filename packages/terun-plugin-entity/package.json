@@ -9,8 +9,8 @@
         "directory": "packages/@terun/cli"
     },
     "scripts": {
-        "build:watch": "tsc --watch",
-        "build": "tsc"
+        "build": "tsc -p tsconfig.build.json",
+        "build:watch": "tsc -p tsconfig.build.json -w"
     },
     "license": "MIT",
     "devDependencies": {
