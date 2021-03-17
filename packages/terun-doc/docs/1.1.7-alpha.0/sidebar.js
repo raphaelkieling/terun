@@ -13,6 +13,7 @@ module.exports = [
             '/1.1.7-alpha.0/reference/config',
             '/1.1.7-alpha.0/reference/commands',
             '/1.1.7-alpha.0/reference/engine',
+            '/1.1.7-alpha.0/reference/pipelines',
             '/1.1.7-alpha.0/reference/plugins',
             '/1.1.7-alpha.0/reference/hooks'
         ]
