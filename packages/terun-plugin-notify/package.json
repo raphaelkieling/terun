@@ -27,7 +27,7 @@
     "dependencies": {
         "@terun/core": "^1.1.8-alpha.0",
         "@types/node-notifier": "^5.4.0",
-        "node-notifier": "^6.0.0"
+        "node-notifier": "^8.0.1"
     },
     "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
     "publishConfig": {
