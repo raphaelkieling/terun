@@ -7,7 +7,7 @@
     "build": "lerna run build",
     "build:doc": "lerna run docs:build",
     "test": "lerna run test",
-    "newversion": "lerna version --conventional-commts --yes"
+    "newversion": "lerna version --conventional-commits --yes"
   },
   "repository": "https://github.com/raphaelkieling/terun",
   "author": "Raphael Kieling <raphael.kieling@egsys.com.br>",
