@@ -12,7 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run a multi-line script
+      - name: Test the app
         run: |
-          yarn
+          npx lerna bootstrap
           yarn test
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the app
+        run: |
+          npx lerna bootstrap
+          yarn build
