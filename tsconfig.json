@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@terun/core/*":["./packages/terun-core/lib/*"],
+            "@terun/cli/*":["./packages/terun-cli/lib/*"],
+            "@terun/plugin-entity":["./packages/terun-plugin-entity/lib/*"],
+            "@terun/plugin-notity":["./packages/terun-plugin-notify/lib/*"],
+        }
+    }
+}

@@ -1,18 +1,19 @@
 {
-    "private": true,
-    "workspaces": [
-        "packages/*"
-    ],
-    "scripts": {
-        "build": "lerna run build",
-        "build:doc": "lerna run docs:build",
-        "test": "lerna run test"
-    },
-    "repository": "https://github.com/raphaelkieling/terun",
-    "author": "Raphael Kieling <raphael.kieling@egsys.com.br>",
-    "license": "MIT",
-    "name": "terun",
-    "devDependencies": {
-        "lerna": "^3.16.0"
-    }
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "lerna run build",
+    "build:doc": "lerna run docs:build",
+    "test": "lerna run test",
+    "newversion": "lerna version --conventional-commits --yes"
+  },
+  "repository": "https://github.com/raphaelkieling/terun",
+  "author": "Raphael Kieling <raphael.kieling@egsys.com.br>",
+  "license": "MIT",
+  "name": "terun",
+  "devDependencies": {
+    "lerna": "^3.16.0"
+  }
 }

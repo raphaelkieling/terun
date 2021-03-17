@@ -1,7 +1,10 @@
 import * as File from "./file";
 import * as Log from "./log";
-import { isNullOrUndefined } from "util";
 import * as _String from "underscore.string";
+
+export function isNullOrUndefined(value: any) {
+  return value === null || value === undefined;
+}
 
 export function lowerCase(value: string) {
   if (isNullOrUndefined(value)) return "";

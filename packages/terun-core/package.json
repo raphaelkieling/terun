@@ -1,6 +1,6 @@
 {
     "name": "@terun/core",
-    "version": "1.1.8-alpha.0",
+    "version": "1.2.1",
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
     "repository": {
@@ -9,8 +9,8 @@
         "directory": "packages/@terun/core"
     },
     "scripts": {
-        "build": "tsc",
-        "build:watch": "tsc --watch",
+        "build": "tsc -p tsconfig.build.json",
+        "build:watch": "tsc -p tsconfig.build.json -w",
         "test": "jest"
     },
     "license": "MIT",

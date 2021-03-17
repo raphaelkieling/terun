@@ -44,24 +44,25 @@ module.exports = {
     }
 }
 ```
-This will create a text option, i cannot use that if you need a boolean for example. 
+
+This will create a text option, i cannot use that if you need a boolean for example.
 
 Or use defining the objects on the second option. We use the `prompts` you can see more [here](https://github.com/terkelg/prompts)
 
 ```js
 module.exports = {
-    commands:{
-        example:{
-            args:[
-                {
-                    type: 'text',
-                    name: 'title',
-                    message: 'The title'
-                }
-            ]
-        }
-    }
-}
+  commands: {
+    example: {
+      args: [
+        {
+          type: "text",
+          name: "title",
+          message: "The title",
+        },
+      ],
+    },
+  },
+};
 ```
 
 ### Transports
@@ -78,7 +79,7 @@ That is the responsable to define what i gonna create and where i gonna create t
 
 ### Hook
 
-Hook is a way to intercept the command life cycle, that is a advanced way to extend functions but if really need something better, create a plugin. But ok, i you want use that. We use the webpack library called `tapable` to create the plugin system,  you can see more [here](https://github.com/webpack/tapable);
+Hook is a way to intercept the command life cycle, that is a advanced way to extend functions but if really need something better, create a plugin. But ok, i you want use that. We use the webpack library called `tapable` to create the plugin system, you can see more [here](https://github.com/webpack/tapable);
 
 ```js
 module.exports = {
@@ -86,7 +87,7 @@ module.exports = {
         example:{
             hook:(hooks)=>{
                 /**
-                * `done` and `beforeRender` is one of life cycle name. 
+                * `done` and `beforeRender` is one of life cycle name.
                 * I will explain about that later.
                 */
                 hooks.done.tap("something", () => {
