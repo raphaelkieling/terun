@@ -5,15 +5,15 @@ import { IConfigExternal } from "./types/interfaces/IConfigExternal";
 import { IRenderEngine } from "./types/interfaces/IRenderEngine";
 import { ConfigMapper } from "./types/mappers/ConfigMapper";
 import RenderFactory from "./types/render/RenderEngineFactory";
-import { Transport } from "./types/Transport";
 import Utils from "./utils";
 import PluginManager from "./types/PluginManager";
 import {
   SyncHook,
   AsyncSeriesBailHook,
-  AsyncSeriesWaterfallHook
+  AsyncSeriesWaterfallHook,
 } from "tapable";
 import * as fs from "fs";
+import { ITransport } from "./types/interfaces";
 
 /**
  * Get and render the content files in the
@@ -39,9 +39,9 @@ class Generator {
       beforeRender: new AsyncSeriesWaterfallHook([
         "source",
         "transport",
-        "compiler"
+        "compiler",
       ]),
-      done: new SyncHook()
+      done: new SyncHook(),
     };
     this.pluginManager = new PluginManager();
   }
@@ -61,9 +61,9 @@ class Generator {
 
   public async resolvePaths({
     transport,
-    source
+    source,
   }: {
-    transport: Transport;
+    transport: ITransport;
     source: object;
   }): Promise<{ from: string; to: string }> {
     const { basePath } = this.globalConfig;
@@ -83,7 +83,7 @@ class Generator {
 
     return {
       from: pathFrom,
-      to: pathTo
+      to: pathTo,
     };
   }
 
@@ -91,9 +91,9 @@ class Generator {
     transport,
     source,
     override = false,
-    debug = false
+    debug = false,
   }: {
-    transport: Transport;
+    transport: ITransport;
     source: object;
     override?: boolean;
     debug?: boolean;

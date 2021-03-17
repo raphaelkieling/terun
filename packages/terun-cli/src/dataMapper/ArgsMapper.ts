@@ -6,18 +6,18 @@ export default class ArgsMapper {
       type: "text",
       initial: "",
       message: value,
-      name: value
+      name: value,
     };
   }
 
-    // TODO: colocar type text como default
-    static fromList(values: (IArgs | string)[]): IArgs[] {
-        return values.map(val => {
-            if (typeof val === 'string') {
-                return ArgsMapper.fromString(val);
-            } else {
-                return val;
-            }
-        })
-    }
+  // TODO: colocar type text como default
+  static fromList(values: (IArgs | string)[]): IArgs[] {
+    return values.map((val) => {
+      if (typeof val === "string") {
+        return ArgsMapper.fromString(val);
+      } else {
+        return val;
+      }
+    });
+  }
 }

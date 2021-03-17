@@ -1,11 +1,10 @@
 import { Command } from "./Command";
 import { IConfigExternal } from "@terun/core/lib/types/interfaces/IConfigExternal";
-import { Utils, Generator } from "@terun/core";
+import { Utils, Generator } from "@terun/core/lib";
 import { ConfigReader } from "../ConfigReader";
 import * as prompts from "prompts";
-import { Transport } from "@terun/core/lib/types/Transport";
+import { ITransport } from "@terun/core/lib/types/interfaces/ITransport";
 import { IArgs } from "@terun/core/lib/types/interfaces/IArgs";
-import * as fs from "fs";
 import { canOverride, defaultConfig } from "../utils/prompts";
 import ArgsMapper from "../dataMapper/ArgsMapper";
 
@@ -29,7 +28,7 @@ export class MakeCommand extends Command {
 
       params = {
         ...params,
-        ...result
+        ...result,
       };
     }
     return params;
@@ -83,12 +82,15 @@ export class MakeCommand extends Command {
 
       await generator.init();
 
-      const transports: Transport[] = command.transports;
+      const transports: ITransport[] = command.transports;
 
       for (const transport of transports) {
         Utils.Log.log(`[process]: ${transport.name || transport.from}`);
 
-        transport.args = ArgsMapper.fromList(transport.args);
+        transport.args = ArgsMapper.fromList(
+          transport.args ? transport.args : []
+        );
+
         const transportSource = await this.getArgsWithPrompts(transport.args);
         const defaultIsOverride = this.params.get("override") !== true;
         const defaultDebug = this.params.get("debug") === true;
@@ -97,7 +99,7 @@ export class MakeCommand extends Command {
           source: transportSource,
           transport,
           override: defaultIsOverride,
-          debug: defaultDebug
+          debug: defaultDebug,
         });
       }
     } catch (e) {

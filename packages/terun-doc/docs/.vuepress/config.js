@@ -29,6 +29,7 @@ module.exports = {
     },
     nav: [
       { text: "Home", link: "/" },
+      { text: "Changelog", link: "/pages/changelog/" },
       {
         text: "Versions",
         items: versioning.linksFor("guide/getting-started.md"),
