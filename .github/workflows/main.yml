@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+    branches: [ development ]
+  pull_request:
+    branches: [ development ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test the app
+        run: |
+          npx lerna bootstrap
+          yarn test
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the app
+        run: |
+          npx lerna bootstrap
+          yarn build
