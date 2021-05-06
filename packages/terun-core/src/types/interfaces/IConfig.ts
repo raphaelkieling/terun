@@ -1,10 +1,13 @@
 import { ICommand } from "./ICommand";
 
-export type EngineConfigOption = "mustache" | "liquid";
+export enum EngineType {
+  MUSTACHE = "mustache",
+  LIQUID = "liquid",
+}
 
 export interface IConfig {
   tag: string[];
   basePath: string;
-  engine: EngineConfigOption;
+  engine: EngineType;
   commands: { [key: string]: ICommand };
 }

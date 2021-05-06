@@ -9,7 +9,7 @@ The pipelines is a way to mutate the values inside the templates. But remember t
 Example:
 
 ```diff
-    {{myName | underscode | uppercase}}
+    {{myName | underscore | uppercase}}
 ++ //output: Random Name -> Random_Name -> RANDOM_NAME
 ```
 

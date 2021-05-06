@@ -13,7 +13,7 @@ export class AllCommand extends Command {
 
   configure(): void {}
 
-  async execute(): Promise<any> {
+  async execute(): Promise<void> {
     this.config = ConfigReader.find();
 
     if (!this.config) {

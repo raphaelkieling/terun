@@ -1,13 +1,13 @@
-import { ICommand } from "./interfaces/ICommand";
+import { HookFunction, ICommand } from "./interfaces/ICommand";
 import { Transport } from "./Transport";
 import { IArgs } from "./interfaces/IArgs";
-import IPlugin from './interfaces/IPlugin';
+import IPlugin from "./interfaces/IPlugin";
 
 export class Command implements ICommand {
   public plugins?: IPlugin[];
   public args: IArgs[];
   public transports: Transport[];
-  public hook: any;
+  public hook?: HookFunction;
 
   constructor({ args, transports, plugins, hook }: ICommand) {
     this.args = args || [];

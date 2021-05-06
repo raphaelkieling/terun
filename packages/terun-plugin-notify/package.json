@@ -1,6 +1,6 @@
 {
     "name": "@terun/plugin-notify",
-    "version": "1.2.3",
+    "version": "1.2.5",
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
     "repository": {
@@ -25,7 +25,7 @@
         "node": ">=8.9"
     },
     "dependencies": {
-        "@terun/core": "^1.2.3",
+        "@terun/core": "^1.2.5",
         "@types/node-notifier": "^5.4.0",
         "node-notifier": "^8.0.1"
     },
