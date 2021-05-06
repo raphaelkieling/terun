@@ -100,7 +100,7 @@ describe("Generator", () => {
     expect(hookDone).toBeCalled();
   });
 
-  it("should send the skipped and exist hook when the file already exists", async () => {
+  it("should send the skipped and exist hook when the file already exists and override is true", async () => {
     const mockTransport = {
       from: "x",
       to: "y",
@@ -128,6 +128,7 @@ describe("Generator", () => {
     await generator.transport({
       source: {},
       transport: mockTransport,
+      override: true,
     });
 
     expect(hookFileExist).toBeCalled();
