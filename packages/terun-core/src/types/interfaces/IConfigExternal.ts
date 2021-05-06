@@ -1,9 +1,9 @@
 import { ICommand } from "./ICommand";
-import { EngineConfigOption } from './IConfig';
+import { EngineType } from "./IConfig";
 
 export interface IConfigExternal {
   tag?: string[];
   basePath?: string;
-  engine?: EngineConfigOption;
+  engine?: EngineType;
   commands: { [key: string]: ICommand };
 }

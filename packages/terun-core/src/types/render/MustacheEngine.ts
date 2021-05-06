@@ -1,6 +1,6 @@
 const Mustache = require("terun-mustache");
 import { IRenderEngine } from "../interfaces/IRenderEngine";
-import { defaultPipelines } from '../Pipeline';
+import { defaultPipelines } from "../Pipeline";
 
 export class MustacheEngine implements IRenderEngine {
   public readonly engine: any = Mustache;

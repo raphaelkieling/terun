@@ -11,7 +11,7 @@
     "scripts": {
         "build": "tsc -p tsconfig.build.json",
         "build:watch": "tsc -p tsconfig.build.json -w",
-        "test": "jest"
+        "test": "jest --verbose"
     },
     "license": "MIT",
     "devDependencies": {

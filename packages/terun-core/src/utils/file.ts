@@ -10,6 +10,10 @@ export function writeUtf8File(path: string, data: string) {
   return fs.writeFileSync(path, data, { encoding: "utf-8" });
 }
 
+export function existFile(path: string) {
+  return fs.existsSync(path);
+}
+
 /**
  * Create a path folders in a recursive way. Allow unix and window so.
  * @param path

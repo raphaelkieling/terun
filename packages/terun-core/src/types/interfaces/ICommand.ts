@@ -1,9 +1,9 @@
 import { ITransport } from "./ITransport";
 import { IArgs } from "./IArgs";
-import IPlugin from './IPlugin';
-import { Hook } from "tapable";
+import IPlugin from "./IPlugin";
+import { DefaultHooks } from "../../Generator";
 
-export type HookFunction = (hook: Hook) => void;
+export type HookFunction = (hook: DefaultHooks) => void;
 
 export interface ICommand {
   plugins?: IPlugin[];

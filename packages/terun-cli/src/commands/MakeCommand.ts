@@ -34,7 +34,7 @@ export class MakeCommand extends Command {
     return params;
   }
 
-  async execute(): Promise<any> {
+  async execute(): Promise<void> {
     try {
       this.config = ConfigReader.find();
 
@@ -75,7 +75,10 @@ export class MakeCommand extends Command {
       }
 
       generator.hooks.global.tapPromise("CLI", async () => {
-        Utils.Log.log("[Global arguments]");
+        if ((command.args || []).length) {
+          Utils.Log.log("[Global arguments]");
+        }
+
         command.args = ArgsMapper.fromList(command.args);
         return await this.getArgsWithPrompts(command.args);
       });
@@ -87,9 +90,7 @@ export class MakeCommand extends Command {
       for (const transport of transports) {
         Utils.Log.log(`[process]: ${transport.name || transport.from}`);
 
-        transport.args = ArgsMapper.fromList(
-          transport.args ? transport.args : []
-        );
+        transport.args = ArgsMapper.fromList(transport.args || []);
 
         const transportSource = await this.getArgsWithPrompts(transport.args);
         const defaultIsOverride = this.params.get("override") !== true;
@@ -103,7 +104,7 @@ export class MakeCommand extends Command {
         });
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
   }
 }

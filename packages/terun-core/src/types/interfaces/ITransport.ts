@@ -1,5 +1,5 @@
 import { IArgs } from "./IArgs";
-import { RenderData } from './IPlugin';
+import { RenderData } from "./IPlugin";
 
 export type ITransportValidationParams = { args: RenderData };
 
@@ -9,5 +9,8 @@ export interface ITransport {
   from: string;
   to: string;
   args?: IArgs[];
-  validator?: ((params: ITransportValidationParams) => (boolean | Promise<boolean>)) | null | boolean;
+  validator?:
+    | ((params: ITransportValidationParams) => boolean | Promise<boolean>)
+    | null
+    | boolean;
 }

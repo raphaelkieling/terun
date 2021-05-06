@@ -1,10 +1,10 @@
 import { Command } from "./Command";
-import { IConfig } from "./interfaces/IConfig";
+import { EngineType, IConfig } from "./interfaces/IConfig";
 
 export class Config implements IConfig {
   public tag: string[];
   public basePath: string;
-  public engine: "mustache" | "liquid" = "mustache";
+  public engine: EngineType = EngineType.MUSTACHE;
   public commands: { [key: string]: Command };
 
   constructor() {
