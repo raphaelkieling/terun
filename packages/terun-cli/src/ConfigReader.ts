@@ -15,7 +15,6 @@ export class ConfigReader {
 
       return require(configPath);
     } catch (err) {
-      Utils.Log.log(err);
       return null;
     }
   }

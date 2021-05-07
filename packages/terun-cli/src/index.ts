@@ -1,26 +1,20 @@
-import * as Yargs from "yargs";
-import CommandManager from "./CommandManager";
-import { MakeCommand } from "./commands/MakeCommand";
-import { InitCommand } from "./commands/InitCommand";
+import commander from "commander";
+import * as pack from "../package.json";
 import { AllCommand } from "./commands/AllCommand";
 import { printLogo } from "./utils/index";
+import { InitCommand } from "./commands/InitCommand";
+import { MakeCommand } from "./commands/MakeCommand";
 
-/**
- * TODO: Add options like a helper like:
- *
- * --make ...
- * --init ...
- *
- * now only exists on document
- */
 !(async function() {
-  await printLogo();
+  const version = pack.version;
 
-  const argv = Yargs.argv;
+  await printLogo(version);
 
-  const manager = new CommandManager();
-  manager.addCommand(new MakeCommand());
-  manager.addCommand(new AllCommand());
-  manager.addCommand(new InitCommand());
-  manager.execute(argv);
+  commander.version(version);
+
+  await new AllCommand().handle(commander);
+  await new InitCommand().handle(commander);
+  await new MakeCommand().handle(commander);
+
+  commander.parse(process.argv);
 })();
