@@ -1,6 +1,6 @@
 {
   "name": "@terun/cli",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "repository": {
