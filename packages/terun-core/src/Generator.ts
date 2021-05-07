@@ -136,14 +136,15 @@ class Generator {
   }
 
   /**
-   * Transport a item to a file
+   * Transport a template to a file
    *
    * @param {Object} param
    * @param {Object} param.transport
    * @param {Object} param.source
    * @param {boolean} param.override
    * @param {boolean} param.debug
-   * @returns
+   *
+   * @returns {Promise<void>}
    */
   public async transport({
     transport,

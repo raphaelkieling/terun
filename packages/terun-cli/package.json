@@ -1,39 +1,41 @@
 {
-    "name": "@terun/cli",
-    "version": "1.2.5",
-    "main": "lib/index.js",
-    "typings": "lib/index.d.ts",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/raphaelkieling/terun",
-        "directory": "packages/terun-cli"
-    },
-    "bin": {
-        "terun": "bin/index.js"
-    },
-    "scripts": {
-        "build": "tsc -p tsconfig.build.json",
-        "build:watch": "tsc -p tsconfig.build.json -w"
-    },
-    "license": "MIT",
-    "devDependencies": {
-        "lerna": "^3.16.0",
-        "tslint": "^5.18.0",
-        "typescript": "^3.5.3"
-    },
-    "engines": {
-        "node": ">=8.9"
-    },
-    "dependencies": {
-        "@terun/core": "^1.2.5",
-        "@types/prompts": "^2.0.1",
-        "@types/yargs": "^13.0.3",
-        "prompts": "^2.2.1",
-        "typescript": "^3.5.3",
-        "yargs": "^13.3.0"
-    },
-    "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
-    "publishConfig": {
-        "access": "public"
-    }
+  "name": "@terun/cli",
+  "version": "1.2.7",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelkieling/terun",
+    "directory": "packages/terun-cli"
+  },
+  "bin": {
+    "terun": "bin/index.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build:watch": "tsc -p tsconfig.build.json -w"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "lerna": "^3.16.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  },
+  "engines": {
+    "node": ">=8.9"
+  },
+  "dependencies": {
+    "@terun/core": "^1.2.7",
+    "@types/commander": "^2.12.2",
+    "@types/prompts": "^2.0.1",
+    "@types/yargs": "^13.0.3",
+    "commander": "^7.2.0",
+    "prompts": "^2.2.1",
+    "typescript": "^3.5.3",
+    "yargs": "^13.3.0"
+  },
+  "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
+  "publishConfig": {
+    "access": "public"
+  }
 }
