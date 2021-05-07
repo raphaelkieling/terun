@@ -23,7 +23,7 @@ yarn global add @terun/cli
 Init the config file, usually create a folder called `terun` and run the command (inside the folder terun):
 
 ```sh
-terun --init
+terun init
 ```
 
 ```diff
@@ -65,7 +65,7 @@ end
 Execute the command
 
 ```bash
-terun --make example
+terun make example
 ```
 
 Be happy.
