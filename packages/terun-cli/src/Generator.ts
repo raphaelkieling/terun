@@ -149,7 +149,7 @@ class Generator {
             }
         }
 
-        const localSourcePlugin: { [key: string]: any } =
+        const localSourcePlugin: Record<string, unknown> =
             (await this.hooks.beforeRender.promise(localSource, transport, this.render)) || localSource;
 
         const resolvedPaths = await this.resolvePaths({ transport, source });
