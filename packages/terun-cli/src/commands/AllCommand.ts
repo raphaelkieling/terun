@@ -1,5 +1,4 @@
 import { Command } from './Command';
-import { IConfigExternal } from '@terun/core/lib/types/interfaces/IConfigExternal';
 import { Utils } from '@terun/core';
 import { ConfigReader } from '../ConfigReader';
 import chalk from 'chalk';
