@@ -1,5 +1,5 @@
-import { CommanderStatic } from "commander";
+import { CommanderStatic } from 'commander';
 
 export interface Command {
-  handle(program: CommanderStatic): void;
+    handle(program: CommanderStatic): void;
 }

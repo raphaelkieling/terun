@@ -1,45 +1,37 @@
-import * as path from "path";
-import { getCurrentFolderPath } from "./utils";
-import { Utils } from "@terun/core";
-import { IConfigExternal } from "@terun/core/types/interfaces";
+import * as path from 'path';
+import { IConfigExternal } from './types/interfaces';
+import { getCurrentFolderPath, File, Log } from './utils';
 
 export class ConfigReader {
-  static CONFIG_FILE_NAME = "terun.js";
+    static CONFIG_FILE_NAME = 'terun.js';
 
-  static find(): IConfigExternal | null {
-    try {
-      const configPath = path.join(
-        getCurrentFolderPath(),
-        ConfigReader.CONFIG_FILE_NAME
-      );
+    static find(): IConfigExternal | null {
+        try {
+            const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
 
-      return require(configPath);
-    } catch (err) {
-      return null;
+            return require(configPath);
+        } catch (err) {
+            Log.error(err);
+            return null;
+        }
     }
-  }
 
-  static exist(): boolean {
-    try {
-      const configPath = path.join(
-        getCurrentFolderPath(),
-        ConfigReader.CONFIG_FILE_NAME
-      );
-      return Utils.File.existFile(configPath);
-    } catch (e) {
-      return false;
+    static exist(): boolean {
+        try {
+            const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
+            return File.existFile(configPath);
+        } catch (err) {
+            Log.error(err);
+            return false;
+        }
     }
-  }
 
-  static create(data: string): void {
-    try {
-      const configPath = path.join(
-        getCurrentFolderPath(),
-        ConfigReader.CONFIG_FILE_NAME
-      );
-      return Utils.File.writeUtf8File(configPath, data);
-    } catch (e) {
-      Utils.Log.error(e);
+    static create(data: string): void {
+        try {
+            const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
+            return File.writeUtf8File(configPath, data);
+        } catch (err) {
+            Log.error(err);
+        }
     }
-  }
 }

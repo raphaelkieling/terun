@@ -1,31 +1,31 @@
-import { Command } from "./Command";
-import { ConfigReader } from "../ConfigReader";
-import { canOverride } from "../utils/prompts";
-import { Utils } from "@terun/core";
-import { CommanderStatic } from "commander";
+import { Command } from './Command';
+import { ConfigReader } from '../ConfigReader';
+import { canOverride } from '../utils/prompts';
+import { Utils } from '@terun/core';
+import { CommanderStatic } from 'commander';
 
 type InitCommandArgs = {
-  override: boolean;
+    override: boolean;
 };
 
 export class InitCommand implements Command {
-  async handle(program: CommanderStatic): Promise<any> {
-    program
-      .command("init")
-      .description("Init the terun configuration")
-      .option("-o, --override", "Override the file without confirm")
-      .action(async (args: InitCommandArgs) => {
-        if (ConfigReader.exist() && args.override !== true) {
-          const override = await canOverride();
+    async handle(program: CommanderStatic): Promise<any> {
+        program
+            .command('init')
+            .description('Init the terun configuration')
+            .option('-o, --override', 'Override the file without confirm')
+            .action(async (args: InitCommandArgs) => {
+                if (ConfigReader.exist() && args.override !== true) {
+                    const override = await canOverride();
 
-          if (!override) {
-            Utils.Log.warn("Operation canceled.");
-            return;
-          }
-        }
+                    if (!override) {
+                        Utils.Log.warn('Operation canceled.');
+                        return;
+                    }
+                }
 
-        ConfigReader.create(
-          `
+                ConfigReader.create(
+                    `
 module.exports = {
     commands: {
         // Create your commands here and exec with > terun --make example
@@ -38,13 +38,11 @@ module.exports = {
         }
     }
 };
-                `.trim()
-        );
+                `.trim(),
+                );
 
-        Utils.Log.info(
-          "Thanks for believing in this project! We working hard to improve the experience 💖"
-        );
-        Utils.Log.success("Config created with success!");
-      });
-  }
+                Utils.Log.info('Thanks for believing in this project! We working hard to improve the experience 💖');
+                Utils.Log.success('Config created with success!');
+            });
+    }
 }
