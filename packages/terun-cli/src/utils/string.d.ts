@@ -1,0 +1,13 @@
+export declare function isNullOrUndefined(value: any): boolean;
+export declare function lowerCase(value: string): string;
+export declare function upperCase(value: string): string;
+export declare function replace(value: string, search: string | RegExp, replace: any): string;
+export declare function levenshtein(value1: string, value2: string): number;
+export declare function capitalize(value: string): string;
+export declare function titlecase(value: string): string;
+export declare function camelcase(value: string): string;
+export declare function firstLower(value: any): string;
+export declare function firstUpper(value: any): string;
+export declare function trim(value: string): string;
+export declare function clearWhitespace(value: string): string;
+export declare function underscore(value: string): string;
