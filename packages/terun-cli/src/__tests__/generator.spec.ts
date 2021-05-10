@@ -1,6 +1,6 @@
 import Generator from '../Generator';
 import { IConfig } from '../types/interfaces';
-import { ConfigMapper } from '../types/mappers/ConfigMapper';
+import { ConfigMapper } from '../mappers/ConfigMapper';
 import { File } from '../utils';
 
 describe('Generator', () => {

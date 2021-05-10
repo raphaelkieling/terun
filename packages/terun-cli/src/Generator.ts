@@ -1,14 +1,11 @@
-import * as path from 'path';
-import { Command } from './types/Command';
-import { Config } from './types/Config';
-import { IConfigExternal } from './types/interfaces/IConfigExternal';
+import path from 'path';
 import { IRenderEngine } from './types/interfaces/IRenderEngine';
-import { ConfigMapper } from './types/mappers/ConfigMapper';
-import RenderFactory from './types/render/RenderEngineFactory';
+import RenderFactory from './types/factories/RenderEngineFactory';
 import PluginManager from './types/PluginManager';
-import { SyncHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
-import { ITransport } from './types/interfaces';
-import { File, Log } from './utils';
+import { ICommand, IConfig, ITransport } from './types/interfaces';
+import { File } from './utils';
+import { IGeneratorHook } from './types/interfaces/IGeneratorHook';
+import { GeneratorHook } from './GeneratorHooks';
 
 type TransportParams = {
     transport: ITransport;
@@ -24,40 +21,22 @@ type ResolvePathsParams = {
 
 type ResolvePathsResult = { from: string; to: string };
 
-export type DefaultHooks = {
-    global: SyncHook;
-    fileExists: SyncHook;
-    fileSkipped: SyncHook;
-    configure: SyncHook;
-    onTransport: SyncHook;
-    beforeRender: SyncHook;
-    done: SyncHook;
-};
-
 /**
  * Get and render the content files in the
  * destiny file. Use commands in options to create
  * scope to transport file.
  */
 class Generator {
-    public globalConfig: Config;
+    public globalConfig: IConfig;
     public globalArg: Record<string, unknown>;
     public render: IRenderEngine;
     public pluginManager: PluginManager;
-    public hooks: DefaultHooks;
+    public hooks: IGeneratorHook;
 
-    constructor(config: IConfigExternal) {
-        this.globalConfig = ConfigMapper.fromConfigExternal(config);
+    constructor(config: IConfig) {
+        this.globalConfig = config;
         this.render = RenderFactory.make(this.globalConfig.engine);
-        this.hooks = {
-            global: new AsyncSeriesWaterfallHook(['source']),
-            fileExists: new AsyncSeriesBailHook(),
-            fileSkipped: new SyncHook(),
-            configure: new SyncHook(['globalConfig']),
-            onTransport: new SyncHook(['transport', 'source']),
-            beforeRender: new AsyncSeriesWaterfallHook(['source', 'transport', 'compiler']),
-            done: new SyncHook(),
-        };
+        this.hooks = new GeneratorHook();
         this.pluginManager = new PluginManager();
         this.globalArg = {};
     }
@@ -67,7 +46,7 @@ class Generator {
         this.globalArg = (await this.hooks.global.promise({})) || {};
     }
 
-    public getCommand(name: string): Command | undefined {
+    public getCommand(name: string): ICommand | undefined {
         return this.globalConfig.commands[name];
     }
 
@@ -131,15 +110,11 @@ class Generator {
      *
      * @returns {Promise<void>}
      */
-    public async transport({ transport, source, override = false, debug = false }: TransportParams): Promise<void> {
+    public async transport({ transport, source, override = false }: TransportParams): Promise<void> {
         this.hooks.configure.call(this.globalConfig);
         this.hooks.onTransport.call(transport, source);
 
         const localSource: Record<string, unknown> = Object.assign(source, this.globalArg);
-
-        if (debug) {
-            Log.log(JSON.stringify(localSource, null, 2));
-        }
 
         if (transport.validator !== null) {
             if (typeof transport.validator === 'function') {

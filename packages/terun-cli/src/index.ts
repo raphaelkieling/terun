@@ -1,9 +1,9 @@
 import commander from 'commander';
 import * as pack from '../package.json';
 import { AllCommand } from './commands/AllCommand';
-import { printLogo } from './utils/index';
 import { InitCommand } from './commands/InitCommand';
 import { MakeCommand } from './commands/MakeCommand';
+import { printLogo } from './utils/prompts';
 
 !(async function () {
     const version = pack.version;

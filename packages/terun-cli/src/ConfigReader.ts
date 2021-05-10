@@ -1,14 +1,13 @@
 import * as path from 'path';
 import { IConfigExternal } from './types/interfaces';
-import { getCurrentFolderPath, File, Log } from './utils';
+import { File, Log, Prompts } from './utils';
 
 export class ConfigReader {
     static CONFIG_FILE_NAME = 'terun.js';
 
     static find(): IConfigExternal | null {
         try {
-            const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
-
+            const configPath = path.join(Prompts.getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
             return require(configPath);
         } catch (err) {
             Log.error(err);
@@ -18,7 +17,7 @@ export class ConfigReader {
 
     static exist(): boolean {
         try {
-            const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
+            const configPath = path.join(Prompts.getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
             return File.existFile(configPath);
         } catch (err) {
             Log.error(err);
@@ -28,7 +27,7 @@ export class ConfigReader {
 
     static create(data: string): void {
         try {
-            const configPath = path.join(getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
+            const configPath = path.join(Prompts.getCurrentFolderPath(), ConfigReader.CONFIG_FILE_NAME);
             return File.writeUtf8File(configPath, data);
         } catch (err) {
             Log.error(err);

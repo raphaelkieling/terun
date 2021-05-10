@@ -1,14 +1,14 @@
 import { Command } from './Command';
-import { IConfigExternal } from '../types/interfaces/IConfigExternal';
 import { ConfigReader } from '../ConfigReader';
 import prompts from 'prompts';
 import { ITransport } from '../types/interfaces/ITransport';
 import { IArgs } from '../types/interfaces/IArgs';
-import { canOverride, defaultConfig } from '../utils/prompts';
-import ArgsMapper from '../dataMapper/ArgsMapper';
+import { canOverride, defaultConfig, exitProcess } from '../utils/prompts';
+import ArgsMapper from '../mappers/ArgsMapper';
 import { CommanderStatic } from 'commander';
 import Generator from '../Generator';
 import { Log } from '../utils';
+import { ConfigMapper } from '../mappers/ConfigMapper';
 
 type MakeCommandParams = {
     override: boolean;
@@ -16,8 +16,6 @@ type MakeCommandParams = {
     commandName: string;
 };
 export class MakeCommand implements Command {
-    private config: IConfigExternal | null = null;
-
     private async getArgsWithPrompts(args: IArgs[]): Promise<Record<string, unknown>> {
         let params: Record<string, unknown> = {};
         for (const arg of args) {
@@ -39,19 +37,20 @@ export class MakeCommand implements Command {
             .option('-d, --debug', 'Debug showing some important template resolutions')
             .action(async (commandName: string, args: MakeCommandParams) => {
                 try {
-                    this.config = ConfigReader.find();
+                    const config = ConfigReader.find();
 
-                    if (!this.config) {
+                    if (!config) {
                         Log.error('Config file terun.js not found');
-                        return;
+                        return exitProcess();
                     }
 
-                    const generator = new Generator(this.config);
+                    const configExternal = ConfigMapper.fromConfigExternal(config);
+                    const generator = new Generator(configExternal);
                     const command = generator.getCommand(commandName);
 
                     if (!command) {
                         Log.error(`Command [${commandName}] not found on config`);
-                        return;
+                        return exitProcess();
                     }
 
                     // Start the hook system into the command
@@ -76,11 +75,11 @@ export class MakeCommand implements Command {
                     }
 
                     generator.hooks.global.tapPromise('CLI', async () => {
-                        if ((command.args || []).length) {
+                        if (command.args?.length) {
                             Log.log('[Global arguments]');
                         }
 
-                        command.args = ArgsMapper.fromList(command.args);
+                        command.args = ArgsMapper.fromList(command.args || []);
                         return await this.getArgsWithPrompts(command.args);
                     });
 
@@ -93,7 +92,7 @@ export class MakeCommand implements Command {
 
                         transport.args = ArgsMapper.fromList(transport.args || []);
 
-                        const transportSource = await this.getArgsWithPrompts(transport.args);
+                        const transportSource = await this.getArgsWithPrompts(transport.args ?? []);
                         const defaultIsOverride = args.override !== true;
                         const defaultDebug = args.debug === true;
 

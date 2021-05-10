@@ -9,5 +9,5 @@ export interface IConfig {
     tag: string[];
     basePath: string;
     engine: EngineType;
-    commands: { [key: string]: ICommand };
+    commands: Record<string, ICommand>;
 }

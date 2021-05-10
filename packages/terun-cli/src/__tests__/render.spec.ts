@@ -1,5 +1,5 @@
-import { MustacheEngine } from '../types/render/MustacheEngine';
-import RenderEngineFactory from '../types/render/RenderEngineFactory';
+import { MustacheEngine } from '../types/engines/MustacheEngine';
+import RenderEngineFactory from '../types/factories/RenderEngineFactory';
 import { IRenderEngine } from '../types/interfaces';
 
 describe('Render Mustache:', () => {

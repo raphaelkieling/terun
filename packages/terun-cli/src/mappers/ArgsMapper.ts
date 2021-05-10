@@ -10,7 +10,6 @@ export default class ArgsMapper {
         };
     }
 
-    // TODO: colocar type text como default
     static fromList(values: (IArgs | string)[]): IArgs[] {
         return values.map((val) => {
             if (typeof val === 'string') {

@@ -1,6 +1,6 @@
-import { Command } from '../Command';
-import { Config } from '../Config';
-import { IConfigExternal } from '../interfaces/IConfigExternal';
+import { Command } from '../types/Command';
+import { Config } from '../types/Config';
+import { IConfigExternal } from '../types/interfaces';
 
 export class ConfigMapper {
     public static fromConfigExternal(options: IConfigExternal): Config {

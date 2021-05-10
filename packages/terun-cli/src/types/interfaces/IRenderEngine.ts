@@ -13,6 +13,8 @@ export interface IRenderEngine {
      * @param template String not compiled
      * @param args A object with the params to use inside compile
      * @param tags A array of string to delimit the tags
+     *
+     * @returns {Promise<string>} - Resolved template
      */
-    render(template: string, args: object, tags: string[]): Promise<string>;
+    render(template: string, args: Record<string, unknown>, tags: string[]): Promise<string>;
 }

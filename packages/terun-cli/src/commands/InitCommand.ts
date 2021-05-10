@@ -1,15 +1,15 @@
 import { Command } from './Command';
 import { ConfigReader } from '../ConfigReader';
 import { canOverride } from '../utils/prompts';
-import { Utils } from '@terun/core';
 import { CommanderStatic } from 'commander';
+import { Log } from '../utils';
 
 type InitCommandArgs = {
     override: boolean;
 };
 
 export class InitCommand implements Command {
-    async handle(program: CommanderStatic): Promise<any> {
+    async handle(program: CommanderStatic): Promise<void> {
         program
             .command('init')
             .description('Init the terun configuration')
@@ -19,7 +19,7 @@ export class InitCommand implements Command {
                     const override = await canOverride();
 
                     if (!override) {
-                        Utils.Log.warn('Operation canceled.');
+                        Log.warn('Operation canceled.');
                         return;
                     }
                 }
@@ -41,8 +41,8 @@ module.exports = {
                 `.trim(),
                 );
 
-                Utils.Log.info('Thanks for believing in this project! We working hard to improve the experience 💖');
-                Utils.Log.success('Config created with success!');
+                Log.info('Thanks for believing in this project! We working hard to improve the experience 💖');
+                Log.success('Config created with success!');
             });
     }
 }
