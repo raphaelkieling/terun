@@ -12,9 +12,9 @@ import { getBanner, success } from './ui';
 
     commander.version(version);
 
-    new AllCommand().handle(commander);
-    new InitCommand().handle(commander);
-    new TransportCommand().handle(commander);
+    await new AllCommand().handle(commander);
+    await new InitCommand().handle(commander);
+    await new TransportCommand().handle(commander);
 
     commander.parse(process.argv);
 })();

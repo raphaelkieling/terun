@@ -41,7 +41,7 @@ class {{EntityName | capitalize}}Entity{
 }
 ```
 
-Run on terminal `terun --make example`:
+Run on terminal `terun transport example`:
 
 ```javascript
 class PersonEntity{

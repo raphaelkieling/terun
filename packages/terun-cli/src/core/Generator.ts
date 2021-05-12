@@ -1,25 +1,31 @@
 import path from 'path';
-import { IRenderEngine } from './types/interfaces/IRenderEngine';
-import RenderFactory from './types/factories/RenderEngineFactory';
-import PluginManager from './types/PluginManager';
-import { ICommand, IConfig, ITransport } from './types/interfaces';
+import { IRenderEngine } from './interfaces';
+import PluginManager from './PluginManager';
+import { IGeneratorCommand, IConfig, ITransportItem } from './interfaces';
 import { File } from '../utils';
-import { IGeneratorHook } from './types/interfaces/IGeneratorHook';
-import { GeneratorHook } from './GeneratorHooks';
+import { IGeneratorHook } from './interfaces/IGeneratorHook';
+import { IStorage } from './interfaces/IStorage';
 
 type TransportParams = {
-    transport: ITransport;
+    transport: ITransportItem;
     source: Record<string, unknown>;
     override?: boolean;
     debug?: boolean;
 };
 
 type ResolvePathsParams = {
-    transport: ITransport;
+    transport: ITransportItem;
     source: Record<string, unknown>;
 };
 
 type ResolvePathsResult = { from: string; to: string };
+
+type GeneratorParams = {
+    config: IConfig;
+    render: IRenderEngine;
+    hooks: IGeneratorHook;
+    storage: IStorage;
+};
 
 /**
  * Get and render the content files in the
@@ -27,16 +33,18 @@ type ResolvePathsResult = { from: string; to: string };
  * scope to transport file.
  */
 class Generator {
-    globalConfig: IConfig;
+    config: IConfig;
     globalArg: Record<string, unknown>;
     render: IRenderEngine;
     pluginManager: PluginManager;
     hooks: IGeneratorHook;
+    storage: IStorage;
 
-    constructor(config: IConfig) {
-        this.globalConfig = config;
-        this.render = RenderFactory.make(this.globalConfig.engine);
-        this.hooks = new GeneratorHook();
+    constructor({ config, render, hooks, storage }: GeneratorParams) {
+        this.config = config;
+        this.render = render;
+        this.hooks = hooks;
+        this.storage = storage;
         this.pluginManager = new PluginManager();
         this.globalArg = {};
     }
@@ -46,8 +54,8 @@ class Generator {
         this.globalArg = (await this.hooks.global.promise({})) || {};
     }
 
-    getCommand(name: string): ICommand | undefined {
-        return this.globalConfig.commands[name];
+    getCommand(name: string): IGeneratorCommand | undefined {
+        return this.config.commands[name];
     }
 
     private installPlugins(): void {
@@ -55,8 +63,6 @@ class Generator {
     }
 
     /**
-     * @typedef
-     *
      * Resolve from and to properties. It's because the path can have
      * some properties, for example:
      *
@@ -74,23 +80,23 @@ class Generator {
      *
      *  Output: { from: "from/path/example", to: "to/path/example" }
      *
-     * @param {object} params
-     * @param {string} params.from
-     * @param {string} params.to
+     * @return {object} params
+     * @return {string} params.from
+     * @return {string} params.to
      *
      * @returns {Promise<{ from: string, to: string }>}
      */
     async resolvePaths({ transport, source }: ResolvePathsParams): Promise<ResolvePathsResult> {
-        const { basePath } = this.globalConfig;
+        const { basePath } = this.config;
         const localSource: Record<string, unknown> = Object.assign(source);
         const pathFrom: string = path.join(
             basePath,
-            await this.render.render(transport.from, localSource, this.globalConfig.tag),
+            await this.render.render(transport.from, localSource, this.config.tag),
         );
 
         const pathTo: string = path.join(
             basePath,
-            await this.render.render(transport.to, localSource, this.globalConfig.tag),
+            await this.render.render(transport.to, localSource, this.config.tag),
         );
 
         return {
@@ -100,18 +106,17 @@ class Generator {
     }
 
     /**
-     * Transport a template to a file
+     * TransportItem a template to a file
      *
      * @param {Object} param
      * @param {Object} param.transport
      * @param {Object} param.source
      * @param {boolean} param.override
-     * @param {boolean} param.debug
      *
      * @returns {Promise<void>}
      */
     async transport({ transport, source, override = false }: TransportParams): Promise<void> {
-        this.hooks.configure.call(this.globalConfig);
+        this.hooks.configure.call(this.config);
         this.hooks.onTransport.call(transport, source);
 
         const localSource: Record<string, unknown> = Object.assign(source, this.globalArg);
@@ -132,7 +137,7 @@ class Generator {
         /**
          * The file need exists and command override is different that true
          */
-        const fileExists = File.existFile(resolvedPaths.to);
+        const fileExists = this.storage.exist(resolvedPaths.to);
         if (fileExists && override) {
             const overrideChoice = await this.hooks.fileExists.promise();
             if (!overrideChoice) {
@@ -142,18 +147,16 @@ class Generator {
         }
 
         // Get file content
-        const fromContentFile: string = File.getUtf8File(resolvedPaths.from);
+        const fromContentFile: string = this.storage.read(resolvedPaths.from);
 
         // Render the content file with args FROM PLUGIN
         const fromContentRendered: string = await this.render.render(
             fromContentFile,
             localSourcePlugin,
-            this.globalConfig.tag,
+            this.config.tag,
         );
 
-        File.createDir(resolvedPaths.to);
-        File.writeUtf8File(resolvedPaths.to, fromContentRendered);
-
+        this.storage.write(resolvedPaths.to, fromContentRendered);
         this.hooks.done.call(transport, source);
     }
 }

@@ -1,9 +1,8 @@
-import { ICommand } from '../../../core/types/interfaces';
-import { EngineType } from '../../../core/types/interfaces/IConfig';
+import { IGeneratorCommand, EngineType } from '../../../core/interfaces';
 
 export interface IConfigExternal {
     tag?: string[];
     basePath?: string;
     engine?: EngineType;
-    commands: { [key: string]: ICommand };
+    commands: { [key: string]: IGeneratorCommand };
 }

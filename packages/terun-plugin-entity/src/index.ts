@@ -1,6 +1,7 @@
-import { createPromp } from "@terun/cli/lib/utils/prompts";
-import IPlugin, { Hooks } from "@terun/core/lib/types/interfaces/IPlugin";
-import { log } from "@terun/core/lib/utils/log";
+import {createPromp} from "@terun/cli/lib/utils/prompts";
+import {log} from "@terun/cli/lib/cli/ui";
+import IPlugin from "@terun/cli/lib/core/interfaces/IPlugin";
+import {IGeneratorHook} from "@terun/cli/lib/core/interfaces/IGeneratorHook";
 
 type EntityPluginOptions = {
   dictionary?: { [key: string]: string };
@@ -90,7 +91,7 @@ class EntityPlugin implements IPlugin {
     };
   }
 
-  install(hooks: Hooks) {
+  install(hooks: IGeneratorHook) {
     hooks.global.tapPromise("EntityPlugin", async source => {
       return { ...(await this.makeQuestions()), ...source };
     });

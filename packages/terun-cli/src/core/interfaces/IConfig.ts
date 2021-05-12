@@ -1,4 +1,4 @@
-import { ICommand } from './ICommand';
+import { IGeneratorCommand } from './IGeneratorCommand';
 
 export enum EngineType {
     MUSTACHE = 'mustache',
@@ -9,5 +9,5 @@ export interface IConfig {
     tag: string[];
     basePath: string;
     engine: EngineType;
-    commands: Record<string, ICommand>;
+    commands: Record<string, IGeneratorCommand>;
 }

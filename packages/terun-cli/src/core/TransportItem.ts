@@ -1,7 +1,7 @@
-import { IArgs } from './interfaces/IArgs';
-import { ITransport, ITransportValidationParams } from './interfaces/ITransport';
+import { IArgs } from './interfaces';
+import { ITransportItem, ITransportValidationParams } from './interfaces';
 
-export class Transport implements ITransport {
+export class TransportItem implements ITransportItem {
     public name?: string;
     public debug?: boolean;
     public from: string;
@@ -9,9 +9,9 @@ export class Transport implements ITransport {
     public args: IArgs[];
     public validator?: ((params: ITransportValidationParams) => boolean | Promise<boolean>) | null | boolean;
 
-    constructor({ from, to, args, name, validator, debug }: ITransport) {
+    constructor({ from, to, args, name, validator, debug }: ITransportItem) {
         this.from = from;
-        this.debug = debug ? true : false;
+        this.debug = debug;
         this.to = to;
         this.args = args || [];
         this.name = name;

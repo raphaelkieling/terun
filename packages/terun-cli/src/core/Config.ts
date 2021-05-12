@@ -1,5 +1,5 @@
 import { Command } from './Command';
-import { EngineType, IConfig } from './interfaces/IConfig';
+import { EngineType, IConfig } from './interfaces';
 
 export class Config implements IConfig {
     tag: string[];

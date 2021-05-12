@@ -1,5 +1,5 @@
 import { SyncHook, AsyncSeriesBailHook, AsyncSeriesWaterfallHook } from 'tapable';
-import { IGeneratorHook } from './types/interfaces/IGeneratorHook';
+import { IGeneratorHook } from './interfaces/IGeneratorHook';
 
 export class GeneratorHook implements IGeneratorHook {
     global: SyncHook;

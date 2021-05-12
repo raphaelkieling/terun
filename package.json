@@ -6,6 +6,7 @@
   "scripts": {
     "prepare": "husky install",
     "build": "lerna run build",
+    "build:watch": "lerna run build:watch",
     "build:doc": "lerna run docs:build",
     "test": "lerna run test",
     "newversion": "lerna version --conventional-commits",

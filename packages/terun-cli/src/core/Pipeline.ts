@@ -1,4 +1,4 @@
-import { StringUtils } from '../../utils';
+import { StringUtils } from '../utils/index';
 
 export const defaultPipelines = {
     uppercase: StringUtils.upperCase,

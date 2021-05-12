@@ -48,6 +48,7 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
+playground/
 
 # TypeScript cache
 *.tsbuildinfo
@@ -94,3 +95,4 @@ typings/
 
 # End of https://www.gitignore.io/api/node
 lib
+src/**/*.d.ts

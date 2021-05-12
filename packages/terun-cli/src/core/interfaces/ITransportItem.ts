@@ -3,7 +3,7 @@ import { RenderData } from './IPlugin';
 
 export type ITransportValidationParams = { args: RenderData };
 
-export interface ITransport {
+export interface ITransportItem {
     name?: string;
     debug?: boolean;
     from: string;

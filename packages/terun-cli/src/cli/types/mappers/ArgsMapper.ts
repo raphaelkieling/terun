@@ -1,4 +1,4 @@
-import { IArgs } from '../../../core/types/interfaces';
+import { IArgs } from '../../../core/interfaces';
 
 export default class ArgsMapper {
     static fromString(value: string): IArgs {
