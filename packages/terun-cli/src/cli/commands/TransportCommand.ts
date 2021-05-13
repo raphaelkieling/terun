@@ -17,48 +17,40 @@ type TransportCommandArgs = {
 
 export class TransportCommand implements ICommand {
     private async getArgsWithPrompts(args: IArgs[]): Promise<Record<string, unknown>> {
-        let params: Record<string, unknown> = {};
-        for (const arg of args) {
+        return args.reduce(async (acc, arg) => {
             const result = await prompts(arg, defaultConfig);
-
-            params = {
-                ...params,
+            return {
                 ...result,
+                ...acc,
             };
-        }
-        return params;
+        }, {});
     }
 
     private async executeAction(commandName: string, args: TransportCommandArgs): Promise<void> {
         {
             try {
+                // Load the configuration
                 const config = ConfigReader.find();
-
                 if (!config) {
                     error(MESSAGES.CONFIG_NOT_FOUND);
                     return exitProcess();
                 }
 
+                // Map configuration and start generator
                 const configExternal = ConfigMapper.toInternalConfig(config);
                 const generator = GeneratorFactory.make(configExternal);
-                const command = generator.getCommand(commandName);
 
+                // Confirm that the command exist
+                const command = generator.getCommand(commandName);
                 if (!command) {
                     error(MESSAGES.COMMAND_NOT_FOUND(commandName));
                     return exitProcess();
                 }
 
-                // Add the plugins
-                if (command.plugins) {
-                    for (const plugin of command.plugins) {
-                        generator.pluginManager.addPlugin(plugin);
-                    }
-                }
-
                 // Start the hook system
                 this.listenForGeneratorHooks(generator, command);
 
-                await generator.init();
+                await generator.initCommand(commandName);
 
                 for (const transport of command.transports) {
                     log(`[process]: ${transport.name || transport.from}`);

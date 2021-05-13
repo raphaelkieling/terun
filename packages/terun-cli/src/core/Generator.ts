@@ -49,7 +49,16 @@ class Generator {
         this.globalArg = {};
     }
 
-    async init(): Promise<void> {
+    async initCommand(commandName: string): Promise<void> {
+        const command = this.getCommand(commandName);
+
+        // Add the plugins
+        if (command?.plugins) {
+            for (const plugin of command.plugins) {
+                this.pluginManager.addPlugin(plugin);
+            }
+        }
+
         this.installPlugins();
         this.globalArg = (await this.hooks.global.promise({})) || {};
     }
