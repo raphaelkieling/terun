@@ -2,20 +2,22 @@ import path from 'path';
 import { IRenderEngine } from './interfaces';
 import PluginManager from './PluginManager';
 import { IGeneratorCommand, IConfig, ITransportItem } from './interfaces';
-import { File } from '../utils';
 import { IGeneratorHook } from './interfaces/IGeneratorHook';
 import { IStorage } from './interfaces/IStorage';
+import { NotFoundFileError } from './exceptions/NotFoundFile';
+
+type SourceData = Record<string, unknown>;
 
 type TransportParams = {
     transport: ITransportItem;
-    source: Record<string, unknown>;
+    source: SourceData;
     override?: boolean;
     debug?: boolean;
 };
 
 type ResolvePathsParams = {
     transport: ITransportItem;
-    source: Record<string, unknown>;
+    source: SourceData;
 };
 
 type ResolvePathsResult = { from: string; to: string };
@@ -32,9 +34,9 @@ type GeneratorParams = {
  * destiny file. Use commands in options to create
  * scope to transport file.
  */
-class Generator {
+export default class Generator {
     config: IConfig;
-    globalArg: Record<string, unknown>;
+    globalArg: SourceData;
     render: IRenderEngine;
     pluginManager: PluginManager;
     hooks: IGeneratorHook;
@@ -95,23 +97,24 @@ class Generator {
      *
      * @returns {Promise<{ from: string, to: string }>}
      */
-    async resolvePaths({ transport, source }: ResolvePathsParams): Promise<ResolvePathsResult> {
+    async resolveFromToUsingRender({ transport, source }: ResolvePathsParams): Promise<ResolvePathsResult> {
         const { basePath } = this.config;
-        const localSource: Record<string, unknown> = Object.assign(source);
-        const pathFrom: string = path.join(
-            basePath,
-            await this.render.render(transport.from, localSource, this.config.tag),
-        );
-
-        const pathTo: string = path.join(
-            basePath,
-            await this.render.render(transport.to, localSource, this.config.tag),
-        );
+        const localSource: SourceData = Object.assign(source);
+        const pathFrom = await this.resolveUniquePathUsingRender(basePath, transport.from, localSource);
+        const pathTo = await this.resolveUniquePathUsingRender(basePath, transport.to, localSource);
 
         return {
             from: pathFrom,
             to: pathTo,
         };
+    }
+
+    private async resolveUniquePathUsingRender(
+        basePath: string,
+        filePath: string,
+        source: SourceData,
+    ): Promise<string> {
+        return path.join(basePath, await this.render.render(filePath, source, this.config.tag));
     }
 
     /**
@@ -128,26 +131,25 @@ class Generator {
         this.hooks.configure.call(this.config);
         this.hooks.onTransport.call(transport, source);
 
-        const localSource: Record<string, unknown> = Object.assign(source, this.globalArg);
+        const localSource: SourceData = Object.assign(source, this.globalArg);
 
-        if (transport.validator !== null) {
-            if (typeof transport.validator === 'function') {
-                if (!(await transport.validator({ args: localSource }))) return;
-            } else if (typeof transport.validator === 'boolean') {
-                if (!transport.validator) return;
-            }
+        if (transport.validator && typeof transport.validator === 'function') {
+            const isValid = await transport.validator({ args: localSource });
+            if (!isValid) return;
         }
 
-        const localSourcePlugin: Record<string, unknown> =
+        const localSourcePlugin: SourceData =
             (await this.hooks.beforeRender.promise(localSource, transport, this.render)) || localSource;
 
-        const resolvedPaths = await this.resolvePaths({ transport, source });
+        // Resolve from, to using the template render
+        const { from, to } = await this.resolveFromToUsingRender({ transport, source });
 
-        /**
-         * The file need exists and command override is different that true
-         */
-        const fileExists = this.storage.exist(resolvedPaths.to);
-        if (fileExists && override) {
+        // Check existing files
+        const fileFromExist = this.storage.exist(to);
+        if (!fileFromExist) throw new NotFoundFileError(to);
+
+        const fileToExist = this.storage.exist(to);
+        if (fileToExist && override) {
             const overrideChoice = await this.hooks.fileExists.promise();
             if (!overrideChoice) {
                 this.hooks.fileSkipped.call();
@@ -155,19 +157,16 @@ class Generator {
             }
         }
 
-        // Get file content
-        const fromContentFile: string = this.storage.read(resolvedPaths.from);
+        const fromContentFile: string = await this.storage.read(from);
 
-        // Render the content file with args FROM PLUGIN
+        // Render the content file with args from plugin
         const fromContentRendered: string = await this.render.render(
             fromContentFile,
             localSourcePlugin,
             this.config.tag,
         );
 
-        this.storage.write(resolvedPaths.to, fromContentRendered);
+        this.storage.write(to, fromContentRendered);
         this.hooks.done.call(transport, source);
     }
 }
-
-export default Generator;

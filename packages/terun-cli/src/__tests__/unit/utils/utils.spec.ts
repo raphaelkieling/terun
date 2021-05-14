@@ -1,7 +1,7 @@
-import { StringUtils } from '../../utils';
+import { StringUtils } from '../../../utils';
 
 describe('Pipelines', () => {
-    let words: any[] = [];
+    let words: string[] = [];
 
     beforeEach(() => {
         words = [

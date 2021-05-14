@@ -4,7 +4,7 @@ import { MustacheEngine } from '../engines/MustacheEngine';
 import { LiquidEngine } from '../engines/LiquidEngine';
 
 export default class RenderEngineFactory {
-    public static make(type: EngineType): IRenderEngine {
+    public static make(type?: EngineType): IRenderEngine {
         if (type === EngineType.MUSTACHE) {
             return new MustacheEngine();
         }

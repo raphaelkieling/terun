@@ -1,6 +1,7 @@
 import * as path from 'path';
-import { IConfigExternal } from '../cli/types/interfaces/IConfigExternal';
-import { File, Prompts } from '../utils';
+import { File } from '../../utils';
+import { Prompts } from '../ui';
+import { IConfigExternal } from './interfaces/IConfigExternal';
 
 export class ConfigReader {
     static CONFIG_FILE_NAME = 'terun.js';

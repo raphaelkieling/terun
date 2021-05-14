@@ -7,10 +7,10 @@ export class Config implements IConfig {
     engine: EngineType;
     commands: Record<string, Command>;
 
-    constructor() {
-        this.basePath = '.';
-        this.commands = {};
-        this.engine = EngineType.MUSTACHE;
-        this.tag = ['{{', '}}'];
+    constructor({ basePath, commands, engine, tag }: Partial<Config> = {}) {
+        this.basePath = basePath ?? '.';
+        this.commands = commands ?? {};
+        this.engine = engine ?? EngineType.MUSTACHE;
+        this.tag = tag ?? ['{{', '}}'];
     }
 }

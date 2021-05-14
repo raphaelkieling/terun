@@ -8,7 +8,7 @@
         "build:watch": "tsc -p tsconfig.json -w",
         "lint": "eslint --quiet --fix",
         "format": "prettier --write src",
-        "test": "jest"
+        "test": "jest --runInBand"
     },
     "license": "MIT",
     "repository": {

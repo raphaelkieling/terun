@@ -3,12 +3,12 @@ import * as pack from '../../package.json';
 import { AllCommand } from './commands/AllCommand';
 import { InitCommand } from './commands/InitCommand';
 import { TransportCommand } from './commands/TransportCommand';
-import { getBanner, success } from './ui';
+import { Banner, Log } from './ui';
 
 !(async () => {
     const version = pack.version;
 
-    success(getBanner(version));
+    Log.success(Banner.getBanner(version));
 
     commander.version(version);
 

@@ -1,15 +1,15 @@
 import { ICommand } from './ICommand';
-import { ConfigReader } from '../../core/ConfigReader';
 import { CommanderStatic } from 'commander';
-import { error, info, MESSAGES } from '../ui';
+import { Log, MESSAGES } from '../ui';
 import { exitProcess } from '../../utils/prompts';
+import { ConfigReader } from '../types/ConfigReader';
 
 export class AllCommand implements ICommand {
     private static getAllCommands(): void {
         const config = ConfigReader.find();
 
         if (!config) {
-            error(MESSAGES.CONFIG_NOT_FOUND);
+            Log.error(MESSAGES.CONFIG_NOT_FOUND);
             return exitProcess();
         }
 
@@ -17,11 +17,12 @@ export class AllCommand implements ICommand {
             const commands: string[] = Object.keys(config.commands);
 
             for (const command of commands) {
-                info(`- ${command}`);
+                Log.info(`- ${command}`);
             }
-            info('\n');
+
+            Log.info('\n');
         } catch (e) {
-            error(e);
+            Log.error(e);
             exitProcess();
         }
     }

@@ -9,7 +9,7 @@ export function exitProcess(status = 1): void {
 }
 
 export const defaultConfig = {
-    onCancel: () => exitProcess(130),
+    onCancel: (): void => exitProcess(130),
 };
 
 export async function canOverride(): Promise<boolean> {
@@ -24,10 +24,6 @@ export async function canOverride(): Promise<boolean> {
     );
 
     return result['override'];
-}
-
-export function createPromp(args: prompts.PromptObject): Promise<prompts.Answers<string>> {
-    return prompts(args, defaultConfig);
 }
 
 export function getCurrentFolderPath(): string {

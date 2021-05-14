@@ -1,4 +1,4 @@
-import { getUtf8File } from '../../utils/file';
+import { getUtf8File } from '../../../utils/file';
 import * as path from 'path';
 
 const resolvePath = path.resolve.bind(path.resolve, __dirname);
