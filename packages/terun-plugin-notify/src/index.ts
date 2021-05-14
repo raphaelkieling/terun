@@ -1,5 +1,6 @@
 import { notify } from "node-notifier";
-import IPlugin, { Hooks } from "@terun/core/lib/types/interfaces/IPlugin";
+import IPlugin from "@terun/cli/core/interfaces/IPlugin";
+import {IGeneratorHook} from "@terun/cli/core/interfaces";
 
 type NotifyPluginParams = {
   title?: string;
@@ -20,7 +21,7 @@ class NotifyPlugin implements IPlugin {
     );
   }
 
-  install(hooks: Hooks) {
+  install(hooks: IGeneratorHook) {
     hooks.done.tap("NotifyPlugin", () => {
       notify({
         title: this.options.title,

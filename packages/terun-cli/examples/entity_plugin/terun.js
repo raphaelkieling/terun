@@ -5,23 +5,28 @@ module.exports = {
         example: {
             plugins: [
                 new EntityPlugin({
-                    hook: 'beforeRender'
+                    hook: 'beforeRender',
                 }),
             ],
-            args: [{
-                message: "Need save action?",
-                name: "needSave",
-                choices: [
-                    { title: 'Yes!', value: true },
-                    { title: 'No!', value: null }
-                ]
-            }],
-            transports: [{
-                validator: ({ args }) => args.needSave,
-                from: 'classExample.terun',
-                to: '{{entity}}.dart',
-                args: [],
-            }]
-        }
-    }
+            args: [
+                {
+                    type: 'select',
+                    message: 'Need save action?',
+                    name: 'needSave',
+                    choices: [
+                        { title: 'Yes!', value: true },
+                        { title: 'No!', value: null },
+                    ],
+                },
+            ],
+            transports: [
+                {
+                    validator: ({ args }) => args.needSave,
+                    from: 'classExample.terun',
+                    to: '{{entity}}.dart',
+                    args: [],
+                },
+            ],
+        },
+    },
 };

@@ -1,6 +1,7 @@
 import { createPromp } from "@terun/cli/lib/utils/prompts";
-import IPlugin, { Hooks } from "@terun/core/lib/types/interfaces/IPlugin";
-import { log } from "@terun/core/lib/utils/log";
+import { Log } from "@terun/cli/lib/cli/ui";
+import IPlugin from "@terun/cli/lib/core/interfaces/IPlugin";
+import { IGeneratorHook } from "@terun/cli/lib/core/interfaces/IGeneratorHook";
 
 type EntityPluginOptions = {
   dictionary?: { [key: string]: string };
@@ -27,14 +28,14 @@ class EntityPlugin implements IPlugin {
     "decimal",
     "float",
     "blob",
-    "guid"
+    "guid",
   ];
 
   constructor(params: EntityPluginOptions) {
     this.options = Object.assign(
       {},
       {
-        dictionary: {}
+        dictionary: {},
       },
       params
     );
@@ -44,21 +45,21 @@ class EntityPlugin implements IPlugin {
     let lastFieldName = null;
     const fields = [];
 
-    log("------------------------");
+    Log.log("------------------------");
 
     const { entity_name } = await createPromp({
       type: "text",
       message: "The entity shortcut name",
-      name: "entity_name"
+      name: "entity_name",
     });
 
     do {
-      log("\n");
+      Log.log("\n");
 
       const { field_name } = await createPromp({
         type: "text",
         message: "New field name (blank to stop)",
-        name: "field_name"
+        name: "field_name",
       });
 
       lastFieldName = field_name;
@@ -70,28 +71,28 @@ class EntityPlugin implements IPlugin {
         message: "Field type [default string]",
         name: "field_type",
         initial: "string",
-        choices: this.fieldTypes.map(el => ({ title: el, value: el }))
+        choices: this.fieldTypes.map((el) => ({ title: el, value: el })),
       });
 
       fields.push({
         name: field_name,
         type:
           (this.options.dictionary && this.options.dictionary[field_type]) ||
-          field_type
+          field_type,
       });
     } while (lastFieldName != null || lastFieldName == "");
 
     return {
       fields: fields.map((field, i) => ({
         ...field,
-        last: fields.length - 1 === i
+        last: fields.length - 1 === i,
       })),
-      entity: entity_name
+      entity: entity_name,
     };
   }
 
-  install(hooks: Hooks) {
-    hooks.global.tapPromise("EntityPlugin", async source => {
+  install(hooks: IGeneratorHook) {
+    hooks.global.tapPromise("EntityPlugin", async (source) => {
       return { ...(await this.makeQuestions()), ...source };
     });
   }

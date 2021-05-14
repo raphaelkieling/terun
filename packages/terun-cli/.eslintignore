@@ -1,0 +1,3 @@
+lib/*
+bin/index.js
+.eslintrc.js

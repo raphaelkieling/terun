@@ -1,9 +1,12 @@
 {
-    "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "baseUrl": ".",
+        "target": "ESNext",
+        "module": "commonjs",
+        "declaration": true,
+        "strict": true,
+        "esModuleInterop": true,
         "paths": {
-            "@terun/core/*":["./packages/terun-core/lib/*"],
             "@terun/cli/*":["./packages/terun-cli/lib/*"],
             "@terun/plugin-entity":["./packages/terun-plugin-entity/lib/*"],
             "@terun/plugin-notity":["./packages/terun-plugin-notify/lib/*"],

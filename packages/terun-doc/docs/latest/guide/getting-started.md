@@ -65,7 +65,7 @@ end
 Execute the command
 
 ```bash
-terun make example
+terun transport example
 ```
 
 Be happy.

@@ -4,10 +4,14 @@
     "packages/*"
   ],
   "scripts": {
+    "prepare": "husky install",
     "build": "lerna run build",
+    "build:watch": "lerna run build:watch",
     "build:doc": "lerna run docs:build",
     "test": "lerna run test",
     "newversion": "lerna version --conventional-commits",
+    "lint": "lerna run lint",
+    "format": "lerna run format",
     "publish": "lerna publish from-git"
   },
   "repository": "https://github.com/raphaelkieling/terun",
@@ -15,6 +19,7 @@
   "license": "MIT",
   "name": "terun",
   "devDependencies": {
+    "husky": "^6.0.0",
     "lerna": "^3.16.0"
   }
 }
