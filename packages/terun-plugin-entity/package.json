@@ -1,6 +1,6 @@
 {
     "name": "@terun/plugin-entity",
-    "version": "1.2.7",
+    "version": "2.0.0-alpha.0",
     "main": "lib/index.js",
     "typings": "lib/index.d.ts",
     "repository": {
@@ -22,7 +22,7 @@
         "node": ">=8.9"
     },
     "dependencies": {
-        "@terun/cli": "^1.2.7",
+        "@terun/cli": "^2.0.0-alpha.0",
         "@terun/core": "^1.2.7"
     },
     "gitHead": "959ab067ec8b7d34ff36f8bc19eba130ab1f2911",
