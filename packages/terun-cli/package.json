@@ -17,7 +17,7 @@
         "directory": "packages/terun-cli"
     },
     "bin": {
-        "terun": "node cli.js"
+        "terun": "node ./cli.js"
     },
     "engines": {
         "node": ">=8.9"

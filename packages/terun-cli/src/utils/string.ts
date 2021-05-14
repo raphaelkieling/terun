@@ -1,10 +1,10 @@
 import * as _String from 'underscore.string';
 
-export function isNullOrUndefined(value: any) {
+export function isNullOrUndefined(value: unknown): boolean {
     return value === null || value === undefined;
 }
 
-export function lowerCase(value: string) {
+export function lowerCase(value: string): string {
     if (isNullOrUndefined(value)) return '';
     return value.toLowerCase();
 }
@@ -14,7 +14,7 @@ export function upperCase(value: string): string {
     return value.toUpperCase();
 }
 
-export function replace(value: string, search: string | RegExp, replace: any): string {
+export function replace(value: string, search: string | RegExp, replace: string): string {
     if (isNullOrUndefined(value)) return '';
     if (isNullOrUndefined(search)) return '';
     if (isNullOrUndefined(replace)) return '';
@@ -40,12 +40,12 @@ export function camelcase(value: string): string {
     return _String.camelize(value);
 }
 
-export function firstLower(value: any): string {
+export function firstLower(value: string): string {
     if (isNullOrUndefined(value)) return '';
     return value.charAt(0).toLowerCase() + value.slice(1);
 }
 
-export function firstUpper(value: any): string {
+export function firstUpper(value: string): string {
     if (isNullOrUndefined(value)) return '';
     return value.charAt(0).toUpperCase() + value.slice(1);
 }

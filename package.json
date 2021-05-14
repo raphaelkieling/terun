@@ -10,8 +10,8 @@
     "build:doc": "lerna run docs:build",
     "test": "lerna run test",
     "newversion": "lerna version --conventional-commits",
-    "lint":"lerna run lint",
-    "format":"lerna run format",
+    "lint": "lerna run lint",
+    "format": "lerna run format",
     "publish": "lerna publish from-git"
   },
   "repository": "https://github.com/raphaelkieling/terun",
