@@ -145,8 +145,8 @@ export default class Generator {
         const { from, to } = await this.resolveFromToUsingRender({ transport, source });
 
         // Check existing files
-        const fileFromExist = this.storage.exist(to);
-        if (!fileFromExist) throw new NotFoundFileError(to);
+        const fileFromExist = this.storage.exist(from);
+        if (!fileFromExist) throw new NotFoundFileError(from);
 
         const fileToExist = this.storage.exist(to);
         if (fileToExist && override) {

@@ -15,7 +15,10 @@ export default class ArgsMapper {
             if (typeof val === 'string') {
                 return ArgsMapper.fromString(val);
             } else {
-                return val;
+                return {
+                    type: 'text',
+                    ...val,
+                };
             }
         });
     }
