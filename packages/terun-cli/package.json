@@ -21,7 +21,9 @@
     },
     "files": [
         "/lib",
-        "cli.js"
+        "cli.js",
+        "package.*",
+        "yarn.*"
     ],
     "engines": {
         "node": ">=8.9"
