@@ -46,7 +46,7 @@
         "commander": "^7.2.0",
         "debug": "^4.3.1",
         "jest": "^26.6.3",
-        "liquidjs": "^9.25.0",
+        "liquidjs": "^10.0.0",
         "mkdir-recursive": "^0.4.0",
         "node-emoji": "^1.10.0",
         "prompts": "^2.2.1",
